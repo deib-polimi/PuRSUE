@@ -1,0 +1,389 @@
+	<nta>
+	<declaration>
+	//events
+	//actions
+	broadcast chan newBox, pickUpBox, pickUpBoxDONE , screw, screwDONE , putDownBox, putDownBoxDONE ;
+	
+	//assuzione che initial state per ogni rule è sempre a index zero quandi si crea, dovrebbe essere coso
+	//nota concettuale importante: mentre per le posizioni uso come sono ordinate nella definizione, erl e regole uso come le ordino io nel crearle
+	int PworkFlow=0;
+	//Agents
+	//nota: rule and agents can't have the same name
+	clock Cbot, Chuman;
+	//tutte le volta che si prendono gli indici delle location, si shiftano di uno, così no c'è la location zero, e quindi non c'è nemmeno lo stato -0 che manda tutto in merda
+	int Pbot=1, Phuman=1;
+	//Objective
+	
+	clock Cobj;
+	</declaration>
+	 
+	 
+	 
+	 
+	automata_declaration
+	
+	state_updater
+	<template>
+	<name>states</name>
+	<location id="base">
+	<name>base</name>
+	</location>
+	<init ref = "base"/>	
+	</template>
+	
+	
+	rules
+			
+
+					
+		<template>
+		<name>workFlow</name>
+		//states declarions
+		<location id="workFlow_initial_location">
+		</location>
+		
+		<location id="workFlow1f">
+		</location>
+		<location id="workFlow1f_sec_doing_pickUpBox">
+		</location>
+		<location id="workFlow0">
+		</location>
+		
+		<location id="workFlow1s_fir_doing_screw">
+		</location>
+		
+		<location id="workFlow1s">
+		</location>
+		<location id="workFlow1s_sec_doing_putDownBox">
+		</location>
+		<init ref = "workFlow_initial_location"/>	
+		//transitions
+		
+		
+		
+		
+		
+		<transition>
+		<source ref="workFlow_initial_location"/>
+		<target ref="workFlow1f"/>
+		<label kind="synchronisation">newBox?</label>
+		<label kind="assignment">PworkFlow = 1</label>
+		</transition>			
+		
+		<transition>
+		<source ref="workFlow1f"/>
+		<target ref="workFlow1f_sec_doing_pickUpBox"/>
+		<label kind="synchronisation">pickUpBox?</label>
+		<label kind="assignment">PworkFlow = 2</label>
+		</transition>	
+		<transition>
+		<source ref="workFlow1f_sec_doing_pickUpBox"/>
+		<target ref="workFlow0"/>
+		<label kind="synchronisation">pickUpBoxDONE?</label>
+		<label kind="assignment">PworkFlow = 3</label>
+		</transition>			
+		
+		
+		
+		
+		
+		
+		
+		<transition>
+		<source ref="workFlow0"/>
+		<target ref="workFlow1s_fir_doing_screw"/>
+		<label kind="synchronisation">screw?</label>
+		<label kind="assignment">PworkFlow = 4</label>
+		</transition>	
+		<transition>
+		<source ref="workFlow1s_fir_doing_screw"/>
+		<target ref="workFlow1s"/>
+		<label kind="synchronisation">screwDONE?</label>
+		<label kind="assignment">PworkFlow = 5</label>
+		</transition>			
+		
+		<transition>
+		<source ref="workFlow1s"/>
+		<target ref="workFlow1s_sec_doing_putDownBox"/>
+		<label kind="synchronisation">putDownBox?</label>
+		<label kind="assignment">PworkFlow = 6</label>
+		</transition>	
+		<transition>
+		<source ref="workFlow1s_sec_doing_putDownBox"/>
+		<target ref="workFlow_initial_location"/>
+		<label kind="synchronisation">putDownBoxDONE?</label>
+		<label kind="assignment">PworkFlow = 0</label>
+		</transition>			
+		</template>
+agents
+	<template>
+	<name>bot</name>
+	 
+	//no local declarations used
+	 
+	//LOCATIONS
+	//nota: sto dando stesso ID a location su agneti diversi, spero non lo mandi a male
+	//se lo user non definisce connesssioni tra tutte le location lui non smatta
+<location id = "station">
+<name>station</name>
+</location>
+ 
+		
+	//location for durable actions (just one if it's locations specic and/or the agent isn't mobile )
+<location id = "doing_pickUpBox_in_station">
+<name>doing_pickUpBox_in_station</name>
+<label kind="invariant">Cbot&lt;=3</label>
+</location>
+		
+<location id = "doing_screw_in_station">
+<name>doing_screw_in_station</name>
+<label kind="invariant">Cbot&lt;=11</label>
+</location>
+		
+<location id = "doing_putDownBox_in_station">
+<name>doing_putDownBox_in_station</name>
+<label kind="invariant">Cbot&lt;=3</label>
+</location>
+		
+					
+		
+		
+		
+	//initial location id is passed
+	<init ref = "station"/>	
+	
+	
+	
+	
+	//transitions
+	//movement transitions
+		
+	//action transitions
+	//BUG : if an action si collaborative but nobody can react to it, the action will be always allowed
+	
+<transition>
+<source ref="station"/>
+<target ref="doing_pickUpBox_in_station"/>
+<label kind="synchronisation">pickUpBox!</label>
+<label kind="assignment"> Cbot =0,Pbot=-11 </label>
+<label kind="guard">Cbot &gt; 1 &amp;&amp;    ( PworkFlow==1 ) </label>
+</transition>
+ 
+<transition>
+<source ref="doing_pickUpBox_in_station"/>
+<target ref="station"/>
+<label kind="synchronisation">pickUpBoxDONE!</label>
+<label kind="assignment"> Cbot =0, Pbot=1 </label>
+<label kind="guard"> Cbot &gt; 2 &amp;&amp;   ( PworkFlow==2 ) </label>
+</transition>			
+ 
+
+<transition>
+<source ref="station"/>
+<target ref="doing_screw_in_station"/>
+<label kind="synchronisation">screw!</label>
+<label kind="assignment"> Cbot =0,Pbot=-11 </label>
+<label kind="guard">Cbot &gt; 1 &amp;&amp;    ( PworkFlow==3 ) </label>
+</transition>
+ 
+<transition>
+<source ref="doing_screw_in_station"/>
+<target ref="station"/>
+<label kind="synchronisation">screwDONE!</label>
+<label kind="assignment"> Cbot =0, Pbot=1 </label>
+<label kind="guard"> Cbot &gt; 10 &amp;&amp;   ( PworkFlow==4 ) </label>
+</transition>			
+ 
+
+<transition>
+<source ref="station"/>
+<target ref="doing_putDownBox_in_station"/>
+<label kind="synchronisation">putDownBox!</label>
+<label kind="assignment"> Cbot =0,Pbot=-11 </label>
+<label kind="guard">Cbot &gt; 1 &amp;&amp;    ( PworkFlow==5 ) </label>
+</transition>
+ 
+<transition>
+<source ref="doing_putDownBox_in_station"/>
+<target ref="station"/>
+<label kind="synchronisation">putDownBoxDONE!</label>
+<label kind="assignment"> Cbot =0, Pbot=1 </label>
+<label kind="guard"> Cbot &gt; 2 &amp;&amp;   ( PworkFlow==6 ) </label>
+</transition>			
+ 
+
+					
+		
+		
+		
+	</template>		
+	 
+		
+	<template>
+	<name>human</name>
+	 
+	//no local declarations used
+	 
+	//LOCATIONS
+	//nota: sto dando stesso ID a location su agneti diversi, spero non lo mandi a male
+	//se lo user non definisce connesssioni tra tutte le location lui non smatta
+<location id = "station">
+<name>station</name>
+</location>
+ 
+		
+	//location for durable actions (just one if it's locations specic and/or the agent isn't mobile )
+<location id = "doing_pickUpBox_in_station">
+<name>doing_pickUpBox_in_station</name>
+<label kind="invariant">Chuman&lt;=3</label>
+</location>
+		
+<location id = "doing_screw_in_station">
+<name>doing_screw_in_station</name>
+<label kind="invariant">Chuman&lt;=11</label>
+</location>
+		
+<location id = "doing_putDownBox_in_station">
+<name>doing_putDownBox_in_station</name>
+<label kind="invariant">Chuman&lt;=3</label>
+</location>
+		
+					
+		
+		
+		
+	//initial location id is passed
+	<init ref = "station"/>	
+	
+	
+	
+	
+	//transitions
+	//movement transitions
+		
+	//action transitions
+	//BUG : if an action si collaborative but nobody can react to it, the action will be always allowed
+	
+<transition controllable="false" >
+<source ref="station"/>
+<target ref="doing_pickUpBox_in_station"/>
+<label kind="synchronisation">pickUpBox!</label>
+<label kind="assignment"> Chuman =0,Phuman=-11 </label>
+<label kind="guard">Chuman &gt; 1 &amp;&amp;    ( PworkFlow==1 ) </label>
+</transition>
+ 
+<transition controllable="false" >
+<source ref="doing_pickUpBox_in_station"/>
+<target ref="station"/>
+<label kind="synchronisation">pickUpBoxDONE!</label>
+<label kind="assignment"> Chuman =0, Phuman=1 </label>
+<label kind="guard"> Chuman &gt; 2 &amp;&amp;   ( PworkFlow==2 ) </label>
+</transition>			
+ 
+
+<transition controllable="false" >
+<source ref="station"/>
+<target ref="doing_screw_in_station"/>
+<label kind="synchronisation">screw!</label>
+<label kind="assignment"> Chuman =0,Phuman=-11 </label>
+<label kind="guard">Chuman &gt; 1 &amp;&amp;    ( PworkFlow==3 ) </label>
+</transition>
+ 
+<transition controllable="false" >
+<source ref="doing_screw_in_station"/>
+<target ref="station"/>
+<label kind="synchronisation">screwDONE!</label>
+<label kind="assignment"> Chuman =0, Phuman=1 </label>
+<label kind="guard"> Chuman &gt; 10 &amp;&amp;   ( PworkFlow==4 ) </label>
+</transition>			
+ 
+
+<transition controllable="false" >
+<source ref="station"/>
+<target ref="doing_putDownBox_in_station"/>
+<label kind="synchronisation">putDownBox!</label>
+<label kind="assignment"> Chuman =0,Phuman=-11 </label>
+<label kind="guard">Chuman &gt; 1 &amp;&amp;    ( PworkFlow==5 ) </label>
+</transition>
+ 
+<transition controllable="false" >
+<source ref="doing_putDownBox_in_station"/>
+<target ref="station"/>
+<label kind="synchronisation">putDownBoxDONE!</label>
+<label kind="assignment"> Chuman =0, Phuman=1 </label>
+<label kind="guard"> Chuman &gt; 2 &amp;&amp;   ( PworkFlow==6 ) </label>
+</transition>			
+ 
+
+
+<transition controllable="false" >
+<source ref="station"/>
+<target ref="station"/>
+<label kind="synchronisation">newBox!</label>
+<label kind="assignment"> Chuman =0 </label>
+<label kind="guard">Chuman &gt; 1 &amp;&amp;   ( PworkFlow==0 ) </label>
+</transition>
+ 		
+
+					
+		
+		
+		
+	</template>		
+	 
+		
+
+
+
+	
+objectives
+
+<template>
+<name>obj</name>
+
+//locations declaration
+
+<location id = "idle">
+<name>idle</name>
+</location>
+
+<location id = "lose">
+<name>lose</name>
+</location>		
+
+<location id = "atRisk">
+<name>atRisk</name>
+<label kind="invariant"> Cobj &lt;= 30</label>
+</location>	
+<init ref = "idle"/>	
+	
+//transition declaration
+ 
+<transition>
+<source ref="idle"/>
+<target ref="atRisk"/>
+<label kind="synchronisation">newBox?</label>
+<label kind = "assignment">Cobj = 0</label>
+</transition>
+
+<transition>
+<source ref="atRisk"/>
+<target ref="idle"/>
+<label kind="synchronisation">putDownBoxDONE?</label>
+</transition>				
+<transition>
+<source ref="atRisk"/>
+<target ref="lose"/>
+</transition>				
+</template>
+
+	//in questo momento bugga se non ci sono regole
+	<system>
+	system states, bot, human, obj , workFlow;
+	
+	
+	
+	</system>
+
+	
+	</nta>

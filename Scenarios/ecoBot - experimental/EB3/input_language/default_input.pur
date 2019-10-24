@@ -1,0 +1,44 @@
+//locations
+poi "office"
+poi "base"
+poi "hallway"
+poi "trashRoom"
+
+//connections  
+connect office and hallway distance 3
+connect base and hallway distance 4
+connect trashRoom and hallway distance 4
+
+//events
+event "throwPaper" collaborative duration 3
+event "throwPlastic" collaborative duration 3
+event "plasticTrash" location office duration 5
+event "paperTrash" location office duration 5
+event "callBot"
+event "wait" duration 54
+event "isPaper"
+event "isPlastic"
+event "officeClean" location office
+
+//Rule
+rule "makingTrash" : (isPaper or isPlastic) before (callBot before wait)
+rule "pickingUp" : (callBot before (plasticTrash or paperTrash)) before officeClean
+rule "throwingPaper" : paperTrash before throwPaper
+rule "throwingPlastic" : plasticTrash before throwPlastic
+
+//states
+state "paperOrPlastic": initially true, true_if isPaper false_if isPlastic
+
+//stateDependencies
+stateDependency: paperTrash only_if paperOrPlastic is_true
+stateDependency: plasticTrash only_if paperOrPlastic is_false
+
+//agents (must specify if controllable and/or mobile, initial location actions and reactions)
+agent "ecoBot" controllable mobile 3 location base can_do plasticTrash, paperTrash, throwPlastic, throwPaper, officeClean
+agent "human" location office can_do callBot, wait, isPaper, isPlastic
+
+agent "plasticBin" location trashRoom reacts_to throwPlastic
+agent "paperBin" location base reacts_to throwPaper
+
+//objectives (only action reaction within time limit for now
+objective: if callBot then officeClean within 40

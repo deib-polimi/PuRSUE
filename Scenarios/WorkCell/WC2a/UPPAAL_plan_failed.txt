@@ -1,0 +1,141 @@
+null[1;34mGuessed query file: [0;0mUPPAAL/UPPAAL_model.q
+Options for the verification:
+  Generating some trace
+  Search order is breadth first (UPPAAL), automatic (TIGA)
+  Using conservative space optimisation
+  Seed is 1549621821
+  State space representation uses minimal constraint systems
+[2K
+Verifying property 1 at line 1
+ -- [1;34mThroughput: 2739 states/sec[0;0m, Size: 13 states, Load: 4 states[K
+Preparing: 0%[K
+Preparing: 1%[K
+Preparing: 2%[K
+Preparing: 3%[K
+Preparing: 4%[K
+Preparing: 5%[K
+Preparing: 6%[K
+Preparing: 7%[K
+Preparing: 8%[K
+Preparing: 9%[K
+Preparing: 10%[K
+Preparing: 11%[K
+Preparing: 12%[K
+Preparing: 13%[K
+Preparing: 14%[K
+Preparing: 15%[K
+Preparing: 16%[K
+Preparing: 17%[K
+Preparing: 18%[K
+Preparing: 19%[K
+Preparing: 20%[K
+Preparing: 21%[K
+Preparing: 22%[K
+Preparing: 23%[K
+Preparing: 24%[K
+Preparing: 25%[K
+Preparing: 26%[K
+Preparing: 27%[K
+Preparing: 28%[K
+Preparing: 29%[K
+Preparing: 30%[K
+Preparing: 31%[K
+Preparing: 32%[K
+Preparing: 33%[K
+Preparing: 34%[K
+Preparing: 35%[K
+Preparing: 36%[K
+Preparing: 37%[K
+Preparing: 38%[K
+Preparing: 39%[K
+Preparing: 40%[K
+Preparing: 41%[K
+Preparing: 42%[K
+Preparing: 43%[K
+Preparing: 44%[K
+Preparing: 45%[K
+Preparing: 46%[K
+Preparing: 47%[K
+Preparing: 48%[K
+Preparing: 49%[K
+Preparing: 50%[K
+Preparing: 51%[K
+Preparing: 52%[K
+Preparing: 53%[K
+Preparing: 54%[K
+Preparing: 55%[K
+Preparing: 56%[K
+Preparing: 57%[K
+Preparing: 58%[K
+Preparing: 59%[K
+Preparing: 60%[K
+Preparing: 61%[K
+Preparing: 62%[K
+Preparing: 63%[K
+Preparing: 64%[K
+Preparing: 65%[K
+Preparing: 66%[K
+Preparing: 67%[K
+Preparing: 68%[K
+Preparing: 69%[K
+Preparing: 70%[K
+Preparing: 71%[K
+Preparing: 72%[K
+Preparing: 73%[K
+Preparing: 74%[K
+Preparing: 75%[K
+Preparing: 76%[K
+Preparing: 77%[K
+Preparing: 78%[K
+Preparing: 79%[K
+Preparing: 80%[K
+Preparing: 81%[K
+Preparing: 82%[K
+Preparing: 83%[K
+Preparing: 84%[K
+Preparing: 85%[K
+Preparing: 86%[K
+Preparing: 87%[K
+Preparing: 88%[K
+Preparing: 89%[K
+Preparing: 90%[K
+Preparing: 91%[K
+Preparing: 92%[K
+Preparing: 93%[K
+Preparing: 94%[K
+Preparing: 95%[K
+Preparing: 96%[K
+Preparing: 97%[K
+Preparing: 98%[K
+Preparing: 99%[K
+[2K -- Property is NOT satisfied.
+
+Counter strategy to lose:
+
+State: ( states.base bot.doing_screwR1_in_station human.station obj.atRisk workFlow._workFlow2fs_fir_doing_screwR1 pickUp1._pickUp1_initial_location pickUpH._pickUpH0 ) PworkFlow=5 PpickUp1=0 PpickUpH=2 Pbot=-11 Phuman=1 SbusyR1=0 SbusyH=1 
+While you are in (Cbot<=Chuman && Cbot-Cobj<=-20 && Chuman-Cobj<-3 && Cobj<=30), wait.
+
+State: ( states.base bot.station human.doing_pickUpBoxH_in_station obj.atRisk workFlow._workFlow3ffs_sec_doing_pickUpBoxH pickUp1._pickUp1_initial_location pickUpH._pickUpH0f_doing_pickUpBoxH ) PworkFlow=3 PpickUp1=0 PpickUpH=1 Pbot=1 Phuman=-11 SbusyR1=0 SbusyH=1 
+While you are in (1<Cbot && Chuman-Cobj<=-27 && Cobj<=30), wait.
+
+State: ( states.base bot.station human.station obj.idle workFlow._workFlow_initial_location pickUp1._pickUp1_initial_location pickUpH._pickUpH_initial_location ) PworkFlow=0 PpickUp1=0 PpickUpH=0 Pbot=1 Phuman=1 SbusyR1=0 SbusyH=0 
+While you are in (Cbot<=1 && Cbot==Chuman), wait.
+When you are in (1<Cbot && 1<Chuman), take transition human.station->human.station { Chuman > 1 && PworkFlow == 0, newBox!, Chuman := 0 }
+obj.idle->obj.atRisk { 1, newBox?, Cobj := 0 }
+workFlow._workFlow_initial_location->workFlow._workFlow2ff { 1, newBox?, PworkFlow := 1 }
+
+State: ( states.base bot.station human.station obj.atRisk workFlow._workFlow1f pickUp1._pickUp10 pickUpH._pickUpH_initial_location ) PworkFlow=4 PpickUp1=2 PpickUpH=0 Pbot=1 Phuman=1 SbusyR1=1 SbusyH=0 
+While you are in (1<Chuman && Cbot-Cobj<-2 && Cobj<=30), wait.
+
+State: ( states.base bot.doing_pickUpBoxR1_in_station human.station obj.atRisk workFlow._workFlow3ffs_fir_doing_pickUpBoxR1 pickUp1._pickUp10f_doing_pickUpBoxR1 pickUpH._pickUpH_initial_location ) PworkFlow=2 PpickUp1=1 PpickUpH=0 Pbot=-11 Phuman=1 SbusyR1=1 SbusyH=0 
+While you are in (Cbot<=3 && Cbot<=Chuman && Chuman<=30 && Chuman==Cobj), wait.
+
+State: ( states.base bot.station human.station obj.atRisk workFlow._workFlow2ff pickUp1._pickUp1_initial_location pickUpH._pickUpH_initial_location ) PworkFlow=1 PpickUp1=0 PpickUpH=0 Pbot=1 Phuman=1 SbusyR1=0 SbusyH=0 
+While you are in (Chuman<27 && Chuman-Cbot<-1 && Chuman==Cobj), wait.
+When you are in (1<Cbot && 1<Chuman && 27<=Cobj && Cobj<=30), take transition human.station->human.doing_pickUpBoxH_in_station { Chuman > 1 && PworkFlow == 1 && PpickUpH == 0, pickUpBoxH!, Chuman := 0, Phuman := -11 }
+states.base->states.base { 1, pickUpBoxH?, SbusyH := 1 }
+workFlow._workFlow2ff->workFlow._workFlow3ffs_sec_doing_pickUpBoxH { 1, pickUpBoxH?, PworkFlow := 3 }
+pickUpH._pickUpH_initial_location->pickUpH._pickUpH0f_doing_pickUpBoxH { 1, pickUpBoxH?, PpickUpH := 1 }
+
+State: ( states.base bot.station human.doing_screwH_in_station obj.atRisk workFlow._workFlow2fs_sec_doing_screwH pickUp1._pickUp10 pickUpH._pickUpH_initial_location ) PworkFlow=6 PpickUp1=2 PpickUpH=0 Pbot=1 Phuman=-11 SbusyR1=1 SbusyH=0 
+While you are in (Cbot-Cobj<-2 && Chuman<=Cbot && Chuman-Cobj<=-19 && Cobj<=30), wait.

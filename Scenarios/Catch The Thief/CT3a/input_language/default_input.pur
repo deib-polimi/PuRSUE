@@ -1,0 +1,26 @@
+//locations
+poi "a"
+poi "b"
+poi "c"
+poi "d"
+
+
+//connections  
+connect a and b distance 10
+connect b and c distance 10
+connect c and d distance 10
+connect d and a distance 10
+
+
+//events
+event "catch" collaborative
+
+
+
+//agents (must specify if controllable and/or mobile, initial location actions and reactions)
+agent "police1" controllable mobile 1 location a can_do catch
+agent "police2" controllable mobile 1 location a can_do catch
+agent "thief" mobile 1 location c reacts_to catch
+
+//objectives (only action reaction within time limit for now
+reach_objective: do catch after 0

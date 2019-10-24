@@ -1,0 +1,54 @@
+//locations
+poi "a"
+poi "b"
+poi "c"
+poi "d"
+poi "e"
+poi "f"
+poi "g"
+poi "h"
+poi "i"
+poi "l"
+poi "m"
+poi "n"
+poi "o"
+poi "p"
+
+//connections  
+connect a and p distance 11
+connect g and h distance 11
+
+connect c and n distance 16
+
+connect a and b distance 10
+connect p and o distance 10
+
+connect b and c distance 4
+connect o and n distance 4
+
+connect c and d distance 3
+connect n and m distance 3
+
+connect d and e distance 4
+connect m and i distance 4
+
+connect d and f distance 9
+connect m and l distance 9
+
+connect f and g distance 4
+connect l and h distance 4
+
+connect e and g distance 9
+connect i and h distance 9
+
+//events
+event "catch" collaborative
+
+
+
+//agents (must specify if controllable and/or mobile, initial location actions and reactions)
+agent "police" controllable mobile 1 location a can_do catch
+agent "thief" mobile 2 location h reacts_to catch
+
+//objectives (only action reaction within time limit for now
+reach_objective: do catch after 0

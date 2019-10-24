@@ -1,0 +1,1137 @@
+	<nta>
+	<declaration>
+	//events
+	//movements
+	broadcast chan ecoBot_office2hallway, ecoBot_hallway2office, ecoBot_base2hallway, ecoBot_hallway2base, ecoBot_trashRoom2hallway, ecoBot_hallway2trashRoom, plasticBin_office2hallway, plasticBin_hallway2office, plasticBin_base2hallway, plasticBin_hallway2base, plasticBin_trashRoom2hallway, plasticBin_hallway2trashRoom, paperBin_office2hallway, paperBin_hallway2office, paperBin_base2hallway, paperBin_hallway2base, paperBin_trashRoom2hallway, paperBin_hallway2trashRoom ;
+	
+	//actions
+	broadcast chan throwPaper, throwPaperDONE , throwPlastic, throwPlasticDONE , plasticTrash, plasticTrashDONE , paperTrash, paperTrashDONE , callBot, wait, waitDONE , isPaper, isPlastic, officeClean;
+	
+	//assuzione che initial state per ogni rule è sempre a index zero quandi si crea, dovrebbe essere coso
+	//nota concettuale importante: mentre per le posizioni uso come sono ordinate nella definizione, erl e regole uso come le ordino io nel crearle
+	int PmakingTrash=0, PpickingUp=0, PthrowingPaper=0, PthrowingPlastic=0;
+	//Agents
+	//nota: rule and agents can't have the same name
+	clock CecoBot, Chuman, CplasticBin, CpaperBin;
+	//tutte le volta che si prendono gli indici delle location, si shiftano di uno, così no c'è la location zero, e quindi non c'è nemmeno lo stato -0 che manda tutto in merda
+	int PecoBot=2, Phuman=1, PplasticBin=4, PpaperBin=4;
+	int SpaperOrPlastic=1;
+	//Objective
+	
+	clock Cobj;
+	</declaration>
+	 
+	 
+	 
+	 
+	automata_declaration
+	
+	state_updater
+	<template>
+	<name>states</name>
+	<location id="base">
+	<name>base</name>
+	</location>
+	<init ref = "base"/>	
+	<transition>
+	<source ref="base"/>
+	<target ref="base"/>
+	<label kind="synchronisation">isPaper?</label>
+	<label kind="assignment">SpaperOrPlastic=1</label>
+	</transition>
+	<transition>
+	<source ref="base"/>
+	<target ref="base"/>
+	<label kind="synchronisation">isPlastic?</label>
+	<label kind="assignment">SpaperOrPlastic=0</label>
+	</transition>
+	</template>
+	
+	
+	rules
+			
+
+					
+		<template>
+		<name>makingTrash</name>
+		//states declarions
+		<location id="makingTrash_initial_location">
+		</location>
+		
+		<location id="makingTrash0">
+		</location>
+		
+		
+		<location id="makingTrash1s">
+		</location>
+		<location id="makingTrash1s_sec_doing_wait">
+		</location>
+		<init ref = "makingTrash_initial_location"/>	
+		//transitions
+		
+		
+		
+		
+		
+		<transition>
+		<source ref="makingTrash_initial_location"/>
+		<target ref="makingTrash0"/>
+		<label kind="synchronisation">isPaper?</label>
+		<label kind="assignment">PmakingTrash = 1</label>
+		</transition>			
+		
+		<transition>
+		<source ref="makingTrash_initial_location"/>
+		<target ref="makingTrash0"/>
+		<label kind="synchronisation">isPlastic?</label>
+		<label kind="assignment">PmakingTrash = 1</label>
+		</transition>			
+		
+		
+		
+		
+		
+		
+		
+		<transition>
+		<source ref="makingTrash0"/>
+		<target ref="makingTrash1s"/>
+		<label kind="synchronisation">callBot?</label>
+		<label kind="assignment">PmakingTrash = 2</label>
+		</transition>			
+		
+		<transition>
+		<source ref="makingTrash1s"/>
+		<target ref="makingTrash1s_sec_doing_wait"/>
+		<label kind="synchronisation">wait?</label>
+		<label kind="assignment">PmakingTrash = 3</label>
+		</transition>	
+		<transition>
+		<source ref="makingTrash1s_sec_doing_wait"/>
+		<target ref="makingTrash_initial_location"/>
+		<label kind="synchronisation">waitDONE?</label>
+		<label kind="assignment">PmakingTrash = 0</label>
+		</transition>			
+		</template>
+			
+
+					
+		<template>
+		<name>pickingUp</name>
+		//states declarions
+		<location id="pickingUp_initial_location">
+		</location>
+		
+		<location id="pickingUp1f">
+		</location>
+		<location id="pickingUp2fs_fir_doing_plasticTrash">
+		</location>
+		
+		<location id="pickingUp2fs_sec_doing_paperTrash">
+		</location>
+		<location id="pickingUp0">
+		</location>
+		
+		<init ref = "pickingUp_initial_location"/>	
+		//transitions
+		
+		
+		
+		
+		
+		<transition>
+		<source ref="pickingUp_initial_location"/>
+		<target ref="pickingUp1f"/>
+		<label kind="synchronisation">callBot?</label>
+		<label kind="assignment">PpickingUp = 1</label>
+		</transition>			
+		
+		
+		
+		
+		<transition>
+		<source ref="pickingUp1f"/>
+		<target ref="pickingUp2fs_fir_doing_plasticTrash"/>
+		<label kind="synchronisation">plasticTrash?</label>
+		<label kind="assignment">PpickingUp = 2</label>
+		</transition>	
+		<transition>
+		<source ref="pickingUp2fs_fir_doing_plasticTrash"/>
+		<target ref="pickingUp0"/>
+		<label kind="synchronisation">plasticTrashDONE?</label>
+		<label kind="assignment">PpickingUp = 4</label>
+		</transition>			
+		
+		<transition>
+		<source ref="pickingUp1f"/>
+		<target ref="pickingUp2fs_sec_doing_paperTrash"/>
+		<label kind="synchronisation">paperTrash?</label>
+		<label kind="assignment">PpickingUp = 3</label>
+		</transition>	
+		<transition>
+		<source ref="pickingUp2fs_sec_doing_paperTrash"/>
+		<target ref="pickingUp0"/>
+		<label kind="synchronisation">paperTrashDONE?</label>
+		<label kind="assignment">PpickingUp = 4</label>
+		</transition>			
+		
+		
+		
+		
+		<transition>
+		<source ref="pickingUp0"/>
+		<target ref="pickingUp_initial_location"/>
+		<label kind="synchronisation">officeClean?</label>
+		<label kind="assignment">PpickingUp = 0</label>
+		</transition>			
+		</template>
+			
+
+					
+		<template>
+		<name>throwingPaper</name>
+		//states declarions
+		<location id="throwingPaper_initial_location">
+		</location>
+		<location id="throwingPaper0f_doing_paperTrash">
+		</location>
+		<location id="throwingPaper0">
+		</location>
+		
+		<location id="throwingPaper0s_doing_throwPaper">
+		</location>
+		<init ref = "throwingPaper_initial_location"/>	
+		//transitions
+		
+		
+		
+		<transition>
+		<source ref="throwingPaper_initial_location"/>
+		<target ref="throwingPaper0f_doing_paperTrash"/>
+		<label kind="synchronisation">paperTrash?</label>
+		<label kind="assignment">PthrowingPaper = 1</label>
+		</transition>	
+		<transition>
+		<source ref="throwingPaper0f_doing_paperTrash"/>
+		<target ref="throwingPaper0"/>
+		<label kind="synchronisation">paperTrashDONE?</label>
+		<label kind="assignment">PthrowingPaper = 2</label>
+		</transition>		
+		
+		
+		
+		<transition>
+		<source ref="throwingPaper0"/>
+		<target ref="throwingPaper0s_doing_throwPaper"/>
+		<label kind="synchronisation">throwPaper?</label>
+		<label kind="assignment">PthrowingPaper = 3</label>
+		</transition>	
+		<transition>
+		<source ref="throwingPaper0s_doing_throwPaper"/>
+		<target ref="throwingPaper_initial_location"/>
+		<label kind="synchronisation">throwPaperDONE?</label>
+		<label kind="assignment">PthrowingPaper = 0</label>
+		</transition>	
+		</template>
+			
+
+					
+		<template>
+		<name>throwingPlastic</name>
+		//states declarions
+		<location id="throwingPlastic_initial_location">
+		</location>
+		<location id="throwingPlastic0f_doing_plasticTrash">
+		</location>
+		<location id="throwingPlastic0">
+		</location>
+		
+		<location id="throwingPlastic0s_doing_throwPlastic">
+		</location>
+		<init ref = "throwingPlastic_initial_location"/>	
+		//transitions
+		
+		
+		
+		<transition>
+		<source ref="throwingPlastic_initial_location"/>
+		<target ref="throwingPlastic0f_doing_plasticTrash"/>
+		<label kind="synchronisation">plasticTrash?</label>
+		<label kind="assignment">PthrowingPlastic = 1</label>
+		</transition>	
+		<transition>
+		<source ref="throwingPlastic0f_doing_plasticTrash"/>
+		<target ref="throwingPlastic0"/>
+		<label kind="synchronisation">plasticTrashDONE?</label>
+		<label kind="assignment">PthrowingPlastic = 2</label>
+		</transition>		
+		
+		
+		
+		<transition>
+		<source ref="throwingPlastic0"/>
+		<target ref="throwingPlastic0s_doing_throwPlastic"/>
+		<label kind="synchronisation">throwPlastic?</label>
+		<label kind="assignment">PthrowingPlastic = 3</label>
+		</transition>	
+		<transition>
+		<source ref="throwingPlastic0s_doing_throwPlastic"/>
+		<target ref="throwingPlastic_initial_location"/>
+		<label kind="synchronisation">throwPlasticDONE?</label>
+		<label kind="assignment">PthrowingPlastic = 0</label>
+		</transition>	
+		</template>
+agents
+	<template>
+	<name>ecoBot</name>
+	 
+	//no local declarations used
+	 
+	//LOCATIONS
+	//nota: sto dando stesso ID a location su agneti diversi, spero non lo mandi a male
+	//se lo user non definisce connesssioni tra tutte le location lui non smatta
+<location id="office"> 
+<name>office</name>
+</location>
+<location id="base"> 
+<name>base</name>
+</location>
+<location id="hallway"> 
+<name>hallway</name>
+</location>
+<location id="trashRoom"> 
+<name>trashRoom</name>
+</location>
+		
+//transitional locations
+<location id="going_office_to_hallway">
+<name>going_office_to_hallway</name>
+<label kind="invariant">CecoBot&lt;=6</label>
+</location>
+<location id="going_hallway_to_office"> 
+<name>going_hallway_to_office</name>			
+<label kind="invariant">CecoBot&lt;=6</label>
+</location>
+ 
+<location id="going_base_to_hallway">
+<name>going_base_to_hallway</name>
+<label kind="invariant">CecoBot&lt;=3</label>
+</location>
+<location id="going_hallway_to_base"> 
+<name>going_hallway_to_base</name>			
+<label kind="invariant">CecoBot&lt;=3</label>
+</location>
+ 
+<location id="going_trashRoom_to_hallway">
+<name>going_trashRoom_to_hallway</name>
+<label kind="invariant">CecoBot&lt;=8</label>
+</location>
+<location id="going_hallway_to_trashRoom"> 
+<name>going_hallway_to_trashRoom</name>			
+<label kind="invariant">CecoBot&lt;=8</label>
+</location>
+ 
+		
+	//location for durable actions (just one if it's locations specic and/or the agent isn't mobile )
+<location id = "doing_plasticTrash_in_office">
+<name>doing_plasticTrash_in_office</name>
+<label kind="invariant">CecoBot&lt;=6</label>
+</location>
+		
+<location id = "doing_paperTrash_in_office">
+<name>doing_paperTrash_in_office</name>
+<label kind="invariant">CecoBot&lt;=6</label>
+</location>
+		
+<location id = "doing_throwPlastic_in_office">
+<name>doing_throwPlastic_in_office</name>
+<label kind="invariant">CecoBot &lt;= 4</label>
+</location>
+<location id = "doing_throwPlastic_in_base">
+<name>doing_throwPlastic_in_base</name>
+<label kind="invariant">CecoBot &lt;= 4</label>
+</location>
+<location id = "doing_throwPlastic_in_hallway">
+<name>doing_throwPlastic_in_hallway</name>
+<label kind="invariant">CecoBot &lt;= 4</label>
+</location>
+<location id = "doing_throwPlastic_in_trashRoom">
+<name>doing_throwPlastic_in_trashRoom</name>
+<label kind="invariant">CecoBot &lt;= 4</label>
+</location>
+		
+<location id = "doing_throwPaper_in_office">
+<name>doing_throwPaper_in_office</name>
+<label kind="invariant">CecoBot &lt;= 4</label>
+</location>
+<location id = "doing_throwPaper_in_base">
+<name>doing_throwPaper_in_base</name>
+<label kind="invariant">CecoBot &lt;= 4</label>
+</location>
+<location id = "doing_throwPaper_in_hallway">
+<name>doing_throwPaper_in_hallway</name>
+<label kind="invariant">CecoBot &lt;= 4</label>
+</location>
+<location id = "doing_throwPaper_in_trashRoom">
+<name>doing_throwPaper_in_trashRoom</name>
+<label kind="invariant">CecoBot &lt;= 4</label>
+</location>
+		
+					
+		
+		
+		
+	//initial location id is passed
+	<init ref = "base"/>	
+	
+	
+	
+	
+	//transitions
+	//movement transitions
+<transition>
+<source ref="office"/>
+<target ref="going_office_to_hallway"/>
+<label kind="synchronisation">ecoBot_office2hallway!</label>
+<label kind="guard">CecoBot &gt; 1</label>
+<label kind="assignment">PecoBot = -13,  CecoBot= 0</label>
+</transition>
+ 
+<transition>
+<source ref="going_office_to_hallway"/>
+<target ref="hallway"/>
+<label kind="guard">CecoBot &gt; 5</label>
+<label kind="assignment">PecoBot = 3,  CecoBot= 0</label>
+</transition>
+ 
+<transition>
+<source ref="hallway"/>
+<target ref="going_hallway_to_office"/>
+<label kind="synchronisation">ecoBot_hallway2office!</label>
+<label kind="guard">CecoBot &gt; 1</label>
+<label kind="assignment"> PecoBot = -31,  CecoBot= 0</label>
+</transition>
+ 
+<transition>
+<source ref="going_hallway_to_office"/>
+<target ref="office"/>
+<label kind="guard">CecoBot&gt;5</label>
+<label kind="assignment">PecoBot = 1,  CecoBot= 0</label>
+</transition>
+<transition>
+<source ref="base"/>
+<target ref="going_base_to_hallway"/>
+<label kind="synchronisation">ecoBot_base2hallway!</label>
+<label kind="guard">CecoBot &gt; 1</label>
+<label kind="assignment">PecoBot = -23,  CecoBot= 0</label>
+</transition>
+ 
+<transition>
+<source ref="going_base_to_hallway"/>
+<target ref="hallway"/>
+<label kind="guard">CecoBot &gt; 2</label>
+<label kind="assignment">PecoBot = 3,  CecoBot= 0</label>
+</transition>
+ 
+<transition>
+<source ref="hallway"/>
+<target ref="going_hallway_to_base"/>
+<label kind="synchronisation">ecoBot_hallway2base!</label>
+<label kind="guard">CecoBot &gt; 1</label>
+<label kind="assignment"> PecoBot = -32,  CecoBot= 0</label>
+</transition>
+ 
+<transition>
+<source ref="going_hallway_to_base"/>
+<target ref="base"/>
+<label kind="guard">CecoBot&gt;2</label>
+<label kind="assignment">PecoBot = 2,  CecoBot= 0</label>
+</transition>
+<transition>
+<source ref="trashRoom"/>
+<target ref="going_trashRoom_to_hallway"/>
+<label kind="synchronisation">ecoBot_trashRoom2hallway!</label>
+<label kind="guard">CecoBot &gt; 1</label>
+<label kind="assignment">PecoBot = -43,  CecoBot= 0</label>
+</transition>
+ 
+<transition>
+<source ref="going_trashRoom_to_hallway"/>
+<target ref="hallway"/>
+<label kind="guard">CecoBot &gt; 7</label>
+<label kind="assignment">PecoBot = 3,  CecoBot= 0</label>
+</transition>
+ 
+<transition>
+<source ref="hallway"/>
+<target ref="going_hallway_to_trashRoom"/>
+<label kind="synchronisation">ecoBot_hallway2trashRoom!</label>
+<label kind="guard">CecoBot &gt; 1</label>
+<label kind="assignment"> PecoBot = -34,  CecoBot= 0</label>
+</transition>
+ 
+<transition>
+<source ref="going_hallway_to_trashRoom"/>
+<target ref="trashRoom"/>
+<label kind="guard">CecoBot&gt;7</label>
+<label kind="assignment">PecoBot = 4,  CecoBot= 0</label>
+</transition>
+		
+	//action transitions
+	//BUG : if an action si collaborative but nobody can react to it, the action will be always allowed
+	
+<transition>
+<source ref="office"/>
+<target ref="doing_plasticTrash_in_office"/>
+<label kind="synchronisation">plasticTrash!</label>
+<label kind="assignment"> CecoBot =0,PecoBot=-11 </label>
+<label kind="guard">CecoBot &gt; 1 &amp;&amp;    ( PpickingUp==1 )  &amp;&amp;  ( PthrowingPlastic==0 )  &amp;&amp; SpaperOrPlastic==0</label>
+</transition>
+ 
+<transition>
+<source ref="doing_plasticTrash_in_office"/>
+<target ref="office"/>
+<label kind="synchronisation">plasticTrashDONE!</label>
+<label kind="assignment"> CecoBot =0, PecoBot=1 </label>
+<label kind="guard"> CecoBot &gt; 5 &amp;&amp;   ( PpickingUp==2 )  &amp;&amp;  ( PthrowingPlastic==1 ) </label>
+</transition>			
+ 
+
+<transition>
+<source ref="office"/>
+<target ref="doing_paperTrash_in_office"/>
+<label kind="synchronisation">paperTrash!</label>
+<label kind="assignment"> CecoBot =0,PecoBot=-11 </label>
+<label kind="guard">CecoBot &gt; 1 &amp;&amp;    ( PpickingUp==1 )  &amp;&amp;  ( PthrowingPaper==0 ) &amp;&amp; SpaperOrPlastic==1</label>
+</transition>
+ 
+<transition>
+<source ref="doing_paperTrash_in_office"/>
+<target ref="office"/>
+<label kind="synchronisation">paperTrashDONE!</label>
+<label kind="assignment"> CecoBot =0, PecoBot=1 </label>
+<label kind="guard"> CecoBot &gt; 5 &amp;&amp;   ( PpickingUp==3 )  &amp;&amp;  ( PthrowingPaper==1 ) </label>
+</transition>			
+ 
+
+
+<transition>
+<source ref="office"/>
+<target ref="doing_throwPlastic_in_office"/>
+<label kind="synchronisation">throwPlastic!</label>
+<label kind="assignment">CecoBot =0,PecoBot=-11 </label>
+<label kind="guard">CecoBot &gt; 1 &amp;&amp; (PplasticBin==1)  &amp;&amp;   ( PthrowingPlastic==2 ) </label>
+</transition>
+ 
+<transition>
+<source ref="doing_throwPlastic_in_office"/>
+<target ref="office"/>
+<label kind="synchronisation">throwPlasticDONE!</label>
+<label kind="assignment"> CecoBot =0, PecoBot=1 </label>
+<label kind="guard"> CecoBot &gt; 3 &amp;&amp;   ( PthrowingPlastic==3 ) </label>
+</transition>			
+ 
+
+<transition>
+<source ref="base"/>
+<target ref="doing_throwPlastic_in_base"/>
+<label kind="synchronisation">throwPlastic!</label>
+<label kind="assignment">CecoBot =0,PecoBot=-22 </label>
+<label kind="guard">CecoBot &gt; 1 &amp;&amp; (PplasticBin==2)  &amp;&amp;   ( PthrowingPlastic==2 ) </label>
+</transition>
+ 
+<transition>
+<source ref="doing_throwPlastic_in_base"/>
+<target ref="base"/>
+<label kind="synchronisation">throwPlasticDONE!</label>
+<label kind="assignment"> CecoBot =0, PecoBot=2 </label>
+<label kind="guard"> CecoBot &gt; 3 &amp;&amp;   ( PthrowingPlastic==3 ) </label>
+</transition>			
+ 
+
+<transition>
+<source ref="hallway"/>
+<target ref="doing_throwPlastic_in_hallway"/>
+<label kind="synchronisation">throwPlastic!</label>
+<label kind="assignment">CecoBot =0,PecoBot=-33 </label>
+<label kind="guard">CecoBot &gt; 1 &amp;&amp; (PplasticBin==3)  &amp;&amp;   ( PthrowingPlastic==2 ) </label>
+</transition>
+ 
+<transition>
+<source ref="doing_throwPlastic_in_hallway"/>
+<target ref="hallway"/>
+<label kind="synchronisation">throwPlasticDONE!</label>
+<label kind="assignment"> CecoBot =0, PecoBot=3 </label>
+<label kind="guard"> CecoBot &gt; 3 &amp;&amp;   ( PthrowingPlastic==3 ) </label>
+</transition>			
+ 
+
+<transition>
+<source ref="trashRoom"/>
+<target ref="doing_throwPlastic_in_trashRoom"/>
+<label kind="synchronisation">throwPlastic!</label>
+<label kind="assignment">CecoBot =0,PecoBot=-44 </label>
+<label kind="guard">CecoBot &gt; 1 &amp;&amp; (PplasticBin==4)  &amp;&amp;   ( PthrowingPlastic==2 ) </label>
+</transition>
+ 
+<transition>
+<source ref="doing_throwPlastic_in_trashRoom"/>
+<target ref="trashRoom"/>
+<label kind="synchronisation">throwPlasticDONE!</label>
+<label kind="assignment"> CecoBot =0, PecoBot=4 </label>
+<label kind="guard"> CecoBot &gt; 3 &amp;&amp;   ( PthrowingPlastic==3 ) </label>
+</transition>			
+ 
+
+
+<transition>
+<source ref="office"/>
+<target ref="doing_throwPaper_in_office"/>
+<label kind="synchronisation">throwPaper!</label>
+<label kind="assignment">CecoBot =0,PecoBot=-11 </label>
+<label kind="guard">CecoBot &gt; 1 &amp;&amp; (PpaperBin==1)  &amp;&amp;   ( PthrowingPaper==2 ) </label>
+</transition>
+ 
+<transition>
+<source ref="doing_throwPaper_in_office"/>
+<target ref="office"/>
+<label kind="synchronisation">throwPaperDONE!</label>
+<label kind="assignment"> CecoBot =0, PecoBot=1 </label>
+<label kind="guard"> CecoBot &gt; 3 &amp;&amp;   ( PthrowingPaper==3 ) </label>
+</transition>			
+ 
+
+<transition>
+<source ref="base"/>
+<target ref="doing_throwPaper_in_base"/>
+<label kind="synchronisation">throwPaper!</label>
+<label kind="assignment">CecoBot =0,PecoBot=-22 </label>
+<label kind="guard">CecoBot &gt; 1 &amp;&amp; (PpaperBin==2)  &amp;&amp;   ( PthrowingPaper==2 ) </label>
+</transition>
+ 
+<transition>
+<source ref="doing_throwPaper_in_base"/>
+<target ref="base"/>
+<label kind="synchronisation">throwPaperDONE!</label>
+<label kind="assignment"> CecoBot =0, PecoBot=2 </label>
+<label kind="guard"> CecoBot &gt; 3 &amp;&amp;   ( PthrowingPaper==3 ) </label>
+</transition>			
+ 
+
+<transition>
+<source ref="hallway"/>
+<target ref="doing_throwPaper_in_hallway"/>
+<label kind="synchronisation">throwPaper!</label>
+<label kind="assignment">CecoBot =0,PecoBot=-33 </label>
+<label kind="guard">CecoBot &gt; 1 &amp;&amp; (PpaperBin==3)  &amp;&amp;   ( PthrowingPaper==2 ) </label>
+</transition>
+ 
+<transition>
+<source ref="doing_throwPaper_in_hallway"/>
+<target ref="hallway"/>
+<label kind="synchronisation">throwPaperDONE!</label>
+<label kind="assignment"> CecoBot =0, PecoBot=3 </label>
+<label kind="guard"> CecoBot &gt; 3 &amp;&amp;   ( PthrowingPaper==3 ) </label>
+</transition>			
+ 
+
+<transition>
+<source ref="trashRoom"/>
+<target ref="doing_throwPaper_in_trashRoom"/>
+<label kind="synchronisation">throwPaper!</label>
+<label kind="assignment">CecoBot =0,PecoBot=-44 </label>
+<label kind="guard">CecoBot &gt; 1 &amp;&amp; (PpaperBin==4)  &amp;&amp;   ( PthrowingPaper==2 ) </label>
+</transition>
+ 
+<transition>
+<source ref="doing_throwPaper_in_trashRoom"/>
+<target ref="trashRoom"/>
+<label kind="synchronisation">throwPaperDONE!</label>
+<label kind="assignment"> CecoBot =0, PecoBot=4 </label>
+<label kind="guard"> CecoBot &gt; 3 &amp;&amp;   ( PthrowingPaper==3 ) </label>
+</transition>			
+ 
+
+<transition>
+<source ref="office"/>
+<target ref="office"/>
+<label kind="synchronisation">officeClean!</label>
+<label kind="assignment"> CecoBot =0 </label>
+<label kind="guard">CecoBot &gt; 1 &amp;&amp;   ( PpickingUp==4 ) </label>
+</transition>
+ 
+
+					
+		
+		
+		
+	</template>		
+	 
+		
+	<template>
+	<name>human</name>
+	 
+	//no local declarations used
+	 
+	//LOCATIONS
+	//nota: sto dando stesso ID a location su agneti diversi, spero non lo mandi a male
+	//se lo user non definisce connesssioni tra tutte le location lui non smatta
+<location id = "office">
+<name>office</name>
+</location>
+ 
+		
+	//location for durable actions (just one if it's locations specic and/or the agent isn't mobile )
+<location id = "doing_wait_in_office">
+<name>doing_wait_in_office</name>
+<label kind="invariant">Chuman&lt;=61</label>
+</location>
+		
+					
+		
+		
+		
+	//initial location id is passed
+	<init ref = "office"/>	
+	
+	
+	
+	
+	//transitions
+	//movement transitions
+		
+	//action transitions
+	//BUG : if an action si collaborative but nobody can react to it, the action will be always allowed
+	
+
+<transition controllable="false" >
+<source ref="office"/>
+<target ref="office"/>
+<label kind="synchronisation">callBot!</label>
+<label kind="assignment"> Chuman =0 </label>
+<label kind="guard">Chuman &gt; 1 &amp;&amp;   ( PmakingTrash==1 )  &amp;&amp;  ( PpickingUp==0 ) </label>
+</transition>
+ 		
+
+<transition controllable="false" >
+<source ref="office"/>
+<target ref="doing_wait_in_office"/>
+<label kind="synchronisation">wait!</label>
+<label kind="assignment">Chuman =0,Phuman=-11</label>
+<label kind="guard">Chuman &gt; 1 &amp;&amp;    ( PmakingTrash==2 ) </label>
+</transition>
+ 
+<transition controllable="false" >
+<source ref="doing_wait_in_office"/>
+<target ref="office"/>
+<label kind="synchronisation">waitDONE!</label>
+<label kind="assignment"> Chuman =0,Phuman=1  </label>
+<label kind="guard"> Chuman &gt; 60 &amp;&amp;   ( PmakingTrash==3 ) </label>
+</transition>			
+ 
+
+
+
+<transition controllable="false" >
+<source ref="office"/>
+<target ref="office"/>
+<label kind="synchronisation">isPaper!</label>
+<label kind="assignment"> Chuman =0 </label>
+<label kind="guard">Chuman &gt; 1 &amp;&amp;   ( PmakingTrash==0 ) </label>
+</transition>
+ 		
+
+
+<transition controllable="false" >
+<source ref="office"/>
+<target ref="office"/>
+<label kind="synchronisation">isPlastic!</label>
+<label kind="assignment"> Chuman =0 </label>
+<label kind="guard">Chuman &gt; 1 &amp;&amp;   ( PmakingTrash==0 ) </label>
+</transition>
+ 		
+
+					
+		
+		
+		
+	</template>		
+	 
+		
+	<template>
+	<name>plasticBin</name>
+	 
+	//no local declarations used
+	 
+	//LOCATIONS
+	//nota: sto dando stesso ID a location su agneti diversi, spero non lo mandi a male
+	//se lo user non definisce connesssioni tra tutte le location lui non smatta
+<location id="office"> 
+<name>office</name>
+</location>
+<location id="base"> 
+<name>base</name>
+</location>
+<location id="hallway"> 
+<name>hallway</name>
+</location>
+<location id="trashRoom"> 
+<name>trashRoom</name>
+</location>
+		
+//transitional locations
+<location id="going_office_to_hallway">
+<name>going_office_to_hallway</name>
+<label kind="invariant">CplasticBin&lt;=11</label>
+</location>
+<location id="going_hallway_to_office"> 
+<name>going_hallway_to_office</name>			
+<label kind="invariant">CplasticBin&lt;=11</label>
+</location>
+ 
+<location id="going_base_to_hallway">
+<name>going_base_to_hallway</name>
+<label kind="invariant">CplasticBin&lt;=5</label>
+</location>
+<location id="going_hallway_to_base"> 
+<name>going_hallway_to_base</name>			
+<label kind="invariant">CplasticBin&lt;=5</label>
+</location>
+ 
+<location id="going_trashRoom_to_hallway">
+<name>going_trashRoom_to_hallway</name>
+<label kind="invariant">CplasticBin&lt;=15</label>
+</location>
+<location id="going_hallway_to_trashRoom"> 
+<name>going_hallway_to_trashRoom</name>			
+<label kind="invariant">CplasticBin&lt;=15</label>
+</location>
+ 
+		
+	//location for durable actions (just one if it's locations specic and/or the agent isn't mobile )
+					
+		
+		
+		
+	//initial location id is passed
+	<init ref = "trashRoom"/>	
+	
+	
+	
+	
+	//transitions
+	//movement transitions
+<transition controllable="false" >
+<source ref="office"/>
+<target ref="going_office_to_hallway"/>
+<label kind="synchronisation">plasticBin_office2hallway!</label>
+<label kind="guard">CplasticBin &gt; 1</label>
+<label kind="assignment">PplasticBin = -13,  CplasticBin= 0</label>
+</transition>
+ 
+<transition controllable="false" >
+<source ref="going_office_to_hallway"/>
+<target ref="hallway"/>
+<label kind="guard">CplasticBin &gt; 10</label>
+<label kind="assignment">PplasticBin = 3,  CplasticBin= 0</label>
+</transition>
+ 
+<transition controllable="false" >
+<source ref="hallway"/>
+<target ref="going_hallway_to_office"/>
+<label kind="synchronisation">plasticBin_hallway2office!</label>
+<label kind="guard">CplasticBin &gt; 1</label>
+<label kind="assignment"> PplasticBin = -31,  CplasticBin= 0</label>
+</transition>
+ 
+<transition controllable="false" >
+<source ref="going_hallway_to_office"/>
+<target ref="office"/>
+<label kind="guard">CplasticBin&gt;10</label>
+<label kind="assignment">PplasticBin = 1,  CplasticBin= 0</label>
+</transition>
+<transition controllable="false" >
+<source ref="base"/>
+<target ref="going_base_to_hallway"/>
+<label kind="synchronisation">plasticBin_base2hallway!</label>
+<label kind="guard">CplasticBin &gt; 1</label>
+<label kind="assignment">PplasticBin = -23,  CplasticBin= 0</label>
+</transition>
+ 
+<transition controllable="false" >
+<source ref="going_base_to_hallway"/>
+<target ref="hallway"/>
+<label kind="guard">CplasticBin &gt; 4</label>
+<label kind="assignment">PplasticBin = 3,  CplasticBin= 0</label>
+</transition>
+ 
+<transition controllable="false" >
+<source ref="hallway"/>
+<target ref="going_hallway_to_base"/>
+<label kind="synchronisation">plasticBin_hallway2base!</label>
+<label kind="guard">CplasticBin &gt; 1</label>
+<label kind="assignment"> PplasticBin = -32,  CplasticBin= 0</label>
+</transition>
+ 
+<transition controllable="false" >
+<source ref="going_hallway_to_base"/>
+<target ref="base"/>
+<label kind="guard">CplasticBin&gt;4</label>
+<label kind="assignment">PplasticBin = 2,  CplasticBin= 0</label>
+</transition>
+<transition controllable="false" >
+<source ref="trashRoom"/>
+<target ref="going_trashRoom_to_hallway"/>
+<label kind="synchronisation">plasticBin_trashRoom2hallway!</label>
+<label kind="guard">CplasticBin &gt; 1</label>
+<label kind="assignment">PplasticBin = -43,  CplasticBin= 0</label>
+</transition>
+ 
+<transition controllable="false" >
+<source ref="going_trashRoom_to_hallway"/>
+<target ref="hallway"/>
+<label kind="guard">CplasticBin &gt; 14</label>
+<label kind="assignment">PplasticBin = 3,  CplasticBin= 0</label>
+</transition>
+ 
+<transition controllable="false" >
+<source ref="hallway"/>
+<target ref="going_hallway_to_trashRoom"/>
+<label kind="synchronisation">plasticBin_hallway2trashRoom!</label>
+<label kind="guard">CplasticBin &gt; 1</label>
+<label kind="assignment"> PplasticBin = -34,  CplasticBin= 0</label>
+</transition>
+ 
+<transition controllable="false" >
+<source ref="going_hallway_to_trashRoom"/>
+<target ref="trashRoom"/>
+<label kind="guard">CplasticBin&gt;14</label>
+<label kind="assignment">PplasticBin = 4,  CplasticBin= 0</label>
+</transition>
+		
+	//action transitions
+	//BUG : if an action si collaborative but nobody can react to it, the action will be always allowed
+	
+					
+		
+		
+		
+	</template>		
+	 
+		
+	<template>
+	<name>paperBin</name>
+	 
+	//no local declarations used
+	 
+	//LOCATIONS
+	//nota: sto dando stesso ID a location su agneti diversi, spero non lo mandi a male
+	//se lo user non definisce connesssioni tra tutte le location lui non smatta
+<location id="office"> 
+<name>office</name>
+</location>
+<location id="base"> 
+<name>base</name>
+</location>
+<location id="hallway"> 
+<name>hallway</name>
+</location>
+<location id="trashRoom"> 
+<name>trashRoom</name>
+</location>
+		
+//transitional locations
+<location id="going_office_to_hallway">
+<name>going_office_to_hallway</name>
+<label kind="invariant">CpaperBin&lt;=11</label>
+</location>
+<location id="going_hallway_to_office"> 
+<name>going_hallway_to_office</name>			
+<label kind="invariant">CpaperBin&lt;=11</label>
+</location>
+ 
+<location id="going_base_to_hallway">
+<name>going_base_to_hallway</name>
+<label kind="invariant">CpaperBin&lt;=5</label>
+</location>
+<location id="going_hallway_to_base"> 
+<name>going_hallway_to_base</name>			
+<label kind="invariant">CpaperBin&lt;=5</label>
+</location>
+ 
+<location id="going_trashRoom_to_hallway">
+<name>going_trashRoom_to_hallway</name>
+<label kind="invariant">CpaperBin&lt;=15</label>
+</location>
+<location id="going_hallway_to_trashRoom"> 
+<name>going_hallway_to_trashRoom</name>			
+<label kind="invariant">CpaperBin&lt;=15</label>
+</location>
+ 
+		
+	//location for durable actions (just one if it's locations specic and/or the agent isn't mobile )
+					
+		
+		
+		
+	//initial location id is passed
+	<init ref = "trashRoom"/>	
+	
+	
+	
+	
+	//transitions
+	//movement transitions
+<transition controllable="false" >
+<source ref="office"/>
+<target ref="going_office_to_hallway"/>
+<label kind="synchronisation">paperBin_office2hallway!</label>
+<label kind="guard">CpaperBin &gt; 1</label>
+<label kind="assignment">PpaperBin = -13,  CpaperBin= 0</label>
+</transition>
+ 
+<transition controllable="false" >
+<source ref="going_office_to_hallway"/>
+<target ref="hallway"/>
+<label kind="guard">CpaperBin &gt; 10</label>
+<label kind="assignment">PpaperBin = 3,  CpaperBin= 0</label>
+</transition>
+ 
+<transition controllable="false" >
+<source ref="hallway"/>
+<target ref="going_hallway_to_office"/>
+<label kind="synchronisation">paperBin_hallway2office!</label>
+<label kind="guard">CpaperBin &gt; 1</label>
+<label kind="assignment"> PpaperBin = -31,  CpaperBin= 0</label>
+</transition>
+ 
+<transition controllable="false" >
+<source ref="going_hallway_to_office"/>
+<target ref="office"/>
+<label kind="guard">CpaperBin&gt;10</label>
+<label kind="assignment">PpaperBin = 1,  CpaperBin= 0</label>
+</transition>
+<transition controllable="false" >
+<source ref="base"/>
+<target ref="going_base_to_hallway"/>
+<label kind="synchronisation">paperBin_base2hallway!</label>
+<label kind="guard">CpaperBin &gt; 1</label>
+<label kind="assignment">PpaperBin = -23,  CpaperBin= 0</label>
+</transition>
+ 
+<transition controllable="false" >
+<source ref="going_base_to_hallway"/>
+<target ref="hallway"/>
+<label kind="guard">CpaperBin &gt; 4</label>
+<label kind="assignment">PpaperBin = 3,  CpaperBin= 0</label>
+</transition>
+ 
+<transition controllable="false" >
+<source ref="hallway"/>
+<target ref="going_hallway_to_base"/>
+<label kind="synchronisation">paperBin_hallway2base!</label>
+<label kind="guard">CpaperBin &gt; 1</label>
+<label kind="assignment"> PpaperBin = -32,  CpaperBin= 0</label>
+</transition>
+ 
+<transition controllable="false" >
+<source ref="going_hallway_to_base"/>
+<target ref="base"/>
+<label kind="guard">CpaperBin&gt;4</label>
+<label kind="assignment">PpaperBin = 2,  CpaperBin= 0</label>
+</transition>
+<transition controllable="false" >
+<source ref="trashRoom"/>
+<target ref="going_trashRoom_to_hallway"/>
+<label kind="synchronisation">paperBin_trashRoom2hallway!</label>
+<label kind="guard">CpaperBin &gt; 1</label>
+<label kind="assignment">PpaperBin = -43,  CpaperBin= 0</label>
+</transition>
+ 
+<transition controllable="false" >
+<source ref="going_trashRoom_to_hallway"/>
+<target ref="hallway"/>
+<label kind="guard">CpaperBin &gt; 14</label>
+<label kind="assignment">PpaperBin = 3,  CpaperBin= 0</label>
+</transition>
+ 
+<transition controllable="false" >
+<source ref="hallway"/>
+<target ref="going_hallway_to_trashRoom"/>
+<label kind="synchronisation">paperBin_hallway2trashRoom!</label>
+<label kind="guard">CpaperBin &gt; 1</label>
+<label kind="assignment"> PpaperBin = -34,  CpaperBin= 0</label>
+</transition>
+ 
+<transition controllable="false" >
+<source ref="going_hallway_to_trashRoom"/>
+<target ref="trashRoom"/>
+<label kind="guard">CpaperBin&gt;14</label>
+<label kind="assignment">PpaperBin = 4,  CpaperBin= 0</label>
+</transition>
+		
+	//action transitions
+	//BUG : if an action si collaborative but nobody can react to it, the action will be always allowed
+	
+					
+		
+		
+		
+	</template>		
+	 
+		
+
+
+
+	
+objectives
+
+<template>
+<name>obj</name>
+
+//locations declaration
+
+<location id = "idle">
+<name>idle</name>
+</location>
+
+<location id = "lose">
+<name>lose</name>
+</location>		
+
+<location id = "atRisk">
+<name>atRisk</name>
+<label kind="invariant"> Cobj &lt;= 20</label>
+</location>	
+<init ref = "idle"/>	
+	
+//transition declaration
+ 
+<transition>
+<source ref="idle"/>
+<target ref="atRisk"/>
+<label kind="synchronisation">callBot?</label>
+<label kind = "assignment">Cobj = 0</label>
+</transition>
+
+<transition>
+<source ref="atRisk"/>
+<target ref="idle"/>
+<label kind="synchronisation">officeClean?</label>
+</transition>				
+<transition>
+<source ref="atRisk"/>
+<target ref="lose"/>
+</transition>				
+</template>
+
+	//in questo momento bugga se non ci sono regole
+	<system>
+	system states, ecoBot, human, plasticBin, paperBin, obj , makingTrash, pickingUp, throwingPaper, throwingPlastic;
+	
+	
+	
+	</system>
+
+	
+	</nta>

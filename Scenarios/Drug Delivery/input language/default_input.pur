@@ -1,0 +1,58 @@
+//locations
+poi "medicine" 
+poi "room"
+poi "door1" 
+poi "door2"
+poi "door3" 
+poi "a"
+poi "b"
+poi "c"
+poi "d"
+
+//connections 
+connect a and door1 distance 6
+connect door1 and b distance 13
+connect b and door2 distance 8
+connect door2 and c distance 20
+connect c and door3 distance 7
+connect door3 and d distance 12
+connect d and medicine distance 14
+connect medicine and a distance 14
+
+//events 
+event "giveMedicine1" location door1 duration 3
+event "giveMedicine2" location door2 duration 3
+event "giveMedicine3" location door3 duration 3
+event "takeMedicine" location medicine duration 2
+event "confirmDelivery"
+event "openDoor1" location room duration 2
+event "openDoor2" location room duration 2
+event "openDoor3" location room duration 2
+event "crossRoom" location room duration 150
+event "closeDoor1" location door1 duration 2
+event "closeDoor2" location door2 duration 2
+event "closeDoor3" location door3 duration 2 
+
+//rules 
+rule "nurseBehaviour" : ((openDoor1 or openDoor2) or openDoor3) before crossRoom 
+rule "robotTask" : takeMedicine before  (  ( (giveMedicine1 or giveMedicine2) or giveMedicine3 )  before confirmDelivery) 
+
+
+//states and dependencies 
+state "door1open": initially false, true_if openDoor1 false_if closeDoor1 
+state "door2open": initially false, true_if openDoor2 false_if closeDoor2
+state "door3open": initially false, true_if openDoor3 false_if closeDoor3
+stateDependency: giveMedicine1 only_if door1open is_true 
+stateDependency: giveMedicine2 only_if door2open is_true
+stateDependency: giveMedicine3 only_if door3open is_true 
+
+
+
+//agents 
+agent "medBot" controllable  mobile 1 location a can_do giveMedicine1, giveMedicine2, giveMedicine3, takeMedicine, confirmDelivery 
+agent "nurse" controllable location room can_do openDoor1, openDoor2, openDoor3, crossRoom
+agent "stretcher" mobile 1 location c can_do closeDoor1, closeDoor2 ,closeDoor3
+
+//objectives 
+objective: medBot never_with Stretcher
+reach_objective: do confirmDelivery 

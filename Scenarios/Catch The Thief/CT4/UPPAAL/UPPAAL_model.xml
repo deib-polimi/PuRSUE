@@ -1,0 +1,1867 @@
+	<nta>
+	<declaration>
+	//events
+	//movements 
+	broadcast chan police_a2p, police_p2a, police_g2h, police_h2g, police_c2n, police_n2c, police_a2b, police_b2a, police_p2o, police_o2p, police_b2c, police_c2b, police_o2n, police_n2o, police_c2d, police_d2c, police_n2m, police_m2n, police_d2e, police_e2d, police_m2i, police_i2m, police_d2f, police_f2d, police_m2l, police_l2m, police_f2g, police_g2f, police_l2h, police_h2l, police_e2g, police_g2e, police_i2h, police_h2i, thief_a2p, thief_p2a, thief_g2h, thief_h2g, thief_c2n, thief_n2c, thief_a2b, thief_b2a, thief_p2o, thief_o2p, thief_b2c, thief_c2b, thief_o2n, thief_n2o, thief_c2d, thief_d2c, thief_n2m, thief_m2n, thief_d2e, thief_e2d, thief_m2i, thief_i2m, thief_d2f, thief_f2d, thief_m2l, thief_l2m, thief_f2g, thief_g2f, thief_l2h, thief_h2l, thief_e2g, thief_g2e, thief_i2h, thief_h2i ;
+	//actions
+	broadcast chan catch;
+	
+	//assuzione che initial state per ogni rule è sempre a index zero quandi si crea, dovrebbe essere coso
+	//nota concettuale importante: mentre per le posizioni uso come sono ordinate nella definizione, erl e regole uso come le ordino io nel crearle
+	//Agents
+	//nota: rule and agents can't have the same name
+	clock Cpolice, Cthief;
+	//tutte le volta che si prendono gli indici delle location, si shiftano di uno, così no c'è la location zero, e quindi non c'è nemmeno lo stato -0 che manda tutto in merda
+	int Ppolice=1, Pthief=8;
+	//Objective
+	
+	clock Creach;
+	</declaration>
+	 
+	 
+	 
+	 
+	automata_declaration
+	
+	rules
+agents
+	<template>
+	<name>police</name>
+	 
+	//no local declarations used
+	 
+	//LOCATIONS
+	//nota: sto dando stesso ID a location su agneti diversi, spero non lo mandi a male
+	//se lo user non definisce connesssioni tra tutte le location lui non smatta
+<location id="a"> 
+<name>a</name>
+</location>
+<location id="b"> 
+<name>b</name>
+</location>
+<location id="c"> 
+<name>c</name>
+</location>
+<location id="d"> 
+<name>d</name>
+</location>
+<location id="e"> 
+<name>e</name>
+</location>
+<location id="f"> 
+<name>f</name>
+</location>
+<location id="g"> 
+<name>g</name>
+</location>
+<location id="h"> 
+<name>h</name>
+</location>
+<location id="i"> 
+<name>i</name>
+</location>
+<location id="l"> 
+<name>l</name>
+</location>
+<location id="m"> 
+<name>m</name>
+</location>
+<location id="n"> 
+<name>n</name>
+</location>
+<location id="o"> 
+<name>o</name>
+</location>
+<location id="p"> 
+<name>p</name>
+</location>
+		
+//transitional locations
+<location id="going_a_to_p">
+<name>going_a_to_p</name>
+<label kind="invariant">Cpolice&lt;=12</label>
+</location>
+<location id="going_p_to_a"> 
+<name>going_p_to_a</name>			
+<label kind="invariant">Cpolice&lt;=12</label>
+</location>
+ 
+<location id="going_g_to_h">
+<name>going_g_to_h</name>
+<label kind="invariant">Cpolice&lt;=12</label>
+</location>
+<location id="going_h_to_g"> 
+<name>going_h_to_g</name>			
+<label kind="invariant">Cpolice&lt;=12</label>
+</location>
+ 
+<location id="going_c_to_n">
+<name>going_c_to_n</name>
+<label kind="invariant">Cpolice&lt;=17</label>
+</location>
+<location id="going_n_to_c"> 
+<name>going_n_to_c</name>			
+<label kind="invariant">Cpolice&lt;=17</label>
+</location>
+ 
+<location id="going_a_to_b">
+<name>going_a_to_b</name>
+<label kind="invariant">Cpolice&lt;=11</label>
+</location>
+<location id="going_b_to_a"> 
+<name>going_b_to_a</name>			
+<label kind="invariant">Cpolice&lt;=11</label>
+</location>
+ 
+<location id="going_p_to_o">
+<name>going_p_to_o</name>
+<label kind="invariant">Cpolice&lt;=11</label>
+</location>
+<location id="going_o_to_p"> 
+<name>going_o_to_p</name>			
+<label kind="invariant">Cpolice&lt;=11</label>
+</location>
+ 
+<location id="going_b_to_c">
+<name>going_b_to_c</name>
+<label kind="invariant">Cpolice&lt;=5</label>
+</location>
+<location id="going_c_to_b"> 
+<name>going_c_to_b</name>			
+<label kind="invariant">Cpolice&lt;=5</label>
+</location>
+ 
+<location id="going_o_to_n">
+<name>going_o_to_n</name>
+<label kind="invariant">Cpolice&lt;=5</label>
+</location>
+<location id="going_n_to_o"> 
+<name>going_n_to_o</name>			
+<label kind="invariant">Cpolice&lt;=5</label>
+</location>
+ 
+<location id="going_c_to_d">
+<name>going_c_to_d</name>
+<label kind="invariant">Cpolice&lt;=4</label>
+</location>
+<location id="going_d_to_c"> 
+<name>going_d_to_c</name>			
+<label kind="invariant">Cpolice&lt;=4</label>
+</location>
+ 
+<location id="going_n_to_m">
+<name>going_n_to_m</name>
+<label kind="invariant">Cpolice&lt;=4</label>
+</location>
+<location id="going_m_to_n"> 
+<name>going_m_to_n</name>			
+<label kind="invariant">Cpolice&lt;=4</label>
+</location>
+ 
+<location id="going_d_to_e">
+<name>going_d_to_e</name>
+<label kind="invariant">Cpolice&lt;=5</label>
+</location>
+<location id="going_e_to_d"> 
+<name>going_e_to_d</name>			
+<label kind="invariant">Cpolice&lt;=5</label>
+</location>
+ 
+<location id="going_m_to_i">
+<name>going_m_to_i</name>
+<label kind="invariant">Cpolice&lt;=5</label>
+</location>
+<location id="going_i_to_m"> 
+<name>going_i_to_m</name>			
+<label kind="invariant">Cpolice&lt;=5</label>
+</location>
+ 
+<location id="going_d_to_f">
+<name>going_d_to_f</name>
+<label kind="invariant">Cpolice&lt;=10</label>
+</location>
+<location id="going_f_to_d"> 
+<name>going_f_to_d</name>			
+<label kind="invariant">Cpolice&lt;=10</label>
+</location>
+ 
+<location id="going_m_to_l">
+<name>going_m_to_l</name>
+<label kind="invariant">Cpolice&lt;=10</label>
+</location>
+<location id="going_l_to_m"> 
+<name>going_l_to_m</name>			
+<label kind="invariant">Cpolice&lt;=10</label>
+</location>
+ 
+<location id="going_f_to_g">
+<name>going_f_to_g</name>
+<label kind="invariant">Cpolice&lt;=5</label>
+</location>
+<location id="going_g_to_f"> 
+<name>going_g_to_f</name>			
+<label kind="invariant">Cpolice&lt;=5</label>
+</location>
+ 
+<location id="going_l_to_h">
+<name>going_l_to_h</name>
+<label kind="invariant">Cpolice&lt;=5</label>
+</location>
+<location id="going_h_to_l"> 
+<name>going_h_to_l</name>			
+<label kind="invariant">Cpolice&lt;=5</label>
+</location>
+ 
+<location id="going_e_to_g">
+<name>going_e_to_g</name>
+<label kind="invariant">Cpolice&lt;=10</label>
+</location>
+<location id="going_g_to_e"> 
+<name>going_g_to_e</name>			
+<label kind="invariant">Cpolice&lt;=10</label>
+</location>
+ 
+<location id="going_i_to_h">
+<name>going_i_to_h</name>
+<label kind="invariant">Cpolice&lt;=10</label>
+</location>
+<location id="going_h_to_i"> 
+<name>going_h_to_i</name>			
+<label kind="invariant">Cpolice&lt;=10</label>
+</location>
+ 
+		
+	//location for durable actions (just one if it's locations specic and/or the agent isn't mobile )
+					
+		
+		
+		
+	//initial location id is passed
+	<init ref = "a"/>	
+	
+	
+	
+	
+	//transitions
+	//movement transitions
+<transition>
+<source ref="a"/>
+<target ref="going_a_to_p"/>
+<label kind="synchronisation">police_a2p!</label>
+<label kind="guard">Cpolice &gt; 1</label>
+<label kind="assignment">Ppolice = -114,  Cpolice= 0</label>
+</transition>
+ 
+<transition>
+<source ref="going_a_to_p"/>
+<target ref="p"/>
+<label kind="guard">Cpolice &gt; 11</label>
+<label kind="assignment">Ppolice = 14,  Cpolice= 0</label>
+</transition>
+ 
+<transition>
+<source ref="p"/>
+<target ref="going_p_to_a"/>
+<label kind="synchronisation">police_p2a!</label>
+<label kind="guard">Cpolice &gt; 1</label>
+<label kind="assignment"> Ppolice = -141,  Cpolice= 0</label>
+</transition>
+ 
+<transition>
+<source ref="going_p_to_a"/>
+<target ref="a"/>
+<label kind="guard">Cpolice&gt;11</label>
+<label kind="assignment">Ppolice = 1,  Cpolice= 0</label>
+</transition>
+<transition>
+<source ref="g"/>
+<target ref="going_g_to_h"/>
+<label kind="synchronisation">police_g2h!</label>
+<label kind="guard">Cpolice &gt; 1</label>
+<label kind="assignment">Ppolice = -78,  Cpolice= 0</label>
+</transition>
+ 
+<transition>
+<source ref="going_g_to_h"/>
+<target ref="h"/>
+<label kind="guard">Cpolice &gt; 11</label>
+<label kind="assignment">Ppolice = 8,  Cpolice= 0</label>
+</transition>
+ 
+<transition>
+<source ref="h"/>
+<target ref="going_h_to_g"/>
+<label kind="synchronisation">police_h2g!</label>
+<label kind="guard">Cpolice &gt; 1</label>
+<label kind="assignment"> Ppolice = -87,  Cpolice= 0</label>
+</transition>
+ 
+<transition>
+<source ref="going_h_to_g"/>
+<target ref="g"/>
+<label kind="guard">Cpolice&gt;11</label>
+<label kind="assignment">Ppolice = 7,  Cpolice= 0</label>
+</transition>
+<transition>
+<source ref="c"/>
+<target ref="going_c_to_n"/>
+<label kind="synchronisation">police_c2n!</label>
+<label kind="guard">Cpolice &gt; 1</label>
+<label kind="assignment">Ppolice = -312,  Cpolice= 0</label>
+</transition>
+ 
+<transition>
+<source ref="going_c_to_n"/>
+<target ref="n"/>
+<label kind="guard">Cpolice &gt; 16</label>
+<label kind="assignment">Ppolice = 12,  Cpolice= 0</label>
+</transition>
+ 
+<transition>
+<source ref="n"/>
+<target ref="going_n_to_c"/>
+<label kind="synchronisation">police_n2c!</label>
+<label kind="guard">Cpolice &gt; 1</label>
+<label kind="assignment"> Ppolice = -123,  Cpolice= 0</label>
+</transition>
+ 
+<transition>
+<source ref="going_n_to_c"/>
+<target ref="c"/>
+<label kind="guard">Cpolice&gt;16</label>
+<label kind="assignment">Ppolice = 3,  Cpolice= 0</label>
+</transition>
+<transition>
+<source ref="a"/>
+<target ref="going_a_to_b"/>
+<label kind="synchronisation">police_a2b!</label>
+<label kind="guard">Cpolice &gt; 1</label>
+<label kind="assignment">Ppolice = -12,  Cpolice= 0</label>
+</transition>
+ 
+<transition>
+<source ref="going_a_to_b"/>
+<target ref="b"/>
+<label kind="guard">Cpolice &gt; 10</label>
+<label kind="assignment">Ppolice = 2,  Cpolice= 0</label>
+</transition>
+ 
+<transition>
+<source ref="b"/>
+<target ref="going_b_to_a"/>
+<label kind="synchronisation">police_b2a!</label>
+<label kind="guard">Cpolice &gt; 1</label>
+<label kind="assignment"> Ppolice = -21,  Cpolice= 0</label>
+</transition>
+ 
+<transition>
+<source ref="going_b_to_a"/>
+<target ref="a"/>
+<label kind="guard">Cpolice&gt;10</label>
+<label kind="assignment">Ppolice = 1,  Cpolice= 0</label>
+</transition>
+<transition>
+<source ref="p"/>
+<target ref="going_p_to_o"/>
+<label kind="synchronisation">police_p2o!</label>
+<label kind="guard">Cpolice &gt; 1</label>
+<label kind="assignment">Ppolice = -1413,  Cpolice= 0</label>
+</transition>
+ 
+<transition>
+<source ref="going_p_to_o"/>
+<target ref="o"/>
+<label kind="guard">Cpolice &gt; 10</label>
+<label kind="assignment">Ppolice = 13,  Cpolice= 0</label>
+</transition>
+ 
+<transition>
+<source ref="o"/>
+<target ref="going_o_to_p"/>
+<label kind="synchronisation">police_o2p!</label>
+<label kind="guard">Cpolice &gt; 1</label>
+<label kind="assignment"> Ppolice = -1314,  Cpolice= 0</label>
+</transition>
+ 
+<transition>
+<source ref="going_o_to_p"/>
+<target ref="p"/>
+<label kind="guard">Cpolice&gt;10</label>
+<label kind="assignment">Ppolice = 14,  Cpolice= 0</label>
+</transition>
+<transition>
+<source ref="b"/>
+<target ref="going_b_to_c"/>
+<label kind="synchronisation">police_b2c!</label>
+<label kind="guard">Cpolice &gt; 1</label>
+<label kind="assignment">Ppolice = -23,  Cpolice= 0</label>
+</transition>
+ 
+<transition>
+<source ref="going_b_to_c"/>
+<target ref="c"/>
+<label kind="guard">Cpolice &gt; 4</label>
+<label kind="assignment">Ppolice = 3,  Cpolice= 0</label>
+</transition>
+ 
+<transition>
+<source ref="c"/>
+<target ref="going_c_to_b"/>
+<label kind="synchronisation">police_c2b!</label>
+<label kind="guard">Cpolice &gt; 1</label>
+<label kind="assignment"> Ppolice = -32,  Cpolice= 0</label>
+</transition>
+ 
+<transition>
+<source ref="going_c_to_b"/>
+<target ref="b"/>
+<label kind="guard">Cpolice&gt;4</label>
+<label kind="assignment">Ppolice = 2,  Cpolice= 0</label>
+</transition>
+<transition>
+<source ref="o"/>
+<target ref="going_o_to_n"/>
+<label kind="synchronisation">police_o2n!</label>
+<label kind="guard">Cpolice &gt; 1</label>
+<label kind="assignment">Ppolice = -1312,  Cpolice= 0</label>
+</transition>
+ 
+<transition>
+<source ref="going_o_to_n"/>
+<target ref="n"/>
+<label kind="guard">Cpolice &gt; 4</label>
+<label kind="assignment">Ppolice = 12,  Cpolice= 0</label>
+</transition>
+ 
+<transition>
+<source ref="n"/>
+<target ref="going_n_to_o"/>
+<label kind="synchronisation">police_n2o!</label>
+<label kind="guard">Cpolice &gt; 1</label>
+<label kind="assignment"> Ppolice = -1213,  Cpolice= 0</label>
+</transition>
+ 
+<transition>
+<source ref="going_n_to_o"/>
+<target ref="o"/>
+<label kind="guard">Cpolice&gt;4</label>
+<label kind="assignment">Ppolice = 13,  Cpolice= 0</label>
+</transition>
+<transition>
+<source ref="c"/>
+<target ref="going_c_to_d"/>
+<label kind="synchronisation">police_c2d!</label>
+<label kind="guard">Cpolice &gt; 1</label>
+<label kind="assignment">Ppolice = -34,  Cpolice= 0</label>
+</transition>
+ 
+<transition>
+<source ref="going_c_to_d"/>
+<target ref="d"/>
+<label kind="guard">Cpolice &gt; 3</label>
+<label kind="assignment">Ppolice = 4,  Cpolice= 0</label>
+</transition>
+ 
+<transition>
+<source ref="d"/>
+<target ref="going_d_to_c"/>
+<label kind="synchronisation">police_d2c!</label>
+<label kind="guard">Cpolice &gt; 1</label>
+<label kind="assignment"> Ppolice = -43,  Cpolice= 0</label>
+</transition>
+ 
+<transition>
+<source ref="going_d_to_c"/>
+<target ref="c"/>
+<label kind="guard">Cpolice&gt;3</label>
+<label kind="assignment">Ppolice = 3,  Cpolice= 0</label>
+</transition>
+<transition>
+<source ref="n"/>
+<target ref="going_n_to_m"/>
+<label kind="synchronisation">police_n2m!</label>
+<label kind="guard">Cpolice &gt; 1</label>
+<label kind="assignment">Ppolice = -1211,  Cpolice= 0</label>
+</transition>
+ 
+<transition>
+<source ref="going_n_to_m"/>
+<target ref="m"/>
+<label kind="guard">Cpolice &gt; 3</label>
+<label kind="assignment">Ppolice = 11,  Cpolice= 0</label>
+</transition>
+ 
+<transition>
+<source ref="m"/>
+<target ref="going_m_to_n"/>
+<label kind="synchronisation">police_m2n!</label>
+<label kind="guard">Cpolice &gt; 1</label>
+<label kind="assignment"> Ppolice = -1112,  Cpolice= 0</label>
+</transition>
+ 
+<transition>
+<source ref="going_m_to_n"/>
+<target ref="n"/>
+<label kind="guard">Cpolice&gt;3</label>
+<label kind="assignment">Ppolice = 12,  Cpolice= 0</label>
+</transition>
+<transition>
+<source ref="d"/>
+<target ref="going_d_to_e"/>
+<label kind="synchronisation">police_d2e!</label>
+<label kind="guard">Cpolice &gt; 1</label>
+<label kind="assignment">Ppolice = -45,  Cpolice= 0</label>
+</transition>
+ 
+<transition>
+<source ref="going_d_to_e"/>
+<target ref="e"/>
+<label kind="guard">Cpolice &gt; 4</label>
+<label kind="assignment">Ppolice = 5,  Cpolice= 0</label>
+</transition>
+ 
+<transition>
+<source ref="e"/>
+<target ref="going_e_to_d"/>
+<label kind="synchronisation">police_e2d!</label>
+<label kind="guard">Cpolice &gt; 1</label>
+<label kind="assignment"> Ppolice = -54,  Cpolice= 0</label>
+</transition>
+ 
+<transition>
+<source ref="going_e_to_d"/>
+<target ref="d"/>
+<label kind="guard">Cpolice&gt;4</label>
+<label kind="assignment">Ppolice = 4,  Cpolice= 0</label>
+</transition>
+<transition>
+<source ref="m"/>
+<target ref="going_m_to_i"/>
+<label kind="synchronisation">police_m2i!</label>
+<label kind="guard">Cpolice &gt; 1</label>
+<label kind="assignment">Ppolice = -119,  Cpolice= 0</label>
+</transition>
+ 
+<transition>
+<source ref="going_m_to_i"/>
+<target ref="i"/>
+<label kind="guard">Cpolice &gt; 4</label>
+<label kind="assignment">Ppolice = 9,  Cpolice= 0</label>
+</transition>
+ 
+<transition>
+<source ref="i"/>
+<target ref="going_i_to_m"/>
+<label kind="synchronisation">police_i2m!</label>
+<label kind="guard">Cpolice &gt; 1</label>
+<label kind="assignment"> Ppolice = -911,  Cpolice= 0</label>
+</transition>
+ 
+<transition>
+<source ref="going_i_to_m"/>
+<target ref="m"/>
+<label kind="guard">Cpolice&gt;4</label>
+<label kind="assignment">Ppolice = 11,  Cpolice= 0</label>
+</transition>
+<transition>
+<source ref="d"/>
+<target ref="going_d_to_f"/>
+<label kind="synchronisation">police_d2f!</label>
+<label kind="guard">Cpolice &gt; 1</label>
+<label kind="assignment">Ppolice = -46,  Cpolice= 0</label>
+</transition>
+ 
+<transition>
+<source ref="going_d_to_f"/>
+<target ref="f"/>
+<label kind="guard">Cpolice &gt; 9</label>
+<label kind="assignment">Ppolice = 6,  Cpolice= 0</label>
+</transition>
+ 
+<transition>
+<source ref="f"/>
+<target ref="going_f_to_d"/>
+<label kind="synchronisation">police_f2d!</label>
+<label kind="guard">Cpolice &gt; 1</label>
+<label kind="assignment"> Ppolice = -64,  Cpolice= 0</label>
+</transition>
+ 
+<transition>
+<source ref="going_f_to_d"/>
+<target ref="d"/>
+<label kind="guard">Cpolice&gt;9</label>
+<label kind="assignment">Ppolice = 4,  Cpolice= 0</label>
+</transition>
+<transition>
+<source ref="m"/>
+<target ref="going_m_to_l"/>
+<label kind="synchronisation">police_m2l!</label>
+<label kind="guard">Cpolice &gt; 1</label>
+<label kind="assignment">Ppolice = -1110,  Cpolice= 0</label>
+</transition>
+ 
+<transition>
+<source ref="going_m_to_l"/>
+<target ref="l"/>
+<label kind="guard">Cpolice &gt; 9</label>
+<label kind="assignment">Ppolice = 10,  Cpolice= 0</label>
+</transition>
+ 
+<transition>
+<source ref="l"/>
+<target ref="going_l_to_m"/>
+<label kind="synchronisation">police_l2m!</label>
+<label kind="guard">Cpolice &gt; 1</label>
+<label kind="assignment"> Ppolice = -1011,  Cpolice= 0</label>
+</transition>
+ 
+<transition>
+<source ref="going_l_to_m"/>
+<target ref="m"/>
+<label kind="guard">Cpolice&gt;9</label>
+<label kind="assignment">Ppolice = 11,  Cpolice= 0</label>
+</transition>
+<transition>
+<source ref="f"/>
+<target ref="going_f_to_g"/>
+<label kind="synchronisation">police_f2g!</label>
+<label kind="guard">Cpolice &gt; 1</label>
+<label kind="assignment">Ppolice = -67,  Cpolice= 0</label>
+</transition>
+ 
+<transition>
+<source ref="going_f_to_g"/>
+<target ref="g"/>
+<label kind="guard">Cpolice &gt; 4</label>
+<label kind="assignment">Ppolice = 7,  Cpolice= 0</label>
+</transition>
+ 
+<transition>
+<source ref="g"/>
+<target ref="going_g_to_f"/>
+<label kind="synchronisation">police_g2f!</label>
+<label kind="guard">Cpolice &gt; 1</label>
+<label kind="assignment"> Ppolice = -76,  Cpolice= 0</label>
+</transition>
+ 
+<transition>
+<source ref="going_g_to_f"/>
+<target ref="f"/>
+<label kind="guard">Cpolice&gt;4</label>
+<label kind="assignment">Ppolice = 6,  Cpolice= 0</label>
+</transition>
+<transition>
+<source ref="l"/>
+<target ref="going_l_to_h"/>
+<label kind="synchronisation">police_l2h!</label>
+<label kind="guard">Cpolice &gt; 1</label>
+<label kind="assignment">Ppolice = -108,  Cpolice= 0</label>
+</transition>
+ 
+<transition>
+<source ref="going_l_to_h"/>
+<target ref="h"/>
+<label kind="guard">Cpolice &gt; 4</label>
+<label kind="assignment">Ppolice = 8,  Cpolice= 0</label>
+</transition>
+ 
+<transition>
+<source ref="h"/>
+<target ref="going_h_to_l"/>
+<label kind="synchronisation">police_h2l!</label>
+<label kind="guard">Cpolice &gt; 1</label>
+<label kind="assignment"> Ppolice = -810,  Cpolice= 0</label>
+</transition>
+ 
+<transition>
+<source ref="going_h_to_l"/>
+<target ref="l"/>
+<label kind="guard">Cpolice&gt;4</label>
+<label kind="assignment">Ppolice = 10,  Cpolice= 0</label>
+</transition>
+<transition>
+<source ref="e"/>
+<target ref="going_e_to_g"/>
+<label kind="synchronisation">police_e2g!</label>
+<label kind="guard">Cpolice &gt; 1</label>
+<label kind="assignment">Ppolice = -57,  Cpolice= 0</label>
+</transition>
+ 
+<transition>
+<source ref="going_e_to_g"/>
+<target ref="g"/>
+<label kind="guard">Cpolice &gt; 9</label>
+<label kind="assignment">Ppolice = 7,  Cpolice= 0</label>
+</transition>
+ 
+<transition>
+<source ref="g"/>
+<target ref="going_g_to_e"/>
+<label kind="synchronisation">police_g2e!</label>
+<label kind="guard">Cpolice &gt; 1</label>
+<label kind="assignment"> Ppolice = -75,  Cpolice= 0</label>
+</transition>
+ 
+<transition>
+<source ref="going_g_to_e"/>
+<target ref="e"/>
+<label kind="guard">Cpolice&gt;9</label>
+<label kind="assignment">Ppolice = 5,  Cpolice= 0</label>
+</transition>
+<transition>
+<source ref="i"/>
+<target ref="going_i_to_h"/>
+<label kind="synchronisation">police_i2h!</label>
+<label kind="guard">Cpolice &gt; 1</label>
+<label kind="assignment">Ppolice = -98,  Cpolice= 0</label>
+</transition>
+ 
+<transition>
+<source ref="going_i_to_h"/>
+<target ref="h"/>
+<label kind="guard">Cpolice &gt; 9</label>
+<label kind="assignment">Ppolice = 8,  Cpolice= 0</label>
+</transition>
+ 
+<transition>
+<source ref="h"/>
+<target ref="going_h_to_i"/>
+<label kind="synchronisation">police_h2i!</label>
+<label kind="guard">Cpolice &gt; 1</label>
+<label kind="assignment"> Ppolice = -89,  Cpolice= 0</label>
+</transition>
+ 
+<transition>
+<source ref="going_h_to_i"/>
+<target ref="i"/>
+<label kind="guard">Cpolice&gt;9</label>
+<label kind="assignment">Ppolice = 9,  Cpolice= 0</label>
+</transition>
+		
+	//action transitions
+	//BUG : if an action si collaborative but nobody can react to it, the action will be always allowed
+	
+
+
+<transition>
+<source ref="a"/>
+<target ref="a"/>
+<label kind="synchronisation">catch!</label>
+<label kind="assignment"> Cpolice =0 </label>
+<label kind="guard">Cpolice &gt; 1 &amp;&amp; (Pthief==1)  </label>
+</transition>
+ 
+
+<transition>
+<source ref="b"/>
+<target ref="b"/>
+<label kind="synchronisation">catch!</label>
+<label kind="assignment"> Cpolice =0 </label>
+<label kind="guard">Cpolice &gt; 1 &amp;&amp; (Pthief==2)  </label>
+</transition>
+ 
+
+<transition>
+<source ref="c"/>
+<target ref="c"/>
+<label kind="synchronisation">catch!</label>
+<label kind="assignment"> Cpolice =0 </label>
+<label kind="guard">Cpolice &gt; 1 &amp;&amp; (Pthief==3)  </label>
+</transition>
+ 
+
+<transition>
+<source ref="d"/>
+<target ref="d"/>
+<label kind="synchronisation">catch!</label>
+<label kind="assignment"> Cpolice =0 </label>
+<label kind="guard">Cpolice &gt; 1 &amp;&amp; (Pthief==4)  </label>
+</transition>
+ 
+
+<transition>
+<source ref="e"/>
+<target ref="e"/>
+<label kind="synchronisation">catch!</label>
+<label kind="assignment"> Cpolice =0 </label>
+<label kind="guard">Cpolice &gt; 1 &amp;&amp; (Pthief==5)  </label>
+</transition>
+ 
+
+<transition>
+<source ref="f"/>
+<target ref="f"/>
+<label kind="synchronisation">catch!</label>
+<label kind="assignment"> Cpolice =0 </label>
+<label kind="guard">Cpolice &gt; 1 &amp;&amp; (Pthief==6)  </label>
+</transition>
+ 
+
+<transition>
+<source ref="g"/>
+<target ref="g"/>
+<label kind="synchronisation">catch!</label>
+<label kind="assignment"> Cpolice =0 </label>
+<label kind="guard">Cpolice &gt; 1 &amp;&amp; (Pthief==7)  </label>
+</transition>
+ 
+
+<transition>
+<source ref="h"/>
+<target ref="h"/>
+<label kind="synchronisation">catch!</label>
+<label kind="assignment"> Cpolice =0 </label>
+<label kind="guard">Cpolice &gt; 1 &amp;&amp; (Pthief==8)  </label>
+</transition>
+ 
+
+<transition>
+<source ref="i"/>
+<target ref="i"/>
+<label kind="synchronisation">catch!</label>
+<label kind="assignment"> Cpolice =0 </label>
+<label kind="guard">Cpolice &gt; 1 &amp;&amp; (Pthief==9)  </label>
+</transition>
+ 
+
+<transition>
+<source ref="l"/>
+<target ref="l"/>
+<label kind="synchronisation">catch!</label>
+<label kind="assignment"> Cpolice =0 </label>
+<label kind="guard">Cpolice &gt; 1 &amp;&amp; (Pthief==10)  </label>
+</transition>
+ 
+
+<transition>
+<source ref="m"/>
+<target ref="m"/>
+<label kind="synchronisation">catch!</label>
+<label kind="assignment"> Cpolice =0 </label>
+<label kind="guard">Cpolice &gt; 1 &amp;&amp; (Pthief==11)  </label>
+</transition>
+ 
+
+<transition>
+<source ref="n"/>
+<target ref="n"/>
+<label kind="synchronisation">catch!</label>
+<label kind="assignment"> Cpolice =0 </label>
+<label kind="guard">Cpolice &gt; 1 &amp;&amp; (Pthief==12)  </label>
+</transition>
+ 
+
+<transition>
+<source ref="o"/>
+<target ref="o"/>
+<label kind="synchronisation">catch!</label>
+<label kind="assignment"> Cpolice =0 </label>
+<label kind="guard">Cpolice &gt; 1 &amp;&amp; (Pthief==13)  </label>
+</transition>
+ 
+
+<transition>
+<source ref="p"/>
+<target ref="p"/>
+<label kind="synchronisation">catch!</label>
+<label kind="assignment"> Cpolice =0 </label>
+<label kind="guard">Cpolice &gt; 1 &amp;&amp; (Pthief==14)  </label>
+</transition>
+ 
+<transition>
+<source ref="going_a_to_p"/>
+<target ref="going_a_to_p"/>
+<label kind="synchronisation">catch!</label>
+<label kind="guard">Cpolice &gt; 0 &amp;&amp; (Pthief==-141)  </label>
+</transition>
+
+<transition>
+<source ref="going_p_to_a"/>
+<target ref="going_p_to_a"/>
+<label kind="synchronisation">catch!</label>
+<label kind="guard">Cpolice &gt; 0 &amp;&amp; (Pthief==-114)  </label>
+</transition>
+<transition>
+<source ref="going_g_to_h"/>
+<target ref="going_g_to_h"/>
+<label kind="synchronisation">catch!</label>
+<label kind="guard">Cpolice &gt; 0 &amp;&amp; (Pthief==-87)  </label>
+</transition>
+
+<transition>
+<source ref="going_h_to_g"/>
+<target ref="going_h_to_g"/>
+<label kind="synchronisation">catch!</label>
+<label kind="guard">Cpolice &gt; 0 &amp;&amp; (Pthief==-78)  </label>
+</transition>
+<transition>
+<source ref="going_c_to_n"/>
+<target ref="going_c_to_n"/>
+<label kind="synchronisation">catch!</label>
+<label kind="guard">Cpolice &gt; 0 &amp;&amp; (Pthief==-123)  </label>
+</transition>
+
+<transition>
+<source ref="going_n_to_c"/>
+<target ref="going_n_to_c"/>
+<label kind="synchronisation">catch!</label>
+<label kind="guard">Cpolice &gt; 0 &amp;&amp; (Pthief==-312)  </label>
+</transition>
+<transition>
+<source ref="going_a_to_b"/>
+<target ref="going_a_to_b"/>
+<label kind="synchronisation">catch!</label>
+<label kind="guard">Cpolice &gt; 0 &amp;&amp; (Pthief==-21)  </label>
+</transition>
+
+<transition>
+<source ref="going_b_to_a"/>
+<target ref="going_b_to_a"/>
+<label kind="synchronisation">catch!</label>
+<label kind="guard">Cpolice &gt; 0 &amp;&amp; (Pthief==-12)  </label>
+</transition>
+<transition>
+<source ref="going_p_to_o"/>
+<target ref="going_p_to_o"/>
+<label kind="synchronisation">catch!</label>
+<label kind="guard">Cpolice &gt; 0 &amp;&amp; (Pthief==-1314)  </label>
+</transition>
+
+<transition>
+<source ref="going_o_to_p"/>
+<target ref="going_o_to_p"/>
+<label kind="synchronisation">catch!</label>
+<label kind="guard">Cpolice &gt; 0 &amp;&amp; (Pthief==-1413)  </label>
+</transition>
+<transition>
+<source ref="going_b_to_c"/>
+<target ref="going_b_to_c"/>
+<label kind="synchronisation">catch!</label>
+<label kind="guard">Cpolice &gt; 0 &amp;&amp; (Pthief==-32)  </label>
+</transition>
+
+<transition>
+<source ref="going_c_to_b"/>
+<target ref="going_c_to_b"/>
+<label kind="synchronisation">catch!</label>
+<label kind="guard">Cpolice &gt; 0 &amp;&amp; (Pthief==-23)  </label>
+</transition>
+<transition>
+<source ref="going_o_to_n"/>
+<target ref="going_o_to_n"/>
+<label kind="synchronisation">catch!</label>
+<label kind="guard">Cpolice &gt; 0 &amp;&amp; (Pthief==-1213)  </label>
+</transition>
+
+<transition>
+<source ref="going_n_to_o"/>
+<target ref="going_n_to_o"/>
+<label kind="synchronisation">catch!</label>
+<label kind="guard">Cpolice &gt; 0 &amp;&amp; (Pthief==-1312)  </label>
+</transition>
+<transition>
+<source ref="going_c_to_d"/>
+<target ref="going_c_to_d"/>
+<label kind="synchronisation">catch!</label>
+<label kind="guard">Cpolice &gt; 0 &amp;&amp; (Pthief==-43)  </label>
+</transition>
+
+<transition>
+<source ref="going_d_to_c"/>
+<target ref="going_d_to_c"/>
+<label kind="synchronisation">catch!</label>
+<label kind="guard">Cpolice &gt; 0 &amp;&amp; (Pthief==-34)  </label>
+</transition>
+<transition>
+<source ref="going_n_to_m"/>
+<target ref="going_n_to_m"/>
+<label kind="synchronisation">catch!</label>
+<label kind="guard">Cpolice &gt; 0 &amp;&amp; (Pthief==-1112)  </label>
+</transition>
+
+<transition>
+<source ref="going_m_to_n"/>
+<target ref="going_m_to_n"/>
+<label kind="synchronisation">catch!</label>
+<label kind="guard">Cpolice &gt; 0 &amp;&amp; (Pthief==-1211)  </label>
+</transition>
+<transition>
+<source ref="going_d_to_e"/>
+<target ref="going_d_to_e"/>
+<label kind="synchronisation">catch!</label>
+<label kind="guard">Cpolice &gt; 0 &amp;&amp; (Pthief==-54)  </label>
+</transition>
+
+<transition>
+<source ref="going_e_to_d"/>
+<target ref="going_e_to_d"/>
+<label kind="synchronisation">catch!</label>
+<label kind="guard">Cpolice &gt; 0 &amp;&amp; (Pthief==-45)  </label>
+</transition>
+<transition>
+<source ref="going_m_to_i"/>
+<target ref="going_m_to_i"/>
+<label kind="synchronisation">catch!</label>
+<label kind="guard">Cpolice &gt; 0 &amp;&amp; (Pthief==-911)  </label>
+</transition>
+
+<transition>
+<source ref="going_i_to_m"/>
+<target ref="going_i_to_m"/>
+<label kind="synchronisation">catch!</label>
+<label kind="guard">Cpolice &gt; 0 &amp;&amp; (Pthief==-119)  </label>
+</transition>
+<transition>
+<source ref="going_d_to_f"/>
+<target ref="going_d_to_f"/>
+<label kind="synchronisation">catch!</label>
+<label kind="guard">Cpolice &gt; 0 &amp;&amp; (Pthief==-64)  </label>
+</transition>
+
+<transition>
+<source ref="going_f_to_d"/>
+<target ref="going_f_to_d"/>
+<label kind="synchronisation">catch!</label>
+<label kind="guard">Cpolice &gt; 0 &amp;&amp; (Pthief==-46)  </label>
+</transition>
+<transition>
+<source ref="going_m_to_l"/>
+<target ref="going_m_to_l"/>
+<label kind="synchronisation">catch!</label>
+<label kind="guard">Cpolice &gt; 0 &amp;&amp; (Pthief==-1011)  </label>
+</transition>
+
+<transition>
+<source ref="going_l_to_m"/>
+<target ref="going_l_to_m"/>
+<label kind="synchronisation">catch!</label>
+<label kind="guard">Cpolice &gt; 0 &amp;&amp; (Pthief==-1110)  </label>
+</transition>
+<transition>
+<source ref="going_f_to_g"/>
+<target ref="going_f_to_g"/>
+<label kind="synchronisation">catch!</label>
+<label kind="guard">Cpolice &gt; 0 &amp;&amp; (Pthief==-76)  </label>
+</transition>
+
+<transition>
+<source ref="going_g_to_f"/>
+<target ref="going_g_to_f"/>
+<label kind="synchronisation">catch!</label>
+<label kind="guard">Cpolice &gt; 0 &amp;&amp; (Pthief==-67)  </label>
+</transition>
+<transition>
+<source ref="going_l_to_h"/>
+<target ref="going_l_to_h"/>
+<label kind="synchronisation">catch!</label>
+<label kind="guard">Cpolice &gt; 0 &amp;&amp; (Pthief==-810)  </label>
+</transition>
+
+<transition>
+<source ref="going_h_to_l"/>
+<target ref="going_h_to_l"/>
+<label kind="synchronisation">catch!</label>
+<label kind="guard">Cpolice &gt; 0 &amp;&amp; (Pthief==-108)  </label>
+</transition>
+<transition>
+<source ref="going_e_to_g"/>
+<target ref="going_e_to_g"/>
+<label kind="synchronisation">catch!</label>
+<label kind="guard">Cpolice &gt; 0 &amp;&amp; (Pthief==-75)  </label>
+</transition>
+
+<transition>
+<source ref="going_g_to_e"/>
+<target ref="going_g_to_e"/>
+<label kind="synchronisation">catch!</label>
+<label kind="guard">Cpolice &gt; 0 &amp;&amp; (Pthief==-57)  </label>
+</transition>
+<transition>
+<source ref="going_i_to_h"/>
+<target ref="going_i_to_h"/>
+<label kind="synchronisation">catch!</label>
+<label kind="guard">Cpolice &gt; 0 &amp;&amp; (Pthief==-89)  </label>
+</transition>
+
+<transition>
+<source ref="going_h_to_i"/>
+<target ref="going_h_to_i"/>
+<label kind="synchronisation">catch!</label>
+<label kind="guard">Cpolice &gt; 0 &amp;&amp; (Pthief==-98)  </label>
+</transition>
+					
+		
+		
+		
+	</template>		
+	 
+		
+	<template>
+	<name>thief</name>
+	 
+	//no local declarations used
+	 
+	//LOCATIONS
+	//nota: sto dando stesso ID a location su agneti diversi, spero non lo mandi a male
+	//se lo user non definisce connesssioni tra tutte le location lui non smatta
+<location id="a"> 
+<name>a</name>
+</location>
+<location id="b"> 
+<name>b</name>
+</location>
+<location id="c"> 
+<name>c</name>
+</location>
+<location id="d"> 
+<name>d</name>
+</location>
+<location id="e"> 
+<name>e</name>
+</location>
+<location id="f"> 
+<name>f</name>
+</location>
+<location id="g"> 
+<name>g</name>
+</location>
+<location id="h"> 
+<name>h</name>
+</location>
+<location id="i"> 
+<name>i</name>
+</location>
+<location id="l"> 
+<name>l</name>
+</location>
+<location id="m"> 
+<name>m</name>
+</location>
+<location id="n"> 
+<name>n</name>
+</location>
+<location id="o"> 
+<name>o</name>
+</location>
+<location id="p"> 
+<name>p</name>
+</location>
+		
+//transitional locations
+<location id="going_a_to_p">
+<name>going_a_to_p</name>
+<label kind="invariant">Cthief&lt;=23</label>
+</location>
+<location id="going_p_to_a"> 
+<name>going_p_to_a</name>			
+<label kind="invariant">Cthief&lt;=23</label>
+</location>
+ 
+<location id="going_g_to_h">
+<name>going_g_to_h</name>
+<label kind="invariant">Cthief&lt;=23</label>
+</location>
+<location id="going_h_to_g"> 
+<name>going_h_to_g</name>			
+<label kind="invariant">Cthief&lt;=23</label>
+</location>
+ 
+<location id="going_c_to_n">
+<name>going_c_to_n</name>
+<label kind="invariant">Cthief&lt;=33</label>
+</location>
+<location id="going_n_to_c"> 
+<name>going_n_to_c</name>			
+<label kind="invariant">Cthief&lt;=33</label>
+</location>
+ 
+<location id="going_a_to_b">
+<name>going_a_to_b</name>
+<label kind="invariant">Cthief&lt;=21</label>
+</location>
+<location id="going_b_to_a"> 
+<name>going_b_to_a</name>			
+<label kind="invariant">Cthief&lt;=21</label>
+</location>
+ 
+<location id="going_p_to_o">
+<name>going_p_to_o</name>
+<label kind="invariant">Cthief&lt;=21</label>
+</location>
+<location id="going_o_to_p"> 
+<name>going_o_to_p</name>			
+<label kind="invariant">Cthief&lt;=21</label>
+</location>
+ 
+<location id="going_b_to_c">
+<name>going_b_to_c</name>
+<label kind="invariant">Cthief&lt;=9</label>
+</location>
+<location id="going_c_to_b"> 
+<name>going_c_to_b</name>			
+<label kind="invariant">Cthief&lt;=9</label>
+</location>
+ 
+<location id="going_o_to_n">
+<name>going_o_to_n</name>
+<label kind="invariant">Cthief&lt;=9</label>
+</location>
+<location id="going_n_to_o"> 
+<name>going_n_to_o</name>			
+<label kind="invariant">Cthief&lt;=9</label>
+</location>
+ 
+<location id="going_c_to_d">
+<name>going_c_to_d</name>
+<label kind="invariant">Cthief&lt;=7</label>
+</location>
+<location id="going_d_to_c"> 
+<name>going_d_to_c</name>			
+<label kind="invariant">Cthief&lt;=7</label>
+</location>
+ 
+<location id="going_n_to_m">
+<name>going_n_to_m</name>
+<label kind="invariant">Cthief&lt;=7</label>
+</location>
+<location id="going_m_to_n"> 
+<name>going_m_to_n</name>			
+<label kind="invariant">Cthief&lt;=7</label>
+</location>
+ 
+<location id="going_d_to_e">
+<name>going_d_to_e</name>
+<label kind="invariant">Cthief&lt;=9</label>
+</location>
+<location id="going_e_to_d"> 
+<name>going_e_to_d</name>			
+<label kind="invariant">Cthief&lt;=9</label>
+</location>
+ 
+<location id="going_m_to_i">
+<name>going_m_to_i</name>
+<label kind="invariant">Cthief&lt;=9</label>
+</location>
+<location id="going_i_to_m"> 
+<name>going_i_to_m</name>			
+<label kind="invariant">Cthief&lt;=9</label>
+</location>
+ 
+<location id="going_d_to_f">
+<name>going_d_to_f</name>
+<label kind="invariant">Cthief&lt;=19</label>
+</location>
+<location id="going_f_to_d"> 
+<name>going_f_to_d</name>			
+<label kind="invariant">Cthief&lt;=19</label>
+</location>
+ 
+<location id="going_m_to_l">
+<name>going_m_to_l</name>
+<label kind="invariant">Cthief&lt;=19</label>
+</location>
+<location id="going_l_to_m"> 
+<name>going_l_to_m</name>			
+<label kind="invariant">Cthief&lt;=19</label>
+</location>
+ 
+<location id="going_f_to_g">
+<name>going_f_to_g</name>
+<label kind="invariant">Cthief&lt;=9</label>
+</location>
+<location id="going_g_to_f"> 
+<name>going_g_to_f</name>			
+<label kind="invariant">Cthief&lt;=9</label>
+</location>
+ 
+<location id="going_l_to_h">
+<name>going_l_to_h</name>
+<label kind="invariant">Cthief&lt;=9</label>
+</location>
+<location id="going_h_to_l"> 
+<name>going_h_to_l</name>			
+<label kind="invariant">Cthief&lt;=9</label>
+</location>
+ 
+<location id="going_e_to_g">
+<name>going_e_to_g</name>
+<label kind="invariant">Cthief&lt;=19</label>
+</location>
+<location id="going_g_to_e"> 
+<name>going_g_to_e</name>			
+<label kind="invariant">Cthief&lt;=19</label>
+</location>
+ 
+<location id="going_i_to_h">
+<name>going_i_to_h</name>
+<label kind="invariant">Cthief&lt;=19</label>
+</location>
+<location id="going_h_to_i"> 
+<name>going_h_to_i</name>			
+<label kind="invariant">Cthief&lt;=19</label>
+</location>
+ 
+		
+	//location for durable actions (just one if it's locations specic and/or the agent isn't mobile )
+					
+		
+		
+		
+	//initial location id is passed
+	<init ref = "h"/>	
+	
+	
+	
+	
+	//transitions
+	//movement transitions
+<transition controllable="false" >
+<source ref="a"/>
+<target ref="going_a_to_p"/>
+<label kind="synchronisation">thief_a2p!</label>
+<label kind="guard">Cthief &gt; 1</label>
+<label kind="assignment">Pthief = -114,  Cthief= 0</label>
+</transition>
+ 
+<transition controllable="false" >
+<source ref="going_a_to_p"/>
+<target ref="p"/>
+<label kind="guard">Cthief &gt; 22</label>
+<label kind="assignment">Pthief = 14,  Cthief= 0</label>
+</transition>
+ 
+<transition controllable="false" >
+<source ref="p"/>
+<target ref="going_p_to_a"/>
+<label kind="synchronisation">thief_p2a!</label>
+<label kind="guard">Cthief &gt; 1</label>
+<label kind="assignment"> Pthief = -141,  Cthief= 0</label>
+</transition>
+ 
+<transition controllable="false" >
+<source ref="going_p_to_a"/>
+<target ref="a"/>
+<label kind="guard">Cthief&gt;22</label>
+<label kind="assignment">Pthief = 1,  Cthief= 0</label>
+</transition>
+<transition controllable="false" >
+<source ref="g"/>
+<target ref="going_g_to_h"/>
+<label kind="synchronisation">thief_g2h!</label>
+<label kind="guard">Cthief &gt; 1</label>
+<label kind="assignment">Pthief = -78,  Cthief= 0</label>
+</transition>
+ 
+<transition controllable="false" >
+<source ref="going_g_to_h"/>
+<target ref="h"/>
+<label kind="guard">Cthief &gt; 22</label>
+<label kind="assignment">Pthief = 8,  Cthief= 0</label>
+</transition>
+ 
+<transition controllable="false" >
+<source ref="h"/>
+<target ref="going_h_to_g"/>
+<label kind="synchronisation">thief_h2g!</label>
+<label kind="guard">Cthief &gt; 1</label>
+<label kind="assignment"> Pthief = -87,  Cthief= 0</label>
+</transition>
+ 
+<transition controllable="false" >
+<source ref="going_h_to_g"/>
+<target ref="g"/>
+<label kind="guard">Cthief&gt;22</label>
+<label kind="assignment">Pthief = 7,  Cthief= 0</label>
+</transition>
+<transition controllable="false" >
+<source ref="c"/>
+<target ref="going_c_to_n"/>
+<label kind="synchronisation">thief_c2n!</label>
+<label kind="guard">Cthief &gt; 1</label>
+<label kind="assignment">Pthief = -312,  Cthief= 0</label>
+</transition>
+ 
+<transition controllable="false" >
+<source ref="going_c_to_n"/>
+<target ref="n"/>
+<label kind="guard">Cthief &gt; 32</label>
+<label kind="assignment">Pthief = 12,  Cthief= 0</label>
+</transition>
+ 
+<transition controllable="false" >
+<source ref="n"/>
+<target ref="going_n_to_c"/>
+<label kind="synchronisation">thief_n2c!</label>
+<label kind="guard">Cthief &gt; 1</label>
+<label kind="assignment"> Pthief = -123,  Cthief= 0</label>
+</transition>
+ 
+<transition controllable="false" >
+<source ref="going_n_to_c"/>
+<target ref="c"/>
+<label kind="guard">Cthief&gt;32</label>
+<label kind="assignment">Pthief = 3,  Cthief= 0</label>
+</transition>
+<transition controllable="false" >
+<source ref="a"/>
+<target ref="going_a_to_b"/>
+<label kind="synchronisation">thief_a2b!</label>
+<label kind="guard">Cthief &gt; 1</label>
+<label kind="assignment">Pthief = -12,  Cthief= 0</label>
+</transition>
+ 
+<transition controllable="false" >
+<source ref="going_a_to_b"/>
+<target ref="b"/>
+<label kind="guard">Cthief &gt; 20</label>
+<label kind="assignment">Pthief = 2,  Cthief= 0</label>
+</transition>
+ 
+<transition controllable="false" >
+<source ref="b"/>
+<target ref="going_b_to_a"/>
+<label kind="synchronisation">thief_b2a!</label>
+<label kind="guard">Cthief &gt; 1</label>
+<label kind="assignment"> Pthief = -21,  Cthief= 0</label>
+</transition>
+ 
+<transition controllable="false" >
+<source ref="going_b_to_a"/>
+<target ref="a"/>
+<label kind="guard">Cthief&gt;20</label>
+<label kind="assignment">Pthief = 1,  Cthief= 0</label>
+</transition>
+<transition controllable="false" >
+<source ref="p"/>
+<target ref="going_p_to_o"/>
+<label kind="synchronisation">thief_p2o!</label>
+<label kind="guard">Cthief &gt; 1</label>
+<label kind="assignment">Pthief = -1413,  Cthief= 0</label>
+</transition>
+ 
+<transition controllable="false" >
+<source ref="going_p_to_o"/>
+<target ref="o"/>
+<label kind="guard">Cthief &gt; 20</label>
+<label kind="assignment">Pthief = 13,  Cthief= 0</label>
+</transition>
+ 
+<transition controllable="false" >
+<source ref="o"/>
+<target ref="going_o_to_p"/>
+<label kind="synchronisation">thief_o2p!</label>
+<label kind="guard">Cthief &gt; 1</label>
+<label kind="assignment"> Pthief = -1314,  Cthief= 0</label>
+</transition>
+ 
+<transition controllable="false" >
+<source ref="going_o_to_p"/>
+<target ref="p"/>
+<label kind="guard">Cthief&gt;20</label>
+<label kind="assignment">Pthief = 14,  Cthief= 0</label>
+</transition>
+<transition controllable="false" >
+<source ref="b"/>
+<target ref="going_b_to_c"/>
+<label kind="synchronisation">thief_b2c!</label>
+<label kind="guard">Cthief &gt; 1</label>
+<label kind="assignment">Pthief = -23,  Cthief= 0</label>
+</transition>
+ 
+<transition controllable="false" >
+<source ref="going_b_to_c"/>
+<target ref="c"/>
+<label kind="guard">Cthief &gt; 8</label>
+<label kind="assignment">Pthief = 3,  Cthief= 0</label>
+</transition>
+ 
+<transition controllable="false" >
+<source ref="c"/>
+<target ref="going_c_to_b"/>
+<label kind="synchronisation">thief_c2b!</label>
+<label kind="guard">Cthief &gt; 1</label>
+<label kind="assignment"> Pthief = -32,  Cthief= 0</label>
+</transition>
+ 
+<transition controllable="false" >
+<source ref="going_c_to_b"/>
+<target ref="b"/>
+<label kind="guard">Cthief&gt;8</label>
+<label kind="assignment">Pthief = 2,  Cthief= 0</label>
+</transition>
+<transition controllable="false" >
+<source ref="o"/>
+<target ref="going_o_to_n"/>
+<label kind="synchronisation">thief_o2n!</label>
+<label kind="guard">Cthief &gt; 1</label>
+<label kind="assignment">Pthief = -1312,  Cthief= 0</label>
+</transition>
+ 
+<transition controllable="false" >
+<source ref="going_o_to_n"/>
+<target ref="n"/>
+<label kind="guard">Cthief &gt; 8</label>
+<label kind="assignment">Pthief = 12,  Cthief= 0</label>
+</transition>
+ 
+<transition controllable="false" >
+<source ref="n"/>
+<target ref="going_n_to_o"/>
+<label kind="synchronisation">thief_n2o!</label>
+<label kind="guard">Cthief &gt; 1</label>
+<label kind="assignment"> Pthief = -1213,  Cthief= 0</label>
+</transition>
+ 
+<transition controllable="false" >
+<source ref="going_n_to_o"/>
+<target ref="o"/>
+<label kind="guard">Cthief&gt;8</label>
+<label kind="assignment">Pthief = 13,  Cthief= 0</label>
+</transition>
+<transition controllable="false" >
+<source ref="c"/>
+<target ref="going_c_to_d"/>
+<label kind="synchronisation">thief_c2d!</label>
+<label kind="guard">Cthief &gt; 1</label>
+<label kind="assignment">Pthief = -34,  Cthief= 0</label>
+</transition>
+ 
+<transition controllable="false" >
+<source ref="going_c_to_d"/>
+<target ref="d"/>
+<label kind="guard">Cthief &gt; 6</label>
+<label kind="assignment">Pthief = 4,  Cthief= 0</label>
+</transition>
+ 
+<transition controllable="false" >
+<source ref="d"/>
+<target ref="going_d_to_c"/>
+<label kind="synchronisation">thief_d2c!</label>
+<label kind="guard">Cthief &gt; 1</label>
+<label kind="assignment"> Pthief = -43,  Cthief= 0</label>
+</transition>
+ 
+<transition controllable="false" >
+<source ref="going_d_to_c"/>
+<target ref="c"/>
+<label kind="guard">Cthief&gt;6</label>
+<label kind="assignment">Pthief = 3,  Cthief= 0</label>
+</transition>
+<transition controllable="false" >
+<source ref="n"/>
+<target ref="going_n_to_m"/>
+<label kind="synchronisation">thief_n2m!</label>
+<label kind="guard">Cthief &gt; 1</label>
+<label kind="assignment">Pthief = -1211,  Cthief= 0</label>
+</transition>
+ 
+<transition controllable="false" >
+<source ref="going_n_to_m"/>
+<target ref="m"/>
+<label kind="guard">Cthief &gt; 6</label>
+<label kind="assignment">Pthief = 11,  Cthief= 0</label>
+</transition>
+ 
+<transition controllable="false" >
+<source ref="m"/>
+<target ref="going_m_to_n"/>
+<label kind="synchronisation">thief_m2n!</label>
+<label kind="guard">Cthief &gt; 1</label>
+<label kind="assignment"> Pthief = -1112,  Cthief= 0</label>
+</transition>
+ 
+<transition controllable="false" >
+<source ref="going_m_to_n"/>
+<target ref="n"/>
+<label kind="guard">Cthief&gt;6</label>
+<label kind="assignment">Pthief = 12,  Cthief= 0</label>
+</transition>
+<transition controllable="false" >
+<source ref="d"/>
+<target ref="going_d_to_e"/>
+<label kind="synchronisation">thief_d2e!</label>
+<label kind="guard">Cthief &gt; 1</label>
+<label kind="assignment">Pthief = -45,  Cthief= 0</label>
+</transition>
+ 
+<transition controllable="false" >
+<source ref="going_d_to_e"/>
+<target ref="e"/>
+<label kind="guard">Cthief &gt; 8</label>
+<label kind="assignment">Pthief = 5,  Cthief= 0</label>
+</transition>
+ 
+<transition controllable="false" >
+<source ref="e"/>
+<target ref="going_e_to_d"/>
+<label kind="synchronisation">thief_e2d!</label>
+<label kind="guard">Cthief &gt; 1</label>
+<label kind="assignment"> Pthief = -54,  Cthief= 0</label>
+</transition>
+ 
+<transition controllable="false" >
+<source ref="going_e_to_d"/>
+<target ref="d"/>
+<label kind="guard">Cthief&gt;8</label>
+<label kind="assignment">Pthief = 4,  Cthief= 0</label>
+</transition>
+<transition controllable="false" >
+<source ref="m"/>
+<target ref="going_m_to_i"/>
+<label kind="synchronisation">thief_m2i!</label>
+<label kind="guard">Cthief &gt; 1</label>
+<label kind="assignment">Pthief = -119,  Cthief= 0</label>
+</transition>
+ 
+<transition controllable="false" >
+<source ref="going_m_to_i"/>
+<target ref="i"/>
+<label kind="guard">Cthief &gt; 8</label>
+<label kind="assignment">Pthief = 9,  Cthief= 0</label>
+</transition>
+ 
+<transition controllable="false" >
+<source ref="i"/>
+<target ref="going_i_to_m"/>
+<label kind="synchronisation">thief_i2m!</label>
+<label kind="guard">Cthief &gt; 1</label>
+<label kind="assignment"> Pthief = -911,  Cthief= 0</label>
+</transition>
+ 
+<transition controllable="false" >
+<source ref="going_i_to_m"/>
+<target ref="m"/>
+<label kind="guard">Cthief&gt;8</label>
+<label kind="assignment">Pthief = 11,  Cthief= 0</label>
+</transition>
+<transition controllable="false" >
+<source ref="d"/>
+<target ref="going_d_to_f"/>
+<label kind="synchronisation">thief_d2f!</label>
+<label kind="guard">Cthief &gt; 1</label>
+<label kind="assignment">Pthief = -46,  Cthief= 0</label>
+</transition>
+ 
+<transition controllable="false" >
+<source ref="going_d_to_f"/>
+<target ref="f"/>
+<label kind="guard">Cthief &gt; 18</label>
+<label kind="assignment">Pthief = 6,  Cthief= 0</label>
+</transition>
+ 
+<transition controllable="false" >
+<source ref="f"/>
+<target ref="going_f_to_d"/>
+<label kind="synchronisation">thief_f2d!</label>
+<label kind="guard">Cthief &gt; 1</label>
+<label kind="assignment"> Pthief = -64,  Cthief= 0</label>
+</transition>
+ 
+<transition controllable="false" >
+<source ref="going_f_to_d"/>
+<target ref="d"/>
+<label kind="guard">Cthief&gt;18</label>
+<label kind="assignment">Pthief = 4,  Cthief= 0</label>
+</transition>
+<transition controllable="false" >
+<source ref="m"/>
+<target ref="going_m_to_l"/>
+<label kind="synchronisation">thief_m2l!</label>
+<label kind="guard">Cthief &gt; 1</label>
+<label kind="assignment">Pthief = -1110,  Cthief= 0</label>
+</transition>
+ 
+<transition controllable="false" >
+<source ref="going_m_to_l"/>
+<target ref="l"/>
+<label kind="guard">Cthief &gt; 18</label>
+<label kind="assignment">Pthief = 10,  Cthief= 0</label>
+</transition>
+ 
+<transition controllable="false" >
+<source ref="l"/>
+<target ref="going_l_to_m"/>
+<label kind="synchronisation">thief_l2m!</label>
+<label kind="guard">Cthief &gt; 1</label>
+<label kind="assignment"> Pthief = -1011,  Cthief= 0</label>
+</transition>
+ 
+<transition controllable="false" >
+<source ref="going_l_to_m"/>
+<target ref="m"/>
+<label kind="guard">Cthief&gt;18</label>
+<label kind="assignment">Pthief = 11,  Cthief= 0</label>
+</transition>
+<transition controllable="false" >
+<source ref="f"/>
+<target ref="going_f_to_g"/>
+<label kind="synchronisation">thief_f2g!</label>
+<label kind="guard">Cthief &gt; 1</label>
+<label kind="assignment">Pthief = -67,  Cthief= 0</label>
+</transition>
+ 
+<transition controllable="false" >
+<source ref="going_f_to_g"/>
+<target ref="g"/>
+<label kind="guard">Cthief &gt; 8</label>
+<label kind="assignment">Pthief = 7,  Cthief= 0</label>
+</transition>
+ 
+<transition controllable="false" >
+<source ref="g"/>
+<target ref="going_g_to_f"/>
+<label kind="synchronisation">thief_g2f!</label>
+<label kind="guard">Cthief &gt; 1</label>
+<label kind="assignment"> Pthief = -76,  Cthief= 0</label>
+</transition>
+ 
+<transition controllable="false" >
+<source ref="going_g_to_f"/>
+<target ref="f"/>
+<label kind="guard">Cthief&gt;8</label>
+<label kind="assignment">Pthief = 6,  Cthief= 0</label>
+</transition>
+<transition controllable="false" >
+<source ref="l"/>
+<target ref="going_l_to_h"/>
+<label kind="synchronisation">thief_l2h!</label>
+<label kind="guard">Cthief &gt; 1</label>
+<label kind="assignment">Pthief = -108,  Cthief= 0</label>
+</transition>
+ 
+<transition controllable="false" >
+<source ref="going_l_to_h"/>
+<target ref="h"/>
+<label kind="guard">Cthief &gt; 8</label>
+<label kind="assignment">Pthief = 8,  Cthief= 0</label>
+</transition>
+ 
+<transition controllable="false" >
+<source ref="h"/>
+<target ref="going_h_to_l"/>
+<label kind="synchronisation">thief_h2l!</label>
+<label kind="guard">Cthief &gt; 1</label>
+<label kind="assignment"> Pthief = -810,  Cthief= 0</label>
+</transition>
+ 
+<transition controllable="false" >
+<source ref="going_h_to_l"/>
+<target ref="l"/>
+<label kind="guard">Cthief&gt;8</label>
+<label kind="assignment">Pthief = 10,  Cthief= 0</label>
+</transition>
+<transition controllable="false" >
+<source ref="e"/>
+<target ref="going_e_to_g"/>
+<label kind="synchronisation">thief_e2g!</label>
+<label kind="guard">Cthief &gt; 1</label>
+<label kind="assignment">Pthief = -57,  Cthief= 0</label>
+</transition>
+ 
+<transition controllable="false" >
+<source ref="going_e_to_g"/>
+<target ref="g"/>
+<label kind="guard">Cthief &gt; 18</label>
+<label kind="assignment">Pthief = 7,  Cthief= 0</label>
+</transition>
+ 
+<transition controllable="false" >
+<source ref="g"/>
+<target ref="going_g_to_e"/>
+<label kind="synchronisation">thief_g2e!</label>
+<label kind="guard">Cthief &gt; 1</label>
+<label kind="assignment"> Pthief = -75,  Cthief= 0</label>
+</transition>
+ 
+<transition controllable="false" >
+<source ref="going_g_to_e"/>
+<target ref="e"/>
+<label kind="guard">Cthief&gt;18</label>
+<label kind="assignment">Pthief = 5,  Cthief= 0</label>
+</transition>
+<transition controllable="false" >
+<source ref="i"/>
+<target ref="going_i_to_h"/>
+<label kind="synchronisation">thief_i2h!</label>
+<label kind="guard">Cthief &gt; 1</label>
+<label kind="assignment">Pthief = -98,  Cthief= 0</label>
+</transition>
+ 
+<transition controllable="false" >
+<source ref="going_i_to_h"/>
+<target ref="h"/>
+<label kind="guard">Cthief &gt; 18</label>
+<label kind="assignment">Pthief = 8,  Cthief= 0</label>
+</transition>
+ 
+<transition controllable="false" >
+<source ref="h"/>
+<target ref="going_h_to_i"/>
+<label kind="synchronisation">thief_h2i!</label>
+<label kind="guard">Cthief &gt; 1</label>
+<label kind="assignment"> Pthief = -89,  Cthief= 0</label>
+</transition>
+ 
+<transition controllable="false" >
+<source ref="going_h_to_i"/>
+<target ref="i"/>
+<label kind="guard">Cthief&gt;18</label>
+<label kind="assignment">Pthief = 9,  Cthief= 0</label>
+</transition>
+		
+	//action transitions
+	//BUG : if an action si collaborative but nobody can react to it, the action will be always allowed
+	
+					
+		
+		
+		
+	</template>		
+	 
+		
+
+
+
+	
+objectives
+
+<template>
+<name>reachObj</name>
+//locations
+
+<location id = "initial_location">
+<name>initial_location</name>
+</location>
+<location id = "unlocked">
+</location>
+<location id = "win">
+<name>win</name>
+</location>
+ 
+<init ref = "initial_location"/>	
+ 
+//transitions
+<transition>
+<source ref="initial_location"/>
+<target ref="unlocked"/>
+<label kind = "guard">Creach &gt; 0</label>
+</transition>	
+
+<transition>
+<source ref="unlocked"/>
+<target ref="win"/>
+<label kind="synchronisation">catch?</label>
+</transition>
+
+</template>
+
+	//in questo momento bugga se non ci sono regole
+	<system>
+	system  police, thief ,reachObj  ;
+	
+	
+	
+	</system>
+
+	
+	</nta>

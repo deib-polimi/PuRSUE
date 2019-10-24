@@ -1,0 +1,19 @@
+//locations
+poi "station"
+
+//events
+
+event "newBox" 
+event "pickUpBox" location station duration 2
+event "screw" location station duration 10
+event "putDownBox" location station duration 2
+
+//rules
+rule "workFlow": (newBox before pickUpBox ) before (screw  before putDownBox )
+
+//agents 
+agent "bot" controllable location station can_do pickUpBox, screw, putDownBox
+agent "human" location station can_do pickUpBox, screw, putDownBox, newBox
+
+//objectives 
+objective: if newBox then putDownBox within 30

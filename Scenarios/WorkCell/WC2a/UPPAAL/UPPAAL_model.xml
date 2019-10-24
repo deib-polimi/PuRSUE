@@ -1,0 +1,600 @@
+	<nta>
+	<declaration>
+	//events
+	//actions
+	broadcast chan newBox, pickUpBoxR1, pickUpBoxR1DONE , pickUpBoxH, pickUpBoxHDONE , screwR1, screwR1DONE , screwH, screwHDONE , putDownBoxR1, putDownBoxR1DONE , putDownBoxH, putDownBoxHDONE , done;
+	
+	//assuzione che initial state per ogni rule è sempre a index zero quandi si crea, dovrebbe essere coso
+	//nota concettuale importante: mentre per le posizioni uso come sono ordinate nella definizione, erl e regole uso come le ordino io nel crearle
+	int PworkFlow=0, PpickUp1=0, PpickUpH=0;
+	//Agents
+	//nota: rule and agents can't have the same name
+	clock Cbot, Chuman;
+	//tutte le volta che si prendono gli indici delle location, si shiftano di uno, così no c'è la location zero, e quindi non c'è nemmeno lo stato -0 che manda tutto in merda
+	int Pbot=1, Phuman=1;
+	int SbusyR1=0, SbusyH=0;
+	//Objective
+	
+	clock Cobj;
+	</declaration>
+	 
+	 
+	 
+	 
+	automata_declaration
+	
+	state_updater
+	<template>
+	<name>states</name>
+	<location id="base">
+	<name>base</name>
+	</location>
+	<init ref = "base"/>	
+	<transition>
+	<source ref="base"/>
+	<target ref="base"/>
+	<label kind="synchronisation">pickUpBoxR1?</label>
+	<label kind="assignment">SbusyR1=1</label>
+	</transition>
+	<transition>
+	<source ref="base"/>
+	<target ref="base"/>
+	<label kind="synchronisation">putDownBoxR1?</label>
+	<label kind="assignment">SbusyR1=0</label>
+	</transition>
+	<transition>
+	<source ref="base"/>
+	<target ref="base"/>
+	<label kind="synchronisation">pickUpBoxH?</label>
+	<label kind="assignment">SbusyH=1</label>
+	</transition>
+	<transition>
+	<source ref="base"/>
+	<target ref="base"/>
+	<label kind="synchronisation">putDownBoxH?</label>
+	<label kind="assignment">SbusyH=0</label>
+	</transition>
+	</template>
+	
+	
+	rules
+			
+
+					
+		<template>
+		<name>workFlow</name>
+		//states declarions
+		<location id="workFlow_initial_location">
+		</location>
+		
+		<location id="workFlow2ff">
+		</location>
+		<location id="workFlow3ffs_fir_doing_pickUpBoxR1">
+		</location>
+		
+		<location id="workFlow3ffs_sec_doing_pickUpBoxH">
+		</location>
+		
+		<location id="workFlow1f">
+		</location>
+		<location id="workFlow2fs_fir_doing_screwR1">
+		</location>
+		
+		<location id="workFlow2fs_sec_doing_screwH">
+		</location>
+		<location id="workFlow0">
+		</location>
+		
+		<location id="workFlow2sf_fir_doing_putDownBoxR1">
+		</location>
+		
+		<location id="workFlow2sf_sec_doing_putDownBoxH">
+		</location>
+		
+		<location id="workFlow1s">
+		</location>
+		<init ref = "workFlow_initial_location"/>	
+		//transitions
+		
+		
+		
+		
+		
+		
+		
+		<transition>
+		<source ref="workFlow_initial_location"/>
+		<target ref="workFlow2ff"/>
+		<label kind="synchronisation">newBox?</label>
+		<label kind="assignment">PworkFlow = 1</label>
+		</transition>			
+		
+		
+		
+		
+		<transition>
+		<source ref="workFlow2ff"/>
+		<target ref="workFlow3ffs_fir_doing_pickUpBoxR1"/>
+		<label kind="synchronisation">pickUpBoxR1?</label>
+		<label kind="assignment">PworkFlow = 2</label>
+		</transition>	
+		<transition>
+		<source ref="workFlow3ffs_fir_doing_pickUpBoxR1"/>
+		<target ref="workFlow1f"/>
+		<label kind="synchronisation">pickUpBoxR1DONE?</label>
+		<label kind="assignment">PworkFlow = 4</label>
+		</transition>			
+		
+		<transition>
+		<source ref="workFlow2ff"/>
+		<target ref="workFlow3ffs_sec_doing_pickUpBoxH"/>
+		<label kind="synchronisation">pickUpBoxH?</label>
+		<label kind="assignment">PworkFlow = 3</label>
+		</transition>	
+		<transition>
+		<source ref="workFlow3ffs_sec_doing_pickUpBoxH"/>
+		<target ref="workFlow1f"/>
+		<label kind="synchronisation">pickUpBoxHDONE?</label>
+		<label kind="assignment">PworkFlow = 4</label>
+		</transition>			
+		
+		
+		
+		
+		
+		<transition>
+		<source ref="workFlow1f"/>
+		<target ref="workFlow2fs_fir_doing_screwR1"/>
+		<label kind="synchronisation">screwR1?</label>
+		<label kind="assignment">PworkFlow = 5</label>
+		</transition>	
+		<transition>
+		<source ref="workFlow2fs_fir_doing_screwR1"/>
+		<target ref="workFlow0"/>
+		<label kind="synchronisation">screwR1DONE?</label>
+		<label kind="assignment">PworkFlow = 7</label>
+		</transition>			
+		
+		<transition>
+		<source ref="workFlow1f"/>
+		<target ref="workFlow2fs_sec_doing_screwH"/>
+		<label kind="synchronisation">screwH?</label>
+		<label kind="assignment">PworkFlow = 6</label>
+		</transition>	
+		<transition>
+		<source ref="workFlow2fs_sec_doing_screwH"/>
+		<target ref="workFlow0"/>
+		<label kind="synchronisation">screwHDONE?</label>
+		<label kind="assignment">PworkFlow = 7</label>
+		</transition>			
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		<transition>
+		<source ref="workFlow0"/>
+		<target ref="workFlow2sf_fir_doing_putDownBoxR1"/>
+		<label kind="synchronisation">putDownBoxR1?</label>
+		<label kind="assignment">PworkFlow = 8</label>
+		</transition>	
+		<transition>
+		<source ref="workFlow2sf_fir_doing_putDownBoxR1"/>
+		<target ref="workFlow1s"/>
+		<label kind="synchronisation">putDownBoxR1DONE?</label>
+		<label kind="assignment">PworkFlow = 10</label>
+		</transition>			
+		
+		<transition>
+		<source ref="workFlow0"/>
+		<target ref="workFlow2sf_sec_doing_putDownBoxH"/>
+		<label kind="synchronisation">putDownBoxH?</label>
+		<label kind="assignment">PworkFlow = 9</label>
+		</transition>	
+		<transition>
+		<source ref="workFlow2sf_sec_doing_putDownBoxH"/>
+		<target ref="workFlow1s"/>
+		<label kind="synchronisation">putDownBoxHDONE?</label>
+		<label kind="assignment">PworkFlow = 10</label>
+		</transition>			
+		
+		
+		<transition>
+		<source ref="workFlow1s"/>
+		<target ref="workFlow_initial_location"/>
+		<label kind="synchronisation">done?</label>
+		<label kind="assignment">PworkFlow = 0</label>
+		</transition>			
+		</template>
+			
+
+					
+		<template>
+		<name>pickUp1</name>
+		//states declarions
+		<location id="pickUp1_initial_location">
+		</location>
+		<location id="pickUp10f_doing_pickUpBoxR1">
+		</location>
+		<location id="pickUp10">
+		</location>
+		
+		<location id="pickUp10s_doing_putDownBoxR1">
+		</location>
+		<init ref = "pickUp1_initial_location"/>	
+		//transitions
+		
+		
+		
+		<transition>
+		<source ref="pickUp1_initial_location"/>
+		<target ref="pickUp10f_doing_pickUpBoxR1"/>
+		<label kind="synchronisation">pickUpBoxR1?</label>
+		<label kind="assignment">PpickUp1 = 1</label>
+		</transition>	
+		<transition>
+		<source ref="pickUp10f_doing_pickUpBoxR1"/>
+		<target ref="pickUp10"/>
+		<label kind="synchronisation">pickUpBoxR1DONE?</label>
+		<label kind="assignment">PpickUp1 = 2</label>
+		</transition>		
+		
+		
+		
+		<transition>
+		<source ref="pickUp10"/>
+		<target ref="pickUp10s_doing_putDownBoxR1"/>
+		<label kind="synchronisation">putDownBoxR1?</label>
+		<label kind="assignment">PpickUp1 = 3</label>
+		</transition>	
+		<transition>
+		<source ref="pickUp10s_doing_putDownBoxR1"/>
+		<target ref="pickUp1_initial_location"/>
+		<label kind="synchronisation">putDownBoxR1DONE?</label>
+		<label kind="assignment">PpickUp1 = 0</label>
+		</transition>	
+		</template>
+			
+
+					
+		<template>
+		<name>pickUpH</name>
+		//states declarions
+		<location id="pickUpH_initial_location">
+		</location>
+		<location id="pickUpH0f_doing_pickUpBoxH">
+		</location>
+		<location id="pickUpH0">
+		</location>
+		
+		<location id="pickUpH0s_doing_putDownBoxH">
+		</location>
+		<init ref = "pickUpH_initial_location"/>	
+		//transitions
+		
+		
+		
+		<transition>
+		<source ref="pickUpH_initial_location"/>
+		<target ref="pickUpH0f_doing_pickUpBoxH"/>
+		<label kind="synchronisation">pickUpBoxH?</label>
+		<label kind="assignment">PpickUpH = 1</label>
+		</transition>	
+		<transition>
+		<source ref="pickUpH0f_doing_pickUpBoxH"/>
+		<target ref="pickUpH0"/>
+		<label kind="synchronisation">pickUpBoxHDONE?</label>
+		<label kind="assignment">PpickUpH = 2</label>
+		</transition>		
+		
+		
+		
+		<transition>
+		<source ref="pickUpH0"/>
+		<target ref="pickUpH0s_doing_putDownBoxH"/>
+		<label kind="synchronisation">putDownBoxH?</label>
+		<label kind="assignment">PpickUpH = 3</label>
+		</transition>	
+		<transition>
+		<source ref="pickUpH0s_doing_putDownBoxH"/>
+		<target ref="pickUpH_initial_location"/>
+		<label kind="synchronisation">putDownBoxHDONE?</label>
+		<label kind="assignment">PpickUpH = 0</label>
+		</transition>	
+		</template>
+agents
+	<template>
+	<name>bot</name>
+	 
+	//no local declarations used
+	 
+	//LOCATIONS
+	//nota: sto dando stesso ID a location su agneti diversi, spero non lo mandi a male
+	//se lo user non definisce connesssioni tra tutte le location lui non smatta
+<location id = "station">
+<name>station</name>
+</location>
+ 
+		
+	//location for durable actions (just one if it's locations specic and/or the agent isn't mobile )
+<location id = "doing_pickUpBoxR1_in_station">
+<name>doing_pickUpBoxR1_in_station</name>
+<label kind="invariant">Cbot&lt;=3</label>
+</location>
+		
+<location id = "doing_screwR1_in_station">
+<name>doing_screwR1_in_station</name>
+<label kind="invariant">Cbot&lt;=11</label>
+</location>
+		
+<location id = "doing_putDownBoxR1_in_station">
+<name>doing_putDownBoxR1_in_station</name>
+<label kind="invariant">Cbot&lt;=3</label>
+</location>
+		
+					
+		
+		
+		
+	//initial location id is passed
+	<init ref = "station"/>	
+	
+	
+	
+	
+	//transitions
+	//movement transitions
+		
+	//action transitions
+	//BUG : if an action si collaborative but nobody can react to it, the action will be always allowed
+	
+<transition>
+<source ref="station"/>
+<target ref="doing_pickUpBoxR1_in_station"/>
+<label kind="synchronisation">pickUpBoxR1!</label>
+<label kind="assignment"> Cbot =0,Pbot=-11 </label>
+<label kind="guard">Cbot &gt; 1 &amp;&amp;    ( PworkFlow==1 )  &amp;&amp;  ( PpickUp1==0 ) </label>
+</transition>
+ 
+<transition>
+<source ref="doing_pickUpBoxR1_in_station"/>
+<target ref="station"/>
+<label kind="synchronisation">pickUpBoxR1DONE!</label>
+<label kind="assignment"> Cbot =0, Pbot=1 </label>
+<label kind="guard"> Cbot &gt; 2 &amp;&amp;   ( PworkFlow==2 )  &amp;&amp;  ( PpickUp1==1 ) </label>
+</transition>			
+ 
+
+<transition>
+<source ref="station"/>
+<target ref="doing_screwR1_in_station"/>
+<label kind="synchronisation">screwR1!</label>
+<label kind="assignment"> Cbot =0,Pbot=-11 </label>
+<label kind="guard">Cbot &gt; 1 &amp;&amp;    ( PworkFlow==4 )  &amp;&amp; SbusyR1==0</label>
+</transition>
+ 
+<transition>
+<source ref="doing_screwR1_in_station"/>
+<target ref="station"/>
+<label kind="synchronisation">screwR1DONE!</label>
+<label kind="assignment"> Cbot =0, Pbot=1 </label>
+<label kind="guard"> Cbot &gt; 10 &amp;&amp;   ( PworkFlow==5 ) </label>
+</transition>			
+ 
+
+<transition>
+<source ref="station"/>
+<target ref="doing_putDownBoxR1_in_station"/>
+<label kind="synchronisation">putDownBoxR1!</label>
+<label kind="assignment"> Cbot =0,Pbot=-11 </label>
+<label kind="guard">Cbot &gt; 1 &amp;&amp;    ( PworkFlow==7 )  &amp;&amp;  ( PpickUp1==2 ) </label>
+</transition>
+ 
+<transition>
+<source ref="doing_putDownBoxR1_in_station"/>
+<target ref="station"/>
+<label kind="synchronisation">putDownBoxR1DONE!</label>
+<label kind="assignment"> Cbot =0, Pbot=1 </label>
+<label kind="guard"> Cbot &gt; 2 &amp;&amp;   ( PworkFlow==8 )  &amp;&amp;  ( PpickUp1==3 ) </label>
+</transition>			
+ 
+
+
+<transition>
+<source ref="station"/>
+<target ref="station"/>
+<label kind="synchronisation">done!</label>
+<label kind="assignment"> Cbot =0 </label>
+<label kind="guard">Cbot &gt; 1 &amp;&amp;   ( PworkFlow==10 ) </label>
+</transition>
+ 		
+
+					
+		
+		
+		
+	</template>		
+	 
+		
+	<template>
+	<name>human</name>
+	 
+	//no local declarations used
+	 
+	//LOCATIONS
+	//nota: sto dando stesso ID a location su agneti diversi, spero non lo mandi a male
+	//se lo user non definisce connesssioni tra tutte le location lui non smatta
+<location id = "station">
+<name>station</name>
+</location>
+ 
+		
+	//location for durable actions (just one if it's locations specic and/or the agent isn't mobile )
+<location id = "doing_pickUpBoxH_in_station">
+<name>doing_pickUpBoxH_in_station</name>
+<label kind="invariant">Chuman&lt;=3</label>
+</location>
+		
+<location id = "doing_screwH_in_station">
+<name>doing_screwH_in_station</name>
+<label kind="invariant">Chuman&lt;=11</label>
+</location>
+		
+<location id = "doing_putDownBoxH_in_station">
+<name>doing_putDownBoxH_in_station</name>
+<label kind="invariant">Chuman&lt;=3</label>
+</location>
+		
+					
+		
+		
+		
+	//initial location id is passed
+	<init ref = "station"/>	
+	
+	
+	
+	
+	//transitions
+	//movement transitions
+		
+	//action transitions
+	//BUG : if an action si collaborative but nobody can react to it, the action will be always allowed
+	
+<transition controllable="false" >
+<source ref="station"/>
+<target ref="doing_pickUpBoxH_in_station"/>
+<label kind="synchronisation">pickUpBoxH!</label>
+<label kind="assignment"> Chuman =0,Phuman=-11 </label>
+<label kind="guard">Chuman &gt; 1 &amp;&amp;    ( PworkFlow==1 )  &amp;&amp;  ( PpickUpH==0 ) </label>
+</transition>
+ 
+<transition controllable="false" >
+<source ref="doing_pickUpBoxH_in_station"/>
+<target ref="station"/>
+<label kind="synchronisation">pickUpBoxHDONE!</label>
+<label kind="assignment"> Chuman =0, Phuman=1 </label>
+<label kind="guard"> Chuman &gt; 2 &amp;&amp;   ( PworkFlow==3 )  &amp;&amp;  ( PpickUpH==1 ) </label>
+</transition>			
+ 
+
+<transition controllable="false" >
+<source ref="station"/>
+<target ref="doing_screwH_in_station"/>
+<label kind="synchronisation">screwH!</label>
+<label kind="assignment"> Chuman =0,Phuman=-11 </label>
+<label kind="guard">Chuman &gt; 1 &amp;&amp;    ( PworkFlow==4 )  &amp;&amp; SbusyH==0</label>
+</transition>
+ 
+<transition controllable="false" >
+<source ref="doing_screwH_in_station"/>
+<target ref="station"/>
+<label kind="synchronisation">screwHDONE!</label>
+<label kind="assignment"> Chuman =0, Phuman=1 </label>
+<label kind="guard"> Chuman &gt; 10 &amp;&amp;   ( PworkFlow==6 ) </label>
+</transition>			
+ 
+
+<transition controllable="false" >
+<source ref="station"/>
+<target ref="doing_putDownBoxH_in_station"/>
+<label kind="synchronisation">putDownBoxH!</label>
+<label kind="assignment"> Chuman =0,Phuman=-11 </label>
+<label kind="guard">Chuman &gt; 1 &amp;&amp;    ( PworkFlow==7 )  &amp;&amp;  ( PpickUpH==2 ) </label>
+</transition>
+ 
+<transition controllable="false" >
+<source ref="doing_putDownBoxH_in_station"/>
+<target ref="station"/>
+<label kind="synchronisation">putDownBoxHDONE!</label>
+<label kind="assignment"> Chuman =0, Phuman=1 </label>
+<label kind="guard"> Chuman &gt; 2 &amp;&amp;   ( PworkFlow==9 )  &amp;&amp;  ( PpickUpH==3 ) </label>
+</transition>			
+ 
+
+
+<transition controllable="false" >
+<source ref="station"/>
+<target ref="station"/>
+<label kind="synchronisation">done!</label>
+<label kind="assignment"> Chuman =0 </label>
+<label kind="guard">Chuman &gt; 1 &amp;&amp;   ( PworkFlow==10 ) </label>
+</transition>
+ 		
+
+
+<transition controllable="false" >
+<source ref="station"/>
+<target ref="station"/>
+<label kind="synchronisation">newBox!</label>
+<label kind="assignment"> Chuman =0 </label>
+<label kind="guard">Chuman &gt; 1 &amp;&amp;   ( PworkFlow==0 ) </label>
+</transition>
+ 		
+
+					
+		
+		
+		
+	</template>		
+	 
+		
+
+
+
+	
+objectives
+
+<template>
+<name>obj</name>
+
+//locations declaration
+
+<location id = "idle">
+<name>idle</name>
+</location>
+
+<location id = "lose">
+<name>lose</name>
+</location>		
+
+<location id = "atRisk">
+<name>atRisk</name>
+<label kind="invariant"> Cobj &lt;= 30</label>
+</location>	
+<init ref = "idle"/>	
+	
+//transition declaration
+ 
+<transition>
+<source ref="idle"/>
+<target ref="atRisk"/>
+<label kind="synchronisation">newBox?</label>
+<label kind = "assignment">Cobj = 0</label>
+</transition>
+
+<transition>
+<source ref="atRisk"/>
+<target ref="idle"/>
+<label kind="synchronisation">done?</label>
+</transition>				
+<transition>
+<source ref="atRisk"/>
+<target ref="lose"/>
+</transition>				
+</template>
+
+	//in questo momento bugga se non ci sono regole
+	<system>
+	system states, bot, human, obj , workFlow, pickUp1, pickUpH;
+	
+	
+	
+	</system>
+
+	
+	</nta>

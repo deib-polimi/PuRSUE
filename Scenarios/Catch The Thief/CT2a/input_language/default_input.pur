@@ -1,0 +1,27 @@
+//locations
+poi "a"
+poi "b"
+poi "c"
+poi "d"
+poi "weaponCloset"
+
+//connections  
+connect a and b distance 10
+connect b and c distance 10
+connect c and d distance 10
+connect d and a distance 10
+connect weaponCloset and a distance 3
+
+//events
+event "catch" collaborative
+event "pickUpBaton" location weaponCloset duration 5 
+
+//rule 
+rule "howToCatch": pickUpBaton before catch
+
+//agents (must specify if controllable and/or mobile, initial location actions and reactions)
+agent "police" controllable mobile 1 location a can_do catch, pickUpBaton
+agent "thief" mobile 2 location c reacts_to catch
+
+//objectives (only action reaction within time limit for now
+reach_objective: do catch after 0

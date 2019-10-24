@@ -1,0 +1,1501 @@
+	<nta>
+	<declaration>
+	//events
+	//movements 
+	broadcast chan medBot_a2door1, medBot_door12a, medBot_door12b, medBot_b2door1, medBot_b2door2, medBot_door22b, medBot_door22c, medBot_c2door2, medBot_c2door3, medBot_door32c, medBot_door32d, medBot_d2door3, medBot_d2medicine, medBot_medicine2d, medBot_medicine2a, medBot_a2medicine, stretcher_a2door1, stretcher_door12a, stretcher_door12b, stretcher_b2door1, stretcher_b2door2, stretcher_door22b, stretcher_door22c, stretcher_c2door2, stretcher_c2door3, stretcher_door32c, stretcher_door32d, stretcher_d2door3, stretcher_d2medicine, stretcher_medicine2d, stretcher_medicine2a, stretcher_a2medicine ;
+	//actions
+	broadcast chan giveMedicine1, giveMedicine1DONE , giveMedicine2, giveMedicine2DONE , giveMedicine3, giveMedicine3DONE , takeMedicine, takeMedicineDONE , confirmDelivery, openDoor1, openDoor1DONE , openDoor2, openDoor2DONE , openDoor3, openDoor3DONE , crossRoom, crossRoomDONE , closeDoor1, closeDoor1DONE , closeDoor2, closeDoor2DONE , closeDoor3, closeDoor3DONE ;
+	
+	//assuzione che initial state per ogni rule è sempre a index zero quandi si crea, dovrebbe essere coso
+	//nota concettuale importante: mentre per le posizioni uso come sono ordinate nella definizione, erl e regole uso come le ordino io nel crearle
+	int PnurseBehaviour=0, ProbotTask=0;
+	//Agents
+	//nota: rule and agents can't have the same name
+	clock CmedBot, Cnurse, Cstretcher;
+	//tutte le volta che si prendono gli indici delle location, si shiftano di uno, così no c'è la location zero, e quindi non c'è nemmeno lo stato -0 che manda tutto in merda
+	int PmedBot=6, Pnurse=2, Pstretcher=8;
+	int Sdoor1open=0, Sdoor2open=0, Sdoor3open=0;
+	//Objective
+	
+	clock Creach;
+	</declaration>
+	 
+	 
+	 
+	 
+	automata_declaration
+	state_updater
+	<template>
+	<name>states</name>
+	<location id="base">
+	<name>base</name>
+	</location>
+	<init ref = "base"/>	
+	<transition>
+	<source ref="base"/>
+	<target ref="base"/>
+	<label kind="synchronisation">openDoor1?</label>
+	<label kind="assignment">Sdoor1open=1</label>
+	</transition>
+	<transition>
+	<source ref="base"/>
+	<target ref="base"/>
+	<label kind="synchronisation">closeDoor1?</label>
+	<label kind="assignment">Sdoor1open=0</label>
+	</transition>
+	<transition>
+	<source ref="base"/>
+	<target ref="base"/>
+	<label kind="synchronisation">openDoor2?</label>
+	<label kind="assignment">Sdoor2open=1</label>
+	</transition>
+	<transition>
+	<source ref="base"/>
+	<target ref="base"/>
+	<label kind="synchronisation">closeDoor2?</label>
+	<label kind="assignment">Sdoor2open=0</label>
+	</transition>
+	<transition>
+	<source ref="base"/>
+	<target ref="base"/>
+	<label kind="synchronisation">openDoor3?</label>
+	<label kind="assignment">Sdoor3open=1</label>
+	</transition>
+	<transition>
+	<source ref="base"/>
+	<target ref="base"/>
+	<label kind="synchronisation">closeDoor3?</label>
+	<label kind="assignment">Sdoor3open=0</label>
+	</transition>
+	</template>
+	
+	rules
+			
+
+					
+		<template>
+		<name>nurseBehaviour</name>
+		//states declarions
+		<location id="nurseBehaviour_initial_location">
+		</location>
+		<location id="nurseBehaviour2ff_fir_doing_openDoor1">
+		</location>
+		
+		<location id="nurseBehaviour2ff_sec_doing_openDoor2">
+		</location>
+		
+		<location id="nurseBehaviour1f_sec_doing_openDoor3">
+		</location>
+		<location id="nurseBehaviour0">
+		</location>
+		
+		<location id="nurseBehaviour0s_doing_crossRoom">
+		</location>
+		<init ref = "nurseBehaviour_initial_location"/>	
+		//transitions
+		
+		
+		
+		
+		
+		
+		
+		<transition>
+		<source ref="nurseBehaviour_initial_location"/>
+		<target ref="nurseBehaviour2ff_fir_doing_openDoor1"/>
+		<label kind="synchronisation">openDoor1?</label>
+		<label kind="assignment">PnurseBehaviour = 1</label>
+		</transition>	
+		<transition>
+		<source ref="nurseBehaviour2ff_fir_doing_openDoor1"/>
+		<target ref="nurseBehaviour0"/>
+		<label kind="synchronisation">openDoor1DONE?</label>
+		<label kind="assignment">PnurseBehaviour = 4</label>
+		</transition>			
+		
+		<transition>
+		<source ref="nurseBehaviour_initial_location"/>
+		<target ref="nurseBehaviour2ff_sec_doing_openDoor2"/>
+		<label kind="synchronisation">openDoor2?</label>
+		<label kind="assignment">PnurseBehaviour = 2</label>
+		</transition>	
+		<transition>
+		<source ref="nurseBehaviour2ff_sec_doing_openDoor2"/>
+		<target ref="nurseBehaviour0"/>
+		<label kind="synchronisation">openDoor2DONE?</label>
+		<label kind="assignment">PnurseBehaviour = 4</label>
+		</transition>			
+		
+		
+		<transition>
+		<source ref="nurseBehaviour_initial_location"/>
+		<target ref="nurseBehaviour1f_sec_doing_openDoor3"/>
+		<label kind="synchronisation">openDoor3?</label>
+		<label kind="assignment">PnurseBehaviour = 3</label>
+		</transition>	
+		<transition>
+		<source ref="nurseBehaviour1f_sec_doing_openDoor3"/>
+		<target ref="nurseBehaviour0"/>
+		<label kind="synchronisation">openDoor3DONE?</label>
+		<label kind="assignment">PnurseBehaviour = 4</label>
+		</transition>			
+		
+		
+		
+		
+		<transition>
+		<source ref="nurseBehaviour0"/>
+		<target ref="nurseBehaviour0s_doing_crossRoom"/>
+		<label kind="synchronisation">crossRoom?</label>
+		<label kind="assignment">PnurseBehaviour = 5</label>
+		</transition>	
+		<transition>
+		<source ref="nurseBehaviour0s_doing_crossRoom"/>
+		<target ref="nurseBehaviour_initial_location"/>
+		<label kind="synchronisation">crossRoomDONE?</label>
+		<label kind="assignment">PnurseBehaviour = 0</label>
+		</transition>	
+		</template>
+			
+
+					
+		<template>
+		<name>robotTask</name>
+		//states declarions
+		<location id="robotTask_initial_location">
+		</location>
+		<location id="robotTask0f_doing_takeMedicine">
+		</location>
+		<location id="robotTask0">
+		</location>
+		
+		<location id="robotTask3sff_fir_doing_giveMedicine1">
+		</location>
+		
+		<location id="robotTask3sff_sec_doing_giveMedicine2">
+		</location>
+		
+		<location id="robotTask2sf_sec_doing_giveMedicine3">
+		</location>
+		
+		<location id="robotTask1s">
+		</location>
+		<init ref = "robotTask_initial_location"/>	
+		//transitions
+		
+		
+		
+		<transition>
+		<source ref="robotTask_initial_location"/>
+		<target ref="robotTask0f_doing_takeMedicine"/>
+		<label kind="synchronisation">takeMedicine?</label>
+		<label kind="assignment">ProbotTask = 1</label>
+		</transition>	
+		<transition>
+		<source ref="robotTask0f_doing_takeMedicine"/>
+		<target ref="robotTask0"/>
+		<label kind="synchronisation">takeMedicineDONE?</label>
+		<label kind="assignment">ProbotTask = 2</label>
+		</transition>		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		<transition>
+		<source ref="robotTask0"/>
+		<target ref="robotTask3sff_fir_doing_giveMedicine1"/>
+		<label kind="synchronisation">giveMedicine1?</label>
+		<label kind="assignment">ProbotTask = 3</label>
+		</transition>	
+		<transition>
+		<source ref="robotTask3sff_fir_doing_giveMedicine1"/>
+		<target ref="robotTask1s"/>
+		<label kind="synchronisation">giveMedicine1DONE?</label>
+		<label kind="assignment">ProbotTask = 6</label>
+		</transition>			
+		
+		<transition>
+		<source ref="robotTask0"/>
+		<target ref="robotTask3sff_sec_doing_giveMedicine2"/>
+		<label kind="synchronisation">giveMedicine2?</label>
+		<label kind="assignment">ProbotTask = 4</label>
+		</transition>	
+		<transition>
+		<source ref="robotTask3sff_sec_doing_giveMedicine2"/>
+		<target ref="robotTask1s"/>
+		<label kind="synchronisation">giveMedicine2DONE?</label>
+		<label kind="assignment">ProbotTask = 6</label>
+		</transition>			
+		
+		
+		<transition>
+		<source ref="robotTask0"/>
+		<target ref="robotTask2sf_sec_doing_giveMedicine3"/>
+		<label kind="synchronisation">giveMedicine3?</label>
+		<label kind="assignment">ProbotTask = 5</label>
+		</transition>	
+		<transition>
+		<source ref="robotTask2sf_sec_doing_giveMedicine3"/>
+		<target ref="robotTask1s"/>
+		<label kind="synchronisation">giveMedicine3DONE?</label>
+		<label kind="assignment">ProbotTask = 6</label>
+		</transition>			
+		
+		
+		<transition>
+		<source ref="robotTask1s"/>
+		<target ref="robotTask_initial_location"/>
+		<label kind="synchronisation">confirmDelivery?</label>
+		<label kind="assignment">ProbotTask = 0</label>
+		</transition>			
+		</template>
+agents
+	<template>
+	<name>medBot</name>
+	 
+	//no local declarations used
+	 
+	//LOCATIONS
+	//nota: sto dando stesso ID a location su agneti diversi, spero non lo mandi a male
+	//se lo user non definisce connesssioni tra tutte le location lui non smatta
+<location id="medicine"> 
+<name>medicine</name>
+</location>
+<location id="room"> 
+<name>room</name>
+</location>
+<location id="door1"> 
+<name>door1</name>
+</location>
+<location id="door2"> 
+<name>door2</name>
+</location>
+<location id="door3"> 
+<name>door3</name>
+</location>
+<location id="a"> 
+<name>a</name>
+</location>
+<location id="b"> 
+<name>b</name>
+</location>
+<location id="c"> 
+<name>c</name>
+</location>
+<location id="d"> 
+<name>d</name>
+</location>
+		
+//transitional locations
+<location id="going_a_to_door1">
+<name>going_a_to_door1</name>
+<label kind="invariant">CmedBot&lt;=7</label>
+</location>
+<location id="going_door1_to_a"> 
+<name>going_door1_to_a</name>			
+<label kind="invariant">CmedBot&lt;=7</label>
+</location>
+ 
+<location id="going_door1_to_b">
+<name>going_door1_to_b</name>
+<label kind="invariant">CmedBot&lt;=14</label>
+</location>
+<location id="going_b_to_door1"> 
+<name>going_b_to_door1</name>			
+<label kind="invariant">CmedBot&lt;=14</label>
+</location>
+ 
+<location id="going_b_to_door2">
+<name>going_b_to_door2</name>
+<label kind="invariant">CmedBot&lt;=9</label>
+</location>
+<location id="going_door2_to_b"> 
+<name>going_door2_to_b</name>			
+<label kind="invariant">CmedBot&lt;=9</label>
+</location>
+ 
+<location id="going_door2_to_c">
+<name>going_door2_to_c</name>
+<label kind="invariant">CmedBot&lt;=21</label>
+</location>
+<location id="going_c_to_door2"> 
+<name>going_c_to_door2</name>			
+<label kind="invariant">CmedBot&lt;=21</label>
+</location>
+ 
+<location id="going_c_to_door3">
+<name>going_c_to_door3</name>
+<label kind="invariant">CmedBot&lt;=8</label>
+</location>
+<location id="going_door3_to_c"> 
+<name>going_door3_to_c</name>			
+<label kind="invariant">CmedBot&lt;=8</label>
+</location>
+ 
+<location id="going_door3_to_d">
+<name>going_door3_to_d</name>
+<label kind="invariant">CmedBot&lt;=13</label>
+</location>
+<location id="going_d_to_door3"> 
+<name>going_d_to_door3</name>			
+<label kind="invariant">CmedBot&lt;=13</label>
+</location>
+ 
+<location id="going_d_to_medicine">
+<name>going_d_to_medicine</name>
+<label kind="invariant">CmedBot&lt;=15</label>
+</location>
+<location id="going_medicine_to_d"> 
+<name>going_medicine_to_d</name>			
+<label kind="invariant">CmedBot&lt;=15</label>
+</location>
+ 
+<location id="going_medicine_to_a">
+<name>going_medicine_to_a</name>
+<label kind="invariant">CmedBot&lt;=15</label>
+</location>
+<location id="going_a_to_medicine"> 
+<name>going_a_to_medicine</name>			
+<label kind="invariant">CmedBot&lt;=15</label>
+</location>
+ 
+		
+	//location for durable actions (just one if it's locations specic and/or the agent isn't mobile )
+<location id = "doing_giveMedicine1_in_door1">
+<name>doing_giveMedicine1_in_door1</name>
+<label kind="invariant">CmedBot&lt;=4</label>
+</location>
+		
+<location id = "doing_giveMedicine2_in_door2">
+<name>doing_giveMedicine2_in_door2</name>
+<label kind="invariant">CmedBot&lt;=4</label>
+</location>
+		
+<location id = "doing_giveMedicine3_in_door3">
+<name>doing_giveMedicine3_in_door3</name>
+<label kind="invariant">CmedBot&lt;=4</label>
+</location>
+		
+<location id = "doing_takeMedicine_in_medicine">
+<name>doing_takeMedicine_in_medicine</name>
+<label kind="invariant">CmedBot&lt;=3</label>
+</location>
+		
+					
+		
+		
+		
+	//initial location id is passed
+	<init ref = "a"/>	
+	
+	
+	
+	
+	//transitions
+	//movement transitions
+<transition>
+<source ref="a"/>
+<target ref="going_a_to_door1"/>
+<label kind="synchronisation">medBot_a2door1!</label>
+<label kind="guard">CmedBot &gt; 1</label>
+<label kind="assignment">PmedBot = -63,  CmedBot= 0</label>
+</transition>
+ 
+<transition>
+<source ref="going_a_to_door1"/>
+<target ref="door1"/>
+<label kind="guard">CmedBot &gt; 6</label>
+<label kind="assignment">PmedBot = 3,  CmedBot= 0</label>
+</transition>
+ 
+<transition>
+<source ref="door1"/>
+<target ref="going_door1_to_a"/>
+<label kind="synchronisation">medBot_door12a!</label>
+<label kind="guard">CmedBot &gt; 1</label>
+<label kind="assignment"> PmedBot = -36,  CmedBot= 0</label>
+</transition>
+ 
+<transition>
+<source ref="going_door1_to_a"/>
+<target ref="a"/>
+<label kind="guard">CmedBot&gt;6</label>
+<label kind="assignment">PmedBot = 6,  CmedBot= 0</label>
+</transition>
+<transition>
+<source ref="door1"/>
+<target ref="going_door1_to_b"/>
+<label kind="synchronisation">medBot_door12b!</label>
+<label kind="guard">CmedBot &gt; 1</label>
+<label kind="assignment">PmedBot = -37,  CmedBot= 0</label>
+</transition>
+ 
+<transition>
+<source ref="going_door1_to_b"/>
+<target ref="b"/>
+<label kind="guard">CmedBot &gt; 13</label>
+<label kind="assignment">PmedBot = 7,  CmedBot= 0</label>
+</transition>
+ 
+<transition>
+<source ref="b"/>
+<target ref="going_b_to_door1"/>
+<label kind="synchronisation">medBot_b2door1!</label>
+<label kind="guard">CmedBot &gt; 1</label>
+<label kind="assignment"> PmedBot = -73,  CmedBot= 0</label>
+</transition>
+ 
+<transition>
+<source ref="going_b_to_door1"/>
+<target ref="door1"/>
+<label kind="guard">CmedBot&gt;13</label>
+<label kind="assignment">PmedBot = 3,  CmedBot= 0</label>
+</transition>
+<transition>
+<source ref="b"/>
+<target ref="going_b_to_door2"/>
+<label kind="synchronisation">medBot_b2door2!</label>
+<label kind="guard">CmedBot &gt; 1</label>
+<label kind="assignment">PmedBot = -74,  CmedBot= 0</label>
+</transition>
+ 
+<transition>
+<source ref="going_b_to_door2"/>
+<target ref="door2"/>
+<label kind="guard">CmedBot &gt; 8</label>
+<label kind="assignment">PmedBot = 4,  CmedBot= 0</label>
+</transition>
+ 
+<transition>
+<source ref="door2"/>
+<target ref="going_door2_to_b"/>
+<label kind="synchronisation">medBot_door22b!</label>
+<label kind="guard">CmedBot &gt; 1</label>
+<label kind="assignment"> PmedBot = -47,  CmedBot= 0</label>
+</transition>
+ 
+<transition>
+<source ref="going_door2_to_b"/>
+<target ref="b"/>
+<label kind="guard">CmedBot&gt;8</label>
+<label kind="assignment">PmedBot = 7,  CmedBot= 0</label>
+</transition>
+<transition>
+<source ref="door2"/>
+<target ref="going_door2_to_c"/>
+<label kind="synchronisation">medBot_door22c!</label>
+<label kind="guard">CmedBot &gt; 1</label>
+<label kind="assignment">PmedBot = -48,  CmedBot= 0</label>
+</transition>
+ 
+<transition>
+<source ref="going_door2_to_c"/>
+<target ref="c"/>
+<label kind="guard">CmedBot &gt; 20</label>
+<label kind="assignment">PmedBot = 8,  CmedBot= 0</label>
+</transition>
+ 
+<transition>
+<source ref="c"/>
+<target ref="going_c_to_door2"/>
+<label kind="synchronisation">medBot_c2door2!</label>
+<label kind="guard">CmedBot &gt; 1</label>
+<label kind="assignment"> PmedBot = -84,  CmedBot= 0</label>
+</transition>
+ 
+<transition>
+<source ref="going_c_to_door2"/>
+<target ref="door2"/>
+<label kind="guard">CmedBot&gt;20</label>
+<label kind="assignment">PmedBot = 4,  CmedBot= 0</label>
+</transition>
+<transition>
+<source ref="c"/>
+<target ref="going_c_to_door3"/>
+<label kind="synchronisation">medBot_c2door3!</label>
+<label kind="guard">CmedBot &gt; 1</label>
+<label kind="assignment">PmedBot = -85,  CmedBot= 0</label>
+</transition>
+ 
+<transition>
+<source ref="going_c_to_door3"/>
+<target ref="door3"/>
+<label kind="guard">CmedBot &gt; 7</label>
+<label kind="assignment">PmedBot = 5,  CmedBot= 0</label>
+</transition>
+ 
+<transition>
+<source ref="door3"/>
+<target ref="going_door3_to_c"/>
+<label kind="synchronisation">medBot_door32c!</label>
+<label kind="guard">CmedBot &gt; 1</label>
+<label kind="assignment"> PmedBot = -58,  CmedBot= 0</label>
+</transition>
+ 
+<transition>
+<source ref="going_door3_to_c"/>
+<target ref="c"/>
+<label kind="guard">CmedBot&gt;7</label>
+<label kind="assignment">PmedBot = 8,  CmedBot= 0</label>
+</transition>
+<transition>
+<source ref="door3"/>
+<target ref="going_door3_to_d"/>
+<label kind="synchronisation">medBot_door32d!</label>
+<label kind="guard">CmedBot &gt; 1</label>
+<label kind="assignment">PmedBot = -59,  CmedBot= 0</label>
+</transition>
+ 
+<transition>
+<source ref="going_door3_to_d"/>
+<target ref="d"/>
+<label kind="guard">CmedBot &gt; 12</label>
+<label kind="assignment">PmedBot = 9,  CmedBot= 0</label>
+</transition>
+ 
+<transition>
+<source ref="d"/>
+<target ref="going_d_to_door3"/>
+<label kind="synchronisation">medBot_d2door3!</label>
+<label kind="guard">CmedBot &gt; 1</label>
+<label kind="assignment"> PmedBot = -95,  CmedBot= 0</label>
+</transition>
+ 
+<transition>
+<source ref="going_d_to_door3"/>
+<target ref="door3"/>
+<label kind="guard">CmedBot&gt;12</label>
+<label kind="assignment">PmedBot = 5,  CmedBot= 0</label>
+</transition>
+<transition>
+<source ref="d"/>
+<target ref="going_d_to_medicine"/>
+<label kind="synchronisation">medBot_d2medicine!</label>
+<label kind="guard">CmedBot &gt; 1</label>
+<label kind="assignment">PmedBot = -91,  CmedBot= 0</label>
+</transition>
+ 
+<transition>
+<source ref="going_d_to_medicine"/>
+<target ref="medicine"/>
+<label kind="guard">CmedBot &gt; 14</label>
+<label kind="assignment">PmedBot = 1,  CmedBot= 0</label>
+</transition>
+ 
+<transition>
+<source ref="medicine"/>
+<target ref="going_medicine_to_d"/>
+<label kind="synchronisation">medBot_medicine2d!</label>
+<label kind="guard">CmedBot &gt; 1</label>
+<label kind="assignment"> PmedBot = -19,  CmedBot= 0</label>
+</transition>
+ 
+<transition>
+<source ref="going_medicine_to_d"/>
+<target ref="d"/>
+<label kind="guard">CmedBot&gt;14</label>
+<label kind="assignment">PmedBot = 9,  CmedBot= 0</label>
+</transition>
+<transition>
+<source ref="medicine"/>
+<target ref="going_medicine_to_a"/>
+<label kind="synchronisation">medBot_medicine2a!</label>
+<label kind="guard">CmedBot &gt; 1</label>
+<label kind="assignment">PmedBot = -16,  CmedBot= 0</label>
+</transition>
+ 
+<transition>
+<source ref="going_medicine_to_a"/>
+<target ref="a"/>
+<label kind="guard">CmedBot &gt; 14</label>
+<label kind="assignment">PmedBot = 6,  CmedBot= 0</label>
+</transition>
+ 
+<transition>
+<source ref="a"/>
+<target ref="going_a_to_medicine"/>
+<label kind="synchronisation">medBot_a2medicine!</label>
+<label kind="guard">CmedBot &gt; 1</label>
+<label kind="assignment"> PmedBot = -61,  CmedBot= 0</label>
+</transition>
+ 
+<transition>
+<source ref="going_a_to_medicine"/>
+<target ref="medicine"/>
+<label kind="guard">CmedBot&gt;14</label>
+<label kind="assignment">PmedBot = 1,  CmedBot= 0</label>
+</transition>
+		
+	//action transitions
+	//BUG : if an action si collaborative but nobody can react to it, the action will be always allowed
+	
+<transition>
+<source ref="door1"/>
+<target ref="doing_giveMedicine1_in_door1"/>
+<label kind="synchronisation">giveMedicine1!</label>
+<label kind="assignment"> CmedBot =0,PmedBot=-33 </label>
+<label kind="guard">CmedBot &gt; 1 &amp;&amp;    ( ProbotTask==2 ) &amp;&amp; Sdoor1open==1</label>
+</transition>
+ 
+<transition>
+<source ref="doing_giveMedicine1_in_door1"/>
+<target ref="door1"/>
+<label kind="synchronisation">giveMedicine1DONE!</label>
+<label kind="assignment"> CmedBot =0, PmedBot=3 </label>
+<label kind="guard"> CmedBot &gt; 3 &amp;&amp;   ( ProbotTask==3 ) </label>
+</transition>			
+ 
+
+<transition>
+<source ref="door2"/>
+<target ref="doing_giveMedicine2_in_door2"/>
+<label kind="synchronisation">giveMedicine2!</label>
+<label kind="assignment"> CmedBot =0,PmedBot=-44 </label>
+<label kind="guard">CmedBot &gt; 1 &amp;&amp;    ( ProbotTask==2 ) &amp;&amp; Sdoor2open==1</label>
+</transition>
+ 
+<transition>
+<source ref="doing_giveMedicine2_in_door2"/>
+<target ref="door2"/>
+<label kind="synchronisation">giveMedicine2DONE!</label>
+<label kind="assignment"> CmedBot =0, PmedBot=4 </label>
+<label kind="guard"> CmedBot &gt; 3 &amp;&amp;   ( ProbotTask==4 ) </label>
+</transition>			
+ 
+
+<transition>
+<source ref="door3"/>
+<target ref="doing_giveMedicine3_in_door3"/>
+<label kind="synchronisation">giveMedicine3!</label>
+<label kind="assignment"> CmedBot =0,PmedBot=-55 </label>
+<label kind="guard">CmedBot &gt; 1 &amp;&amp;    ( ProbotTask==2 ) &amp;&amp; Sdoor3open==1</label>
+</transition>
+ 
+<transition>
+<source ref="doing_giveMedicine3_in_door3"/>
+<target ref="door3"/>
+<label kind="synchronisation">giveMedicine3DONE!</label>
+<label kind="assignment"> CmedBot =0, PmedBot=5 </label>
+<label kind="guard"> CmedBot &gt; 3 &amp;&amp;   ( ProbotTask==5 ) </label>
+</transition>			
+ 
+
+<transition>
+<source ref="medicine"/>
+<target ref="doing_takeMedicine_in_medicine"/>
+<label kind="synchronisation">takeMedicine!</label>
+<label kind="assignment"> CmedBot =0,PmedBot=-11 </label>
+<label kind="guard">CmedBot &gt; 1 &amp;&amp;    ( ProbotTask==0 ) </label>
+</transition>
+ 
+<transition>
+<source ref="doing_takeMedicine_in_medicine"/>
+<target ref="medicine"/>
+<label kind="synchronisation">takeMedicineDONE!</label>
+<label kind="assignment"> CmedBot =0, PmedBot=1 </label>
+<label kind="guard"> CmedBot &gt; 2 &amp;&amp;   ( ProbotTask==1 ) </label>
+</transition>			
+ 
+
+
+
+<transition>
+<source ref="medicine"/>
+<target ref="medicine"/>
+<label kind="synchronisation">confirmDelivery!</label>
+<label kind="assignment"> CmedBot =0 </label>
+<label kind="guard">CmedBot &gt; 1 &amp;&amp;    ( ProbotTask==6 ) </label>
+</transition>
+ 
+
+<transition>
+<source ref="room"/>
+<target ref="room"/>
+<label kind="synchronisation">confirmDelivery!</label>
+<label kind="assignment"> CmedBot =0 </label>
+<label kind="guard">CmedBot &gt; 1 &amp;&amp;    ( ProbotTask==6 ) </label>
+</transition>
+ 
+
+<transition>
+<source ref="door1"/>
+<target ref="door1"/>
+<label kind="synchronisation">confirmDelivery!</label>
+<label kind="assignment"> CmedBot =0 </label>
+<label kind="guard">CmedBot &gt; 1 &amp;&amp;    ( ProbotTask==6 ) </label>
+</transition>
+ 
+
+<transition>
+<source ref="door2"/>
+<target ref="door2"/>
+<label kind="synchronisation">confirmDelivery!</label>
+<label kind="assignment"> CmedBot =0 </label>
+<label kind="guard">CmedBot &gt; 1 &amp;&amp;    ( ProbotTask==6 ) </label>
+</transition>
+ 
+
+<transition>
+<source ref="door3"/>
+<target ref="door3"/>
+<label kind="synchronisation">confirmDelivery!</label>
+<label kind="assignment"> CmedBot =0 </label>
+<label kind="guard">CmedBot &gt; 1 &amp;&amp;    ( ProbotTask==6 ) </label>
+</transition>
+ 
+
+<transition>
+<source ref="a"/>
+<target ref="a"/>
+<label kind="synchronisation">confirmDelivery!</label>
+<label kind="assignment"> CmedBot =0 </label>
+<label kind="guard">CmedBot &gt; 1 &amp;&amp;    ( ProbotTask==6 ) </label>
+</transition>
+ 
+
+<transition>
+<source ref="b"/>
+<target ref="b"/>
+<label kind="synchronisation">confirmDelivery!</label>
+<label kind="assignment"> CmedBot =0 </label>
+<label kind="guard">CmedBot &gt; 1 &amp;&amp;    ( ProbotTask==6 ) </label>
+</transition>
+ 
+
+<transition>
+<source ref="c"/>
+<target ref="c"/>
+<label kind="synchronisation">confirmDelivery!</label>
+<label kind="assignment"> CmedBot =0 </label>
+<label kind="guard">CmedBot &gt; 1 &amp;&amp;    ( ProbotTask==6 ) </label>
+</transition>
+ 
+
+<transition>
+<source ref="d"/>
+<target ref="d"/>
+<label kind="synchronisation">confirmDelivery!</label>
+<label kind="assignment"> CmedBot =0 </label>
+<label kind="guard">CmedBot &gt; 1 &amp;&amp;    ( ProbotTask==6 ) </label>
+</transition>
+ 
+<transition>
+<source ref="going_a_to_door1"/>
+<target ref="going_a_to_door1"/>
+<label kind="synchronisation">confirmDelivery!</label>
+<label kind="guard">CmedBot &gt; 0 &amp;&amp;    ( ProbotTask==6 ) </label>
+</transition>
+
+<transition>
+<source ref="going_door1_to_a"/>
+<target ref="going_door1_to_a"/>
+<label kind="synchronisation">confirmDelivery!</label>
+<label kind="guard">CmedBot &gt; 0 &amp;&amp;    ( ProbotTask==6 ) </label>
+</transition>
+<transition>
+<source ref="going_door1_to_b"/>
+<target ref="going_door1_to_b"/>
+<label kind="synchronisation">confirmDelivery!</label>
+<label kind="guard">CmedBot &gt; 0 &amp;&amp;    ( ProbotTask==6 ) </label>
+</transition>
+
+<transition>
+<source ref="going_b_to_door1"/>
+<target ref="going_b_to_door1"/>
+<label kind="synchronisation">confirmDelivery!</label>
+<label kind="guard">CmedBot &gt; 0 &amp;&amp;    ( ProbotTask==6 ) </label>
+</transition>
+<transition>
+<source ref="going_b_to_door2"/>
+<target ref="going_b_to_door2"/>
+<label kind="synchronisation">confirmDelivery!</label>
+<label kind="guard">CmedBot &gt; 0 &amp;&amp;    ( ProbotTask==6 ) </label>
+</transition>
+
+<transition>
+<source ref="going_door2_to_b"/>
+<target ref="going_door2_to_b"/>
+<label kind="synchronisation">confirmDelivery!</label>
+<label kind="guard">CmedBot &gt; 0 &amp;&amp;    ( ProbotTask==6 ) </label>
+</transition>
+<transition>
+<source ref="going_door2_to_c"/>
+<target ref="going_door2_to_c"/>
+<label kind="synchronisation">confirmDelivery!</label>
+<label kind="guard">CmedBot &gt; 0 &amp;&amp;    ( ProbotTask==6 ) </label>
+</transition>
+
+<transition>
+<source ref="going_c_to_door2"/>
+<target ref="going_c_to_door2"/>
+<label kind="synchronisation">confirmDelivery!</label>
+<label kind="guard">CmedBot &gt; 0 &amp;&amp;    ( ProbotTask==6 ) </label>
+</transition>
+<transition>
+<source ref="going_c_to_door3"/>
+<target ref="going_c_to_door3"/>
+<label kind="synchronisation">confirmDelivery!</label>
+<label kind="guard">CmedBot &gt; 0 &amp;&amp;    ( ProbotTask==6 ) </label>
+</transition>
+
+<transition>
+<source ref="going_door3_to_c"/>
+<target ref="going_door3_to_c"/>
+<label kind="synchronisation">confirmDelivery!</label>
+<label kind="guard">CmedBot &gt; 0 &amp;&amp;    ( ProbotTask==6 ) </label>
+</transition>
+<transition>
+<source ref="going_door3_to_d"/>
+<target ref="going_door3_to_d"/>
+<label kind="synchronisation">confirmDelivery!</label>
+<label kind="guard">CmedBot &gt; 0 &amp;&amp;    ( ProbotTask==6 ) </label>
+</transition>
+
+<transition>
+<source ref="going_d_to_door3"/>
+<target ref="going_d_to_door3"/>
+<label kind="synchronisation">confirmDelivery!</label>
+<label kind="guard">CmedBot &gt; 0 &amp;&amp;    ( ProbotTask==6 ) </label>
+</transition>
+<transition>
+<source ref="going_d_to_medicine"/>
+<target ref="going_d_to_medicine"/>
+<label kind="synchronisation">confirmDelivery!</label>
+<label kind="guard">CmedBot &gt; 0 &amp;&amp;    ( ProbotTask==6 ) </label>
+</transition>
+
+<transition>
+<source ref="going_medicine_to_d"/>
+<target ref="going_medicine_to_d"/>
+<label kind="synchronisation">confirmDelivery!</label>
+<label kind="guard">CmedBot &gt; 0 &amp;&amp;    ( ProbotTask==6 ) </label>
+</transition>
+<transition>
+<source ref="going_medicine_to_a"/>
+<target ref="going_medicine_to_a"/>
+<label kind="synchronisation">confirmDelivery!</label>
+<label kind="guard">CmedBot &gt; 0 &amp;&amp;    ( ProbotTask==6 ) </label>
+</transition>
+
+<transition>
+<source ref="going_a_to_medicine"/>
+<target ref="going_a_to_medicine"/>
+<label kind="synchronisation">confirmDelivery!</label>
+<label kind="guard">CmedBot &gt; 0 &amp;&amp;    ( ProbotTask==6 ) </label>
+</transition>
+					
+		
+		
+		
+	</template>		
+	 
+		
+	<template>
+	<name>nurse</name>
+	 
+	//no local declarations used
+	 
+	//LOCATIONS
+	//nota: sto dando stesso ID a location su agneti diversi, spero non lo mandi a male
+	//se lo user non definisce connesssioni tra tutte le location lui non smatta
+<location id = "room">
+<name>room</name>
+</location>
+ 
+		
+	//location for durable actions (just one if it's locations specic and/or the agent isn't mobile )
+<location id = "doing_openDoor1_in_room">
+<name>doing_openDoor1_in_room</name>
+<label kind="invariant">Cnurse&lt;=3</label>
+</location>
+		
+<location id = "doing_openDoor2_in_room">
+<name>doing_openDoor2_in_room</name>
+<label kind="invariant">Cnurse&lt;=3</label>
+</location>
+		
+<location id = "doing_openDoor3_in_room">
+<name>doing_openDoor3_in_room</name>
+<label kind="invariant">Cnurse&lt;=3</label>
+</location>
+		
+<location id = "doing_crossRoom_in_room">
+<name>doing_crossRoom_in_room</name>
+<label kind="invariant">Cnurse&lt;=151</label>
+</location>
+		
+					
+		
+		
+		
+	//initial location id is passed
+	<init ref = "room"/>	
+	
+	
+	
+	
+	//transitions
+	//movement transitions
+		
+	//action transitions
+	//BUG : if an action si collaborative but nobody can react to it, the action will be always allowed
+	
+<transition>
+<source ref="room"/>
+<target ref="doing_openDoor1_in_room"/>
+<label kind="synchronisation">openDoor1!</label>
+<label kind="assignment"> Cnurse =0,Pnurse=-22 </label>
+<label kind="guard">Cnurse &gt; 1 &amp;&amp;    ( PnurseBehaviour==0 )  &amp;&amp; Sdoor1open==0</label>
+</transition>
+ 
+<transition>
+<source ref="doing_openDoor1_in_room"/>
+<target ref="room"/>
+<label kind="synchronisation">openDoor1DONE!</label>
+<label kind="assignment"> Cnurse =0, Pnurse=2 </label>
+<label kind="guard"> Cnurse &gt; 2 &amp;&amp;   ( PnurseBehaviour==1 ) </label>
+</transition>			
+ 
+
+<transition>
+<source ref="room"/>
+<target ref="doing_openDoor2_in_room"/>
+<label kind="synchronisation">openDoor2!</label>
+<label kind="assignment"> Cnurse =0,Pnurse=-22 </label>
+<label kind="guard">Cnurse &gt; 1 &amp;&amp;    ( PnurseBehaviour==0 )  &amp;&amp; Sdoor2open==0</label>
+</transition>
+ 
+<transition>
+<source ref="doing_openDoor2_in_room"/>
+<target ref="room"/>
+<label kind="synchronisation">openDoor2DONE!</label>
+<label kind="assignment"> Cnurse =0, Pnurse=2 </label>
+<label kind="guard"> Cnurse &gt; 2 &amp;&amp;   ( PnurseBehaviour==2 ) </label>
+</transition>			
+ 
+
+<transition>
+<source ref="room"/>
+<target ref="doing_openDoor3_in_room"/>
+<label kind="synchronisation">openDoor3!</label>
+<label kind="assignment"> Cnurse =0,Pnurse=-22 </label>
+<label kind="guard">Cnurse &gt; 1 &amp;&amp;    ( PnurseBehaviour==0 )  &amp;&amp; Sdoor3open==0</label>
+</transition>
+ 
+<transition>
+<source ref="doing_openDoor3_in_room"/>
+<target ref="room"/>
+<label kind="synchronisation">openDoor3DONE!</label>
+<label kind="assignment"> Cnurse =0, Pnurse=2 </label>
+<label kind="guard"> Cnurse &gt; 2 &amp;&amp;   ( PnurseBehaviour==3 ) </label>
+</transition>			
+ 
+
+<transition>
+<source ref="room"/>
+<target ref="doing_crossRoom_in_room"/>
+<label kind="synchronisation">crossRoom!</label>
+<label kind="assignment"> Cnurse =0,Pnurse=-22 </label>
+<label kind="guard">Cnurse &gt; 1 &amp;&amp;    ( PnurseBehaviour==4 ) </label>
+</transition>
+ 
+<transition>
+<source ref="doing_crossRoom_in_room"/>
+<target ref="room"/>
+<label kind="synchronisation">crossRoomDONE!</label>
+<label kind="assignment"> Cnurse =0, Pnurse=2 </label>
+<label kind="guard"> Cnurse &gt; 150 &amp;&amp;   ( PnurseBehaviour==5 ) </label>
+</transition>			
+ 
+
+					
+		
+		
+		
+	</template>		
+	 
+		
+	<template>
+	<name>stretcher</name>
+	 
+	//no local declarations used
+	 
+	//LOCATIONS
+	//nota: sto dando stesso ID a location su agneti diversi, spero non lo mandi a male
+	//se lo user non definisce connesssioni tra tutte le location lui non smatta
+<location id="medicine"> 
+<name>medicine</name>
+</location>
+<location id="room"> 
+<name>room</name>
+</location>
+<location id="door1"> 
+<name>door1</name>
+</location>
+<location id="door2"> 
+<name>door2</name>
+</location>
+<location id="door3"> 
+<name>door3</name>
+</location>
+<location id="a"> 
+<name>a</name>
+</location>
+<location id="b"> 
+<name>b</name>
+</location>
+<location id="c"> 
+<name>c</name>
+</location>
+<location id="d"> 
+<name>d</name>
+</location>
+		
+//transitional locations
+<location id="going_a_to_door1">
+<name>going_a_to_door1</name>
+<label kind="invariant">Cstretcher&lt;=7</label>
+</location>
+<location id="going_door1_to_a"> 
+<name>going_door1_to_a</name>			
+<label kind="invariant">Cstretcher&lt;=7</label>
+</location>
+ 
+<location id="going_door1_to_b">
+<name>going_door1_to_b</name>
+<label kind="invariant">Cstretcher&lt;=14</label>
+</location>
+<location id="going_b_to_door1"> 
+<name>going_b_to_door1</name>			
+<label kind="invariant">Cstretcher&lt;=14</label>
+</location>
+ 
+<location id="going_b_to_door2">
+<name>going_b_to_door2</name>
+<label kind="invariant">Cstretcher&lt;=9</label>
+</location>
+<location id="going_door2_to_b"> 
+<name>going_door2_to_b</name>			
+<label kind="invariant">Cstretcher&lt;=9</label>
+</location>
+ 
+<location id="going_door2_to_c">
+<name>going_door2_to_c</name>
+<label kind="invariant">Cstretcher&lt;=21</label>
+</location>
+<location id="going_c_to_door2"> 
+<name>going_c_to_door2</name>			
+<label kind="invariant">Cstretcher&lt;=21</label>
+</location>
+ 
+<location id="going_c_to_door3">
+<name>going_c_to_door3</name>
+<label kind="invariant">Cstretcher&lt;=8</label>
+</location>
+<location id="going_door3_to_c"> 
+<name>going_door3_to_c</name>			
+<label kind="invariant">Cstretcher&lt;=8</label>
+</location>
+ 
+<location id="going_door3_to_d">
+<name>going_door3_to_d</name>
+<label kind="invariant">Cstretcher&lt;=13</label>
+</location>
+<location id="going_d_to_door3"> 
+<name>going_d_to_door3</name>			
+<label kind="invariant">Cstretcher&lt;=13</label>
+</location>
+ 
+<location id="going_d_to_medicine">
+<name>going_d_to_medicine</name>
+<label kind="invariant">Cstretcher&lt;=15</label>
+</location>
+<location id="going_medicine_to_d"> 
+<name>going_medicine_to_d</name>			
+<label kind="invariant">Cstretcher&lt;=15</label>
+</location>
+ 
+<location id="going_medicine_to_a">
+<name>going_medicine_to_a</name>
+<label kind="invariant">Cstretcher&lt;=15</label>
+</location>
+<location id="going_a_to_medicine"> 
+<name>going_a_to_medicine</name>			
+<label kind="invariant">Cstretcher&lt;=15</label>
+</location>
+ 
+		
+	//location for durable actions (just one if it's locations specic and/or the agent isn't mobile )
+<location id = "doing_closeDoor1_in_door1">
+<name>doing_closeDoor1_in_door1</name>
+<label kind="invariant">Cstretcher&lt;=3</label>
+</location>
+		
+<location id = "doing_closeDoor2_in_door2">
+<name>doing_closeDoor2_in_door2</name>
+<label kind="invariant">Cstretcher&lt;=3</label>
+</location>
+		
+<location id = "doing_closeDoor3_in_door3">
+<name>doing_closeDoor3_in_door3</name>
+<label kind="invariant">Cstretcher&lt;=3</label>
+</location>
+		
+					
+		
+		
+		
+	//initial location id is passed
+	<init ref = "c"/>	
+	
+	
+	
+	
+	//transitions
+	//movement transitions
+<transition controllable="false" >
+<source ref="a"/>
+<target ref="going_a_to_door1"/>
+<label kind="synchronisation">stretcher_a2door1!</label>
+<label kind="guard">Cstretcher &gt; 1</label>
+<label kind="assignment">Pstretcher = -63,  Cstretcher= 0</label>
+</transition>
+ 
+<transition controllable="false" >
+<source ref="going_a_to_door1"/>
+<target ref="door1"/>
+<label kind="guard">Cstretcher &gt; 6</label>
+<label kind="assignment">Pstretcher = 3,  Cstretcher= 0</label>
+</transition>
+ 
+<transition controllable="false" >
+<source ref="door1"/>
+<target ref="going_door1_to_a"/>
+<label kind="synchronisation">stretcher_door12a!</label>
+<label kind="guard">Cstretcher &gt; 1</label>
+<label kind="assignment"> Pstretcher = -36,  Cstretcher= 0</label>
+</transition>
+ 
+<transition controllable="false" >
+<source ref="going_door1_to_a"/>
+<target ref="a"/>
+<label kind="guard">Cstretcher&gt;6</label>
+<label kind="assignment">Pstretcher = 6,  Cstretcher= 0</label>
+</transition>
+<transition controllable="false" >
+<source ref="door1"/>
+<target ref="going_door1_to_b"/>
+<label kind="synchronisation">stretcher_door12b!</label>
+<label kind="guard">Cstretcher &gt; 1</label>
+<label kind="assignment">Pstretcher = -37,  Cstretcher= 0</label>
+</transition>
+ 
+<transition controllable="false" >
+<source ref="going_door1_to_b"/>
+<target ref="b"/>
+<label kind="guard">Cstretcher &gt; 13</label>
+<label kind="assignment">Pstretcher = 7,  Cstretcher= 0</label>
+</transition>
+ 
+<transition controllable="false" >
+<source ref="b"/>
+<target ref="going_b_to_door1"/>
+<label kind="synchronisation">stretcher_b2door1!</label>
+<label kind="guard">Cstretcher &gt; 1</label>
+<label kind="assignment"> Pstretcher = -73,  Cstretcher= 0</label>
+</transition>
+ 
+<transition controllable="false" >
+<source ref="going_b_to_door1"/>
+<target ref="door1"/>
+<label kind="guard">Cstretcher&gt;13</label>
+<label kind="assignment">Pstretcher = 3,  Cstretcher= 0</label>
+</transition>
+<transition controllable="false" >
+<source ref="b"/>
+<target ref="going_b_to_door2"/>
+<label kind="synchronisation">stretcher_b2door2!</label>
+<label kind="guard">Cstretcher &gt; 1</label>
+<label kind="assignment">Pstretcher = -74,  Cstretcher= 0</label>
+</transition>
+ 
+<transition controllable="false" >
+<source ref="going_b_to_door2"/>
+<target ref="door2"/>
+<label kind="guard">Cstretcher &gt; 8</label>
+<label kind="assignment">Pstretcher = 4,  Cstretcher= 0</label>
+</transition>
+ 
+<transition controllable="false" >
+<source ref="door2"/>
+<target ref="going_door2_to_b"/>
+<label kind="synchronisation">stretcher_door22b!</label>
+<label kind="guard">Cstretcher &gt; 1</label>
+<label kind="assignment"> Pstretcher = -47,  Cstretcher= 0</label>
+</transition>
+ 
+<transition controllable="false" >
+<source ref="going_door2_to_b"/>
+<target ref="b"/>
+<label kind="guard">Cstretcher&gt;8</label>
+<label kind="assignment">Pstretcher = 7,  Cstretcher= 0</label>
+</transition>
+<transition controllable="false" >
+<source ref="door2"/>
+<target ref="going_door2_to_c"/>
+<label kind="synchronisation">stretcher_door22c!</label>
+<label kind="guard">Cstretcher &gt; 1</label>
+<label kind="assignment">Pstretcher = -48,  Cstretcher= 0</label>
+</transition>
+ 
+<transition controllable="false" >
+<source ref="going_door2_to_c"/>
+<target ref="c"/>
+<label kind="guard">Cstretcher &gt; 20</label>
+<label kind="assignment">Pstretcher = 8,  Cstretcher= 0</label>
+</transition>
+ 
+<transition controllable="false" >
+<source ref="c"/>
+<target ref="going_c_to_door2"/>
+<label kind="synchronisation">stretcher_c2door2!</label>
+<label kind="guard">Cstretcher &gt; 1</label>
+<label kind="assignment"> Pstretcher = -84,  Cstretcher= 0</label>
+</transition>
+ 
+<transition controllable="false" >
+<source ref="going_c_to_door2"/>
+<target ref="door2"/>
+<label kind="guard">Cstretcher&gt;20</label>
+<label kind="assignment">Pstretcher = 4,  Cstretcher= 0</label>
+</transition>
+<transition controllable="false" >
+<source ref="c"/>
+<target ref="going_c_to_door3"/>
+<label kind="synchronisation">stretcher_c2door3!</label>
+<label kind="guard">Cstretcher &gt; 1</label>
+<label kind="assignment">Pstretcher = -85,  Cstretcher= 0</label>
+</transition>
+ 
+<transition controllable="false" >
+<source ref="going_c_to_door3"/>
+<target ref="door3"/>
+<label kind="guard">Cstretcher &gt; 7</label>
+<label kind="assignment">Pstretcher = 5,  Cstretcher= 0</label>
+</transition>
+ 
+<transition controllable="false" >
+<source ref="door3"/>
+<target ref="going_door3_to_c"/>
+<label kind="synchronisation">stretcher_door32c!</label>
+<label kind="guard">Cstretcher &gt; 1</label>
+<label kind="assignment"> Pstretcher = -58,  Cstretcher= 0</label>
+</transition>
+ 
+<transition controllable="false" >
+<source ref="going_door3_to_c"/>
+<target ref="c"/>
+<label kind="guard">Cstretcher&gt;7</label>
+<label kind="assignment">Pstretcher = 8,  Cstretcher= 0</label>
+</transition>
+<transition controllable="false" >
+<source ref="door3"/>
+<target ref="going_door3_to_d"/>
+<label kind="synchronisation">stretcher_door32d!</label>
+<label kind="guard">Cstretcher &gt; 1</label>
+<label kind="assignment">Pstretcher = -59,  Cstretcher= 0</label>
+</transition>
+ 
+<transition controllable="false" >
+<source ref="going_door3_to_d"/>
+<target ref="d"/>
+<label kind="guard">Cstretcher &gt; 12</label>
+<label kind="assignment">Pstretcher = 9,  Cstretcher= 0</label>
+</transition>
+ 
+<transition controllable="false" >
+<source ref="d"/>
+<target ref="going_d_to_door3"/>
+<label kind="synchronisation">stretcher_d2door3!</label>
+<label kind="guard">Cstretcher &gt; 1</label>
+<label kind="assignment"> Pstretcher = -95,  Cstretcher= 0</label>
+</transition>
+ 
+<transition controllable="false" >
+<source ref="going_d_to_door3"/>
+<target ref="door3"/>
+<label kind="guard">Cstretcher&gt;12</label>
+<label kind="assignment">Pstretcher = 5,  Cstretcher= 0</label>
+</transition>
+<transition controllable="false" >
+<source ref="d"/>
+<target ref="going_d_to_medicine"/>
+<label kind="synchronisation">stretcher_d2medicine!</label>
+<label kind="guard">Cstretcher &gt; 1</label>
+<label kind="assignment">Pstretcher = -91,  Cstretcher= 0</label>
+</transition>
+ 
+<transition controllable="false" >
+<source ref="going_d_to_medicine"/>
+<target ref="medicine"/>
+<label kind="guard">Cstretcher &gt; 14</label>
+<label kind="assignment">Pstretcher = 1,  Cstretcher= 0</label>
+</transition>
+ 
+<transition controllable="false" >
+<source ref="medicine"/>
+<target ref="going_medicine_to_d"/>
+<label kind="synchronisation">stretcher_medicine2d!</label>
+<label kind="guard">Cstretcher &gt; 1</label>
+<label kind="assignment"> Pstretcher = -19,  Cstretcher= 0</label>
+</transition>
+ 
+<transition controllable="false" >
+<source ref="going_medicine_to_d"/>
+<target ref="d"/>
+<label kind="guard">Cstretcher&gt;14</label>
+<label kind="assignment">Pstretcher = 9,  Cstretcher= 0</label>
+</transition>
+<transition controllable="false" >
+<source ref="medicine"/>
+<target ref="going_medicine_to_a"/>
+<label kind="synchronisation">stretcher_medicine2a!</label>
+<label kind="guard">Cstretcher &gt; 1</label>
+<label kind="assignment">Pstretcher = -16,  Cstretcher= 0</label>
+</transition>
+ 
+<transition controllable="false" >
+<source ref="going_medicine_to_a"/>
+<target ref="a"/>
+<label kind="guard">Cstretcher &gt; 14</label>
+<label kind="assignment">Pstretcher = 6,  Cstretcher= 0</label>
+</transition>
+ 
+<transition controllable="false" >
+<source ref="a"/>
+<target ref="going_a_to_medicine"/>
+<label kind="synchronisation">stretcher_a2medicine!</label>
+<label kind="guard">Cstretcher &gt; 1</label>
+<label kind="assignment"> Pstretcher = -61,  Cstretcher= 0</label>
+</transition>
+ 
+<transition controllable="false" >
+<source ref="going_a_to_medicine"/>
+<target ref="medicine"/>
+<label kind="guard">Cstretcher&gt;14</label>
+<label kind="assignment">Pstretcher = 1,  Cstretcher= 0</label>
+</transition>
+		
+	//action transitions
+	//BUG : if an action si collaborative but nobody can react to it, the action will be always allowed
+	
+<transition controllable="false" >
+<source ref="door1"/>
+<target ref="doing_closeDoor1_in_door1"/>
+<label kind="synchronisation">closeDoor1!</label>
+<label kind="assignment"> Cstretcher =0,Pstretcher=-33 </label>
+<label kind="guard">Cstretcher &gt; 1  &amp;&amp; Sdoor1open==1</label>
+</transition>
+ 
+<transition controllable="false" >
+<source ref="doing_closeDoor1_in_door1"/>
+<target ref="door1"/>
+<label kind="synchronisation">closeDoor1DONE!</label>
+<label kind="assignment"> Cstretcher =0, Pstretcher=3 </label>
+<label kind="guard"> Cstretcher &gt; 2 </label>
+</transition>			
+ 
+
+<transition controllable="false" >
+<source ref="door2"/>
+<target ref="doing_closeDoor2_in_door2"/>
+<label kind="synchronisation">closeDoor2!</label>
+<label kind="assignment"> Cstretcher =0,Pstretcher=-44 </label>
+<label kind="guard">Cstretcher &gt; 1  &amp;&amp; Sdoor3open==1</label>
+</transition>
+ 
+<transition controllable="false" >
+<source ref="doing_closeDoor2_in_door2"/>
+<target ref="door2"/>
+<label kind="synchronisation">closeDoor2DONE!</label>
+<label kind="assignment"> Cstretcher =0, Pstretcher=4 </label>
+<label kind="guard"> Cstretcher &gt; 2 </label>
+</transition>			
+ 
+
+<transition controllable="false" >
+<source ref="door3"/>
+<target ref="doing_closeDoor3_in_door3"/>
+<label kind="synchronisation">closeDoor3!</label>
+<label kind="assignment"> Cstretcher =0,Pstretcher=-55 </label>
+<label kind="guard">Cstretcher &gt; 1  &amp;&amp; Sdoor3open==1</label>
+</transition>
+ 
+<transition controllable="false" >
+<source ref="doing_closeDoor3_in_door3"/>
+<target ref="door3"/>
+<label kind="synchronisation">closeDoor3DONE!</label>
+<label kind="assignment"> Cstretcher =0, Pstretcher=5 </label>
+<label kind="guard"> Cstretcher &gt; 2 </label>
+</transition>			
+ 
+
+					
+		
+		
+		
+	</template>		
+	 
+		
+
+
+
+	
+objectives
+
+<template>
+<name>reachObj</name>
+//locations
+
+<location id = "initial_location">
+<name>initial_location</name>
+</location>
+<location id = "unlocked">
+</location>
+<location id = "win">
+<name>win</name>
+</location>
+ 
+<init ref = "initial_location"/>	
+ 
+//transitions
+<transition>
+<source ref="initial_location"/>
+<target ref="unlocked"/>
+<label kind = "guard">Creach &gt; 0</label>
+</transition>	
+
+<transition>
+<source ref="unlocked"/>
+<target ref="win"/>
+<label kind="synchronisation">confirmDelivery?</label>
+</transition>
+
+</template>
+
+	//in questo momento bugga se non ci sono regole
+	<system>
+	system  states, medBot, nurse, stretcher ,reachObj  , nurseBehaviour, robotTask;
+	
+	
+	
+	</system>
+
+	
+	</nta>

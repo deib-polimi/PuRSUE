@@ -1,0 +1,38 @@
+//locations
+poi "office"
+poi "base"
+poi "hallway"
+poi "trashRoom"
+
+//connections  
+
+connect office and hallway distance 5
+connect base and hallway distance 2
+connect trashRoom and hallway distance 7
+
+//events
+event "throwTrash" collaborative duration 3
+event "trash" location office duration 5
+event "callBot"
+event "wait" duration 60
+event "officeClean" location office
+
+
+//Rule
+
+rule "makingTrash" : callBot before wait
+rule "pickingUp" : (callBot before trash) before officeClean
+rule "throwingPaper" : trash before throwTrash
+
+
+
+
+
+//agents (must specify if controllable and/or mobile, initial location actions and reactions)
+agent "ecoBot" controllable mobile 1 location base can_do trash,throwTrash, officeClean
+agent "human" location office can_do callBot, wait
+agent "bin" mobile 2 location trashRoom reacts_to throwTrash
+
+
+//objectives (only action reaction within time limit for now
+objective: if callBot then officeClean within 20

@@ -1,0 +1,35 @@
+//locations
+poi "station"
+
+//events
+event "newBox" 
+event "pickUpBoxR1" location station duration 2
+event "pickUpBoxR2" location station duration 2
+event "pickUpBoxH" location station duration 2
+event "screwR1" location station duration 10
+event "screwR2" location station duration 10
+event "screwH" location station duration 10
+event "putDownBoxR1" location station duration 2
+event "putDownBoxR2" location station duration 2
+event "putDownBoxH" location station duration 2
+event "done"
+
+//rules
+rule "workFlow": (newBox before ( (pickUpBoxR1 or pickUpBoxR2) or pickUpBoxH ) ) before ((( (screwR1 or screwR2 ) or screwH ) before ((putDownBoxR1 or putDownBoxR2) or putDownBoxH )) before done)
+rule "pickUp1" : pickUpBoxR1 before putDownBoxR1
+rule "pickUp2" : pickUpBoxR2 before putDownBoxR2
+rule "pickUpH" : pickUpBoxH before putDownBoxH
+state "busyR1" : initially false, true_if pickUpBoxR1 false_if putDownBoxR1
+state "busyR2" : initially false, true_if pickUpBoxR2 false_if putDownBoxR2
+state "busyH" : initially false, true_if pickUpBoxH false_if putDownBoxH
+stateDependency: screwR1 only_if busyR1 is_false
+stateDependency: screwR2 only_if busyR2 is_false
+stateDependency: screwH only_if busyH is_false
+
+//agents (must specify if controllable and/or mobile, initial location actions and reactions)
+agent "bot1" controllable location station can_do pickUpBoxR1, screwR1, putDownBoxR1, done
+agent "bot2" controllable location station can_do pickUpBoxR2, screwR2, putDownBoxR2, done
+agent "human" location station can_do pickUpBoxH, screwH, putDownBoxH, done, newBox
+
+//objectives (only action reaction within time limit for now
+objective: if newBox then done within 30

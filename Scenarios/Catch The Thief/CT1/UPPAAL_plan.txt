@@ -1,0 +1,794 @@
+null[1;34mGuessed query file: [0;0mUPPAAL/UPPAAL_model.q
+Options for the verification:
+  Generating some trace
+  Search order is breadth first (UPPAAL), automatic (TIGA)
+  Using conservative space optimisation
+  Seed is 1549634710
+  State space representation uses minimal constraint systems
+[2K
+Verifying property 1 at line 1
+ -- [1;34mThroughput: 4680 states/sec[0;0m, Size: 38 states, Load: 26 states[K
+ -- [1;34mThroughput: 133421 states/sec[0;0m, Size: 233 states, Load: 120 states[K
+ -- [1;34mThroughput: 141624 states/sec[0;0m, Size: 707 states, Load: 194 states[K
+Preparing: 0%[K
+Preparing: 1%[K
+Preparing: 2%[K
+Preparing: 3%[K
+Preparing: 4%[K
+Preparing: 5%[K
+Preparing: 6%[K
+Preparing: 7%[K
+Preparing: 8%[K
+Preparing: 9%[K
+Preparing: 10%[K
+Preparing: 11%[K
+Preparing: 12%[K
+Preparing: 13%[K
+Preparing: 14%[K
+Preparing: 15%[K
+Preparing: 16%[K
+Preparing: 17%[K
+Preparing: 18%[K
+Preparing: 19%[K
+Preparing: 20%[K
+Preparing: 21%[K
+Preparing: 22%[K
+Preparing: 23%[K
+Preparing: 24%[K
+Preparing: 25%[K
+Preparing: 26%[K
+Preparing: 27%[K
+Preparing: 28%[K
+Preparing: 29%[K
+Preparing: 30%[K
+Preparing: 31%[K
+Preparing: 32%[K
+Preparing: 33%[K
+Preparing: 34%[K
+Preparing: 35%[K
+Preparing: 36%[K
+Preparing: 37%[K
+Preparing: 38%[K
+Preparing: 39%[K
+Preparing: 40%[K
+Preparing: 41%[K
+Preparing: 42%[K
+Preparing: 43%[K
+Preparing: 44%[K
+Preparing: 45%[K
+Preparing: 46%[K
+Preparing: 47%[K
+Preparing: 48%[K
+Preparing: 49%[K
+Preparing: 50%[K
+Preparing: 51%[K
+Preparing: 52%[K
+Preparing: 53%[K
+Preparing: 54%[K
+Preparing: 55%[K
+Preparing: 56%[K
+Preparing: 57%[K
+Preparing: 58%[K
+Preparing: 59%[K
+Preparing: 60%[K
+Preparing: 61%[K
+Preparing: 62%[K
+Preparing: 63%[K
+Preparing: 64%[K
+Preparing: 65%[K
+Preparing: 66%[K
+Preparing: 67%[K
+Preparing: 68%[K
+Preparing: 69%[K
+Preparing: 70%[K
+Preparing: 71%[K
+Preparing: 72%[K
+Preparing: 73%[K
+Preparing: 74%[K
+Preparing: 75%[K
+Preparing: 76%[K
+Preparing: 77%[K
+Preparing: 78%[K
+Preparing: 79%[K
+Preparing: 80%[K
+Preparing: 81%[K
+Preparing: 82%[K
+Preparing: 83%[K
+Preparing: 84%[K
+Preparing: 85%[K
+Preparing: 86%[K
+Preparing: 87%[K
+Preparing: 88%[K
+Preparing: 89%[K
+Preparing: 90%[K
+Preparing: 91%[K
+Preparing: 92%[K
+Preparing: 93%[K
+Preparing: 94%[K
+Preparing: 95%[K
+Preparing: 96%[K
+Preparing: 97%[K
+Preparing: 98%[K
+Preparing: 99%[K
+[2K -- Property is satisfied.
+
+Strategy to win:
+
+State: ( police.going_a_to_b thief.going_b_to_c reachObj.initial_location ) Ppolice=-12 Pthief=-23 
+While you are in (0<Creach && Cpolice<=10 && Cthief<=Cpolice) || (Cpolice<=10 && Cpolice<Cthief && Cpolice<Creach && Cthief-Cpolice<9), wait.
+When you are in (10<Cpolice && 0<Creach && Cpolice<=11 && Cthief<=19), take transition police.going_a_to_b->police.b { Cpolice > 10, tau, Ppolice := 2, Cpolice := 0 }
+When you are in (0<Creach && Cpolice<=10 && Cpolice<Cthief && Cthief-Cpolice<9 && Creach<=Cpolice), take transition reachObj.initial_location->reachObj._unlocked { Creach > 0, tau, 1 }
+
+State: ( police.a thief.going_d_to_c reachObj._unlocked ) Ppolice=1 Pthief=-43 
+While you are in (Cpolice<=1 && Cthief<=Cpolice), wait.
+When you are in (1<Cpolice && Cthief<9), take transition police.a->police.going_a_to_b { Cpolice > 1, police_a2b!, Ppolice := -12, Cpolice := 0 }
+
+State: ( police.a thief.a reachObj.initial_location ) Ppolice=1 Pthief=1 
+When you are in (1<Cpolice && 0<Creach) || (0<Creach && Cpolice<=1 && Cpolice<=Cthief), take transition reachObj.initial_location->reachObj._unlocked { Creach > 0, tau, 1 }
+
+State: ( police.a thief.going_b_to_a reachObj._unlocked ) Ppolice=1 Pthief=-21 
+While you are in (Cthief<=21 && Cthief-Cpolice<-1) || (20<=Cthief && Cpolice-Cthief<=1 && Cthief<=21 && Cthief<=Cpolice) || (Cpolice<=1 && Cthief<=Cpolice) || (Cpolice<=1 && Cpolice-Cthief<-10 && Cthief-Cpolice<19), wait.
+When you are in (1<Cpolice && Cpolice-Cthief<=1 && Cthief<20), take transition police.a->police.going_a_to_b { Cpolice > 1, police_a2b!, Ppolice := -12, Cpolice := 0 }
+
+State: ( police.going_c_to_d thief.going_b_to_c reachObj._unlocked ) Ppolice=-34 Pthief=-23 
+While you are in (Cpolice<=10 && Cpolice<=Cthief && Cthief-Cpolice<9), wait.
+When you are in (10<Cpolice && 10<Cthief && Cpolice<=11 && Cthief<=19), take transition police.going_c_to_d->police.d { Cpolice > 10, tau, Ppolice := 4, Cpolice := 0 }
+
+State: ( police.a thief.going_b_to_c reachObj.initial_location ) Ppolice=1 Pthief=-23 
+While you are in (0<Creach && Cpolice<=1 && Cthief-Cpolice<9), wait.
+When you are in (1<Cpolice && 0<Creach && Cthief<10), take transition police.a->police.going_a_to_d { Cpolice > 1, police_a2d!, Ppolice := -14, Cpolice := 0 }
+
+State: ( police.a thief.going_a_to_b reachObj.initial_location ) Ppolice=1 Pthief=-12 
+While you are in (0<Creach && Cthief<=21 && Cthief<=Cpolice), wait.
+
+State: ( police.going_d_to_c thief.going_d_to_c reachObj.initial_location ) Ppolice=-43 Pthief=-43 
+While you are in (0<Creach && Cpolice<=10 && Cthief-Cpolice<-2) || (0<Creach && Cpolice<=10 && Cpolice-Cthief<=2 && Cthief-Cpolice<-1 && Creach<=Cpolice) || (0<Creach && Cpolice-Cthief<-10 && Cthief<=21) || (Cpolice<=10 && Cpolice-Cthief<=2 && Cpolice<Creach && Cthief-Cpolice<10) || (0<Creach && Cpolice<=10 && Cpolice-Cthief<-1 && Cthief-Cpolice<10 && Creach<=Cpolice), wait.
+When you are in (10<Cpolice && 0<Creach && Cpolice<=11 && Cthief<=20), take transition police.going_d_to_c->police.c { Cpolice > 10, tau, Ppolice := 3, Cpolice := 0 }
+
+State: ( police.going_d_to_c thief.going_c_to_b reachObj._unlocked ) Ppolice=-43 Pthief=-32 
+While you are in (Cpolice<=10 && Cthief-Cpolice<-1), wait.
+When you are in (10<Cpolice && Cpolice<=11 && Cthief<9), take transition police.going_d_to_c->police.c { Cpolice > 10, tau, Ppolice := 3, Cpolice := 0 }
+
+State: ( police.a thief.going_c_to_b reachObj.initial_location ) Ppolice=1 Pthief=-32 
+While you are in (Cpolice<=1 && Cpolice<Cthief && Cthief<10 && Cthief<Creach) || (10<=Cthief && Cpolice<Cthief && Cthief<=21 && Cthief<Creach) || (Cpolice-Cthief<-10 && Cpolice<Creach && Cthief<=21 && Creach<=Cthief), wait.
+When you are in (0<Creach && Cpolice<=1 && Cpolice<Cthief && Cthief-Cpolice<9 && Creach<=Cthief) || (0<Creach && Cthief<=21 && Cthief<=Cpolice), take transition reachObj.initial_location->reachObj._unlocked { Creach > 0, tau, 1 }
+When you are in (1<Cpolice && 0<Creach && Cpolice<Cthief && Cthief<10), take transition police.a->police.going_a_to_b { Cpolice > 1, police_a2b!, Ppolice := -12, Cpolice := 0 }
+
+State: ( police.going_b_to_a thief.going_b_to_c reachObj.initial_location ) Ppolice=-21 Pthief=-23 
+While you are in (0<Creach && Cpolice<=10 && Cthief-Cpolice<-1), wait.
+When you are in (10<Cpolice && 0<Creach && Cpolice<=11 && Cthief<9), take transition police.going_b_to_a->police.a { Cpolice > 10, tau, Ppolice := 1, Cpolice := 0 }
+
+State: ( police.d thief.going_c_to_b reachObj._unlocked ) Ppolice=4 Pthief=-32 
+While you are in (Cpolice<=1 && Cthief-Cpolice<10), wait.
+When you are in (1<Cpolice && Cthief<=11), take transition police.d->police.going_d_to_a { Cpolice > 1, police_d2a!, Ppolice := -41, Cpolice := 0 }
+
+State: ( police.a thief.going_b_to_c reachObj._unlocked ) Ppolice=1 Pthief=-23 
+While you are in (Cpolice<=1 && Cthief<=Cpolice), wait.
+When you are in (1<Cpolice && Cthief<9), take transition police.a->police.going_a_to_b { Cpolice > 1, police_a2b!, Ppolice := -12, Cpolice := 0 }
+
+State: ( police.d thief.going_c_to_d reachObj._unlocked ) Ppolice=4 Pthief=-34 
+While you are in (Cthief<=21 && Cthief-Cpolice<=11) || (0<Cpolice && 20<=Cthief && Cpolice-Cthief<-11 && Cthief<=21) || (Cpolice<=1 && Cpolice-Cthief<-11 && Cthief<=20), wait.
+When you are in (1<Cpolice && Cpolice-Cthief<-11 && Cthief<20), take transition police.d->police.going_d_to_c { Cpolice > 1, police_d2c!, Ppolice := -43, Cpolice := 0 }
+
+State: ( police.going_b_to_a thief.going_c_to_d reachObj._unlocked ) Ppolice=-21 Pthief=-34 
+While you are in (Cpolice<=10 && Cthief-Cpolice<-1), wait.
+When you are in (10<Cpolice && Cpolice<=11 && Cthief<9), take transition police.going_b_to_a->police.a { Cpolice > 10, tau, Ppolice := 1, Cpolice := 0 }
+
+State: ( police.going_d_to_c thief.going_c_to_d reachObj._unlocked ) Ppolice=-43 Pthief=-34 
+While you are in (Cpolice==0 && Cthief<20), wait.
+When you are in (0<Cpolice && Cpolice<=11 && Cthief<=21), take transition police.going_d_to_c->police.going_d_to_c { Cpolice > 0 && Pthief == -34, catch!, 1 }
+reachObj._unlocked->reachObj.win { 1, catch?, 1 }
+
+State: ( police.going_b_to_a thief.going_d_to_a reachObj.initial_location ) Ppolice=-21 Pthief=-41 
+While you are in (0<Creach && Cpolice<=10 && Cpolice-Cthief<-1 && Cthief-Cpolice<9 && Creach<=Cpolice) || (Cpolice<=10 && Cpolice<Creach && Cthief-Cpolice<9) || (0<Creach && Cpolice<=10 && Cthief-Cpolice<-1 && Creach<=Cpolice) || (9<Cpolice && Cpolice-Cthief<-10 && Cpolice<Creach && Cthief<=21) || (Cpolice<=9 && Cpolice-Cthief<-10 && Cpolice<Creach && Cthief-Cpolice<=11), wait.
+When you are in (10<Cpolice && 0<Creach && Cpolice<=11 && Cthief<19), take transition police.going_b_to_a->police.a { Cpolice > 10, tau, Ppolice := 1, Cpolice := 0 }
+
+State: ( police.going_d_to_a thief.going_a_to_d reachObj._unlocked ) Ppolice=-41 Pthief=-14 
+While you are in (Cpolice==0 && Cthief<20), wait.
+When you are in (0<Cpolice && Cpolice<=11 && Cpolice<=Cthief && Cthief<=21), take transition police.going_d_to_a->police.going_d_to_a { Cpolice > 0 && Pthief == -14, catch!, 1 }
+reachObj._unlocked->reachObj.win { 1, catch?, 1 }
+
+State: ( police.going_b_to_c thief.going_b_to_c reachObj._unlocked ) Ppolice=-23 Pthief=-23 
+While you are in (Cpolice<=10 && Cpolice<=Cthief && Cthief-Cpolice<9), wait.
+When you are in (10<Cpolice && 10<Cthief && Cpolice<=11 && Cthief<19), take transition police.going_b_to_c->police.c { Cpolice > 10, tau, Ppolice := 3, Cpolice := 0 }
+
+State: ( police.going_a_to_b thief.going_b_to_a reachObj.initial_location ) Ppolice=-12 Pthief=-21 
+When you are in (0<Creach && Cpolice<=11 && Cthief<=20 && Cthief-Cpolice<20), take transition reachObj.initial_location->reachObj._unlocked { Creach > 0, tau, 1 }
+
+State: ( police.going_a_to_d thief.going_a_to_b reachObj.initial_location ) Ppolice=-14 Pthief=-12 
+While you are in (0<Creach && Cpolice<=10 && Cthief<=Cpolice) || (Cpolice<=10 && Cpolice<Cthief && Cpolice<Creach && Cthief-Cpolice<9), wait.
+When you are in (10<Cpolice && 0<Creach && Cpolice<=11 && Cthief<=19), take transition police.going_a_to_d->police.d { Cpolice > 10, tau, Ppolice := 4, Cpolice := 0 }
+
+State: ( police.d thief.going_b_to_a reachObj._unlocked ) Ppolice=4 Pthief=-21 
+While you are in (Cpolice<=1 && Cthief-Cpolice<8), wait.
+When you are in (1<Cpolice && Cthief<9), take transition police.d->police.going_d_to_a { Cpolice > 1, police_d2a!, Ppolice := -41, Cpolice := 0 }
+
+State: ( police.going_b_to_c thief.going_c_to_d reachObj._unlocked ) Ppolice=-23 Pthief=-34 
+While you are in (Cpolice<=10 && Cthief-Cpolice<-1), wait.
+When you are in (10<Cpolice && Cpolice<=11 && Cthief<9), take transition police.going_b_to_c->police.c { Cpolice > 10, tau, Ppolice := 3, Cpolice := 0 }
+
+State: ( police.going_d_to_a thief.going_c_to_d reachObj.initial_location ) Ppolice=-41 Pthief=-34 
+While you are in (Cpolice<=10 && Cthief-Cpolice<-1 && Cthief<Creach), wait.
+When you are in (10<Cpolice && Cpolice<=11 && Cthief<9 && Cthief<Creach), take transition police.going_d_to_a->police.a { Cpolice > 10, tau, Ppolice := 1, Cpolice := 0 }
+When you are in (0<Creach && Cpolice<=11 && Cthief<9 && Cthief-Cpolice<-1 && Creach<=Cthief), take transition reachObj.initial_location->reachObj._unlocked { Creach > 0, tau, 1 }
+
+State: ( police.going_d_to_a thief.going_d_to_a reachObj.initial_location ) Ppolice=-41 Pthief=-41 
+While you are in (0<Creach && Cpolice<=10 && Cpolice-Cthief<-1 && Cthief-Cpolice<9 && Creach<=Cpolice) || (Cpolice<=10 && Cpolice<Creach && Cthief-Cpolice<9) || (0<Creach && Cpolice<=10 && Cthief-Cpolice<-1 && Creach<=Cpolice), wait.
+When you are in (10<Cpolice && 0<Creach && Cpolice<=11 && Cthief<19), take transition police.going_d_to_a->police.a { Cpolice > 10, tau, Ppolice := 1, Cpolice := 0 }
+
+State: ( police.d thief.going_a_to_d reachObj.initial_location ) Ppolice=4 Pthief=-14 
+While you are in (Cthief<=21 && Cthief-Cpolice<-1 && Cthief<Creach) || (Cpolice<Cthief && Cpolice<Creach && Cthief<=21 && Cthief-Cpolice<=20) || (0<Cpolice && Cpolice-Cthief<-11 && Cpolice<Creach && Cthief<=21) || (0<Creach && Cpolice-Cthief<-10 && Cthief<=21 && Creach<=Cpolice), wait.
+When you are in (Cpolice-Cthief<=1 && Cthief<=21 && Cthief<=Cpolice && Cthief<Creach) || (0<Creach && Cthief<=21 && Cthief<=Cpolice && Creach<=Cthief), take transition reachObj.initial_location->reachObj._unlocked { Creach > 0, tau, 1 }
+
+State: ( police.d thief.going_c_to_b reachObj.initial_location ) Ppolice=4 Pthief=-32 
+While you are in (Cpolice<=1 && Cthief<=Cpolice && Cthief<Creach) || (Cpolice<=1 && Cpolice<Cthief && Cpolice<Creach && Cthief-Cpolice<=11) || (0<Creach && Cpolice<=1 && Cpolice-Cthief<-10 && Cthief-Cpolice<=11 && Creach<=Cpolice) || (19<Cthief && Cthief<=21 && Cthief<=Cpolice && Cthief<Creach) || (0<Creach && Cpolice<=1 && Cpolice-Cthief<-11 && Cthief-Cpolice<=19) || (1<Cpolice && 19<Cthief && Cpolice<Cthief && Cpolice<Creach && Cthief<=21) || (1<Cpolice && 19<Cthief && 0<Creach && Cpolice-Cthief<-10 && Cthief<=21 && Creach<=Cpolice), wait.
+When you are in (1<Cpolice && 0<Creach && Cthief<=19) || (19<Cthief && 0<Creach && Cthief<=21 && Cthief-Cpolice<=10 && Creach<=Cpolice && Creach<=Cthief), take transition police.d->police.going_d_to_a { Cpolice > 1, police_d2a!, Ppolice := -41, Cpolice := 0 }
+When you are in (0<Creach && Cpolice<=1 && Cthief-Cpolice<10 && Creach<=Cpolice && Creach<=Cthief), take transition reachObj.initial_location->reachObj._unlocked { Creach > 0, tau, 1 }
+
+State: ( police.b thief.going_a_to_b reachObj._unlocked ) Ppolice=2 Pthief=-12 
+While you are in (Cthief<=21 && Cthief<=Cpolice) || (1<Cpolice && 20<=Cthief && Cpolice-Cthief<-10 && Cthief<=21) || (Cpolice<=1 && Cpolice-Cthief<-10 && Cthief<=21), wait.
+When you are in (1<Cpolice && Cpolice<Cthief && Cthief<20), take transition police.b->police.going_b_to_a { Cpolice > 1, police_b2a!, Ppolice := -21, Cpolice := 0 }
+
+State: ( police.going_a_to_d thief.going_c_to_d reachObj.initial_location ) Ppolice=-14 Pthief=-34 
+When you are in (0<Creach && Cpolice<=11 && Cthief<=20 && Cthief-Cpolice<10), take transition reachObj.initial_location->reachObj._unlocked { Creach > 0, tau, 1 }
+
+State: ( police.a thief.b reachObj.initial_location ) Ppolice=1 Pthief=2 
+While you are in (1<Cthief && 0<Creach && Cpolice<=1) || (Cpolice<=1 && Cpolice<Creach && Cthief<=1), wait.
+When you are in (1<Cpolice && 0<Creach), take transition reachObj.initial_location->reachObj._unlocked { Creach > 0, tau, 1 }
+
+State: ( police.c thief.going_c_to_b reachObj.initial_location ) Ppolice=3 Pthief=-32 
+While you are in (Cpolice<=1 && Cthief<=11 && Cthief<Creach) || (11<Cthief && Cthief<=21 && Cthief-Cpolice<=11 && Cthief<Creach), wait.
+When you are in (1<Cpolice && 0<Creach && Cthief<=11), take transition police.c->police.going_c_to_b { Cpolice > 1, police_c2b!, Ppolice := -32, Cpolice := 0 }
+When you are in (0<Creach && Cpolice<=1 && Cthief<=Cpolice && Creach<=Cthief) || (0<Creach && Cpolice<=1 && Cpolice<Cthief && Cthief-Cpolice<9 && Creach<=Cthief), take transition reachObj.initial_location->reachObj._unlocked { Creach > 0, tau, 1 }
+
+State: ( police.going_d_to_c thief.going_b_to_c reachObj._unlocked ) Ppolice=-43 Pthief=-23 
+While you are in (Cpolice<=10 && Cpolice<=Cthief && Cthief-Cpolice<9), wait.
+When you are in (10<Cpolice && 10<Cthief && Cpolice<=11 && Cthief<19), take transition police.going_d_to_c->police.c { Cpolice > 10, tau, Ppolice := 3, Cpolice := 0 }
+
+State: ( police.c thief.going_d_to_c reachObj.initial_location ) Ppolice=3 Pthief=-43 
+While you are in (0<Creach && Cpolice<=1 && Cthief<=20) || (0<Cpolice && 20<=Cthief && 0<Creach && Cthief<=21), wait.
+When you are in (1<Cpolice && 0<Creach && Cthief<20), take transition police.c->police.going_c_to_d { Cpolice > 1, police_c2d!, Ppolice := -34, Cpolice := 0 }
+
+State: ( police.d thief.going_d_to_c reachObj._unlocked ) Ppolice=4 Pthief=-43 
+While you are in (1<Cpolice && Cpolice-Cthief<-11 && Cthief<=21) || (Cthief<=21 && Cthief-Cpolice<=19), wait.
+
+State: ( police.going_c_to_d thief.going_c_to_d reachObj.initial_location ) Ppolice=-34 Pthief=-34 
+While you are in (Cpolice<=10 && Cthief-Cpolice<10 && Cthief<Creach) || (0<Creach && Cpolice<=10 && Cpolice<=Cthief && Cthief-Cpolice<10 && Creach<=Cthief), wait.
+When you are in (10<Cpolice && 0<Creach && Cpolice<=11 && Cthief<=20), take transition police.going_c_to_d->police.d { Cpolice > 10, tau, Ppolice := 4, Cpolice := 0 }
+
+State: ( police.a thief.going_d_to_a reachObj._unlocked ) Ppolice=1 Pthief=-41 
+While you are in (Cthief<=21 && Cthief-Cpolice<-1) || (20<=Cthief && Cpolice-Cthief<=1 && Cthief<=21 && Cthief<=Cpolice) || (Cpolice<=1 && Cthief<=Cpolice), wait.
+When you are in (1<Cpolice && Cpolice-Cthief<=1 && Cthief<20), take transition police.a->police.going_a_to_d { Cpolice > 1, police_a2d!, Ppolice := -14, Cpolice := 0 }
+
+State: ( police.going_d_to_c thief.going_c_to_d reachObj.initial_location ) Ppolice=-43 Pthief=-34 
+When you are in (0<Creach && Cpolice<=11 && Cthief<=20 && Cthief-Cpolice<20), take transition reachObj.initial_location->reachObj._unlocked { Creach > 0, tau, 1 }
+
+State: ( police.going_b_to_a thief.going_c_to_d reachObj.initial_location ) Ppolice=-21 Pthief=-34 
+While you are in (Cpolice<=10 && Cthief-Cpolice<-1 && Cthief<Creach), wait.
+When you are in (10<Cpolice && Cpolice<=11 && Cthief<9 && Cthief<Creach), take transition police.going_b_to_a->police.a { Cpolice > 10, tau, Ppolice := 1, Cpolice := 0 }
+When you are in (0<Creach && Cpolice<=11 && Cthief<9 && Cthief-Cpolice<-1 && Creach<=Cthief), take transition reachObj.initial_location->reachObj._unlocked { Creach > 0, tau, 1 }
+
+State: ( police.d thief.going_b_to_a reachObj.initial_location ) Ppolice=4 Pthief=-21 
+While you are in (Cpolice<=1 && Cthief<=Cpolice && Cthief<Creach) || (Cpolice<=1 && Cpolice<Cthief && Cpolice<Creach && Cthief-Cpolice<8), wait.
+When you are in (1<Cpolice && 0<Creach && Cthief<9), take transition police.d->police.going_d_to_a { Cpolice > 1, police_d2a!, Ppolice := -41, Cpolice := 0 }
+When you are in (0<Creach && Cpolice<=1 && Cthief-Cpolice<8 && Creach<=Cpolice && Creach<=Cthief), take transition reachObj.initial_location->reachObj._unlocked { Creach > 0, tau, 1 }
+
+State: ( police.going_a_to_b thief.b reachObj.initial_location ) Ppolice=-12 Pthief=2 
+When you are in (0<Creach && Cpolice<=11), take transition reachObj.initial_location->reachObj._unlocked { Creach > 0, tau, 1 }
+
+State: ( police.b thief.c reachObj.initial_location ) Ppolice=2 Pthief=3 
+When you are in (1<Cpolice && 0<Creach && Cthief==0), take transition police.b->police.going_b_to_c { Cpolice > 1, police_b2c!, Ppolice := -23, Cpolice := 0 }
+
+State: ( police.c thief.going_c_to_d reachObj.initial_location ) Ppolice=3 Pthief=-34 
+While you are in (Cpolice<=1 && Cthief-Cpolice<9 && Cthief<Creach), wait.
+When you are in (1<Cpolice && 0<Creach && Cthief<10), take transition police.c->police.going_c_to_d { Cpolice > 1, police_c2d!, Ppolice := -34, Cpolice := 0 }
+When you are in (0<Creach && Cpolice<=1 && Cthief<=Cpolice && Creach<=Cthief) || (0<Creach && Cpolice<=1 && Cpolice<Cthief && Cthief-Cpolice<9 && Creach<=Cthief), take transition reachObj.initial_location->reachObj._unlocked { Creach > 0, tau, 1 }
+
+State: ( police.going_b_to_a thief.b reachObj._unlocked ) Ppolice=-21 Pthief=2 
+While you are in (Cpolice<=10 && Cthief-Cpolice<-9), wait.
+When you are in (10<Cpolice && Cpolice<=11), take transition police.going_b_to_a->police.a { Cpolice > 10, tau, Ppolice := 1, Cpolice := 0 }
+
+State: ( police.going_a_to_b thief.going_d_to_c reachObj.initial_location ) Ppolice=-12 Pthief=-43 
+While you are in (0<Creach && Cpolice<=10 && Cthief<=Cpolice) || (Cpolice<=10 && Cpolice<Cthief && Cpolice<Creach && Cthief-Cpolice<9), wait.
+When you are in (10<Cpolice && 0<Creach && Cpolice<=11 && Cthief<=19), take transition police.going_a_to_b->police.b { Cpolice > 10, tau, Ppolice := 2, Cpolice := 0 }
+When you are in (0<Creach && Cpolice<=10 && Cpolice<Cthief && Cthief-Cpolice<9 && Creach<=Cpolice), take transition reachObj.initial_location->reachObj._unlocked { Creach > 0, tau, 1 }
+
+State: ( police.going_a_to_b thief.going_b_to_c reachObj._unlocked ) Ppolice=-12 Pthief=-23 
+While you are in (Cpolice<=10 && Cthief-Cpolice<9), wait.
+When you are in (10<Cpolice && Cpolice<=11 && Cthief<=19), take transition police.going_a_to_b->police.b { Cpolice > 10, tau, Ppolice := 2, Cpolice := 0 }
+
+State: ( police.d thief.c reachObj.initial_location ) Ppolice=4 Pthief=3 
+While you are in (Cpolice<=1 && Cthief<Cpolice && Cthief<Creach) || (1<Cthief && 0<Creach && Cpolice<=1), wait.
+When you are in (1<Cpolice && 0<Creach && Cthief==0), take transition reachObj.initial_location->reachObj._unlocked { Creach > 0, tau, 1 }
+When you are in (1<Cpolice && 0<Cthief && 0<Creach), take transition police.d->police.going_d_to_c { Cpolice > 1, police_d2c!, Ppolice := -43, Cpolice := 0 }
+
+State: ( police.going_a_to_b thief.going_d_to_a reachObj.initial_location ) Ppolice=-12 Pthief=-41 
+While you are in (0<Creach && Cpolice<=10 && Cthief-Cpolice<-2), wait.
+When you are in (10<Cpolice && 0<Creach && Cpolice<=11 && Cthief<8), take transition police.going_a_to_b->police.b { Cpolice > 10, tau, Ppolice := 2, Cpolice := 0 }
+
+State: ( police.going_b_to_a thief.going_d_to_c reachObj.initial_location ) Ppolice=-21 Pthief=-43 
+While you are in (0<Creach && Cpolice<=10 && Cthief-Cpolice<-1), wait.
+When you are in (10<Cpolice && 0<Creach && Cpolice<=11 && Cthief<9), take transition police.going_b_to_a->police.a { Cpolice > 10, tau, Ppolice := 1, Cpolice := 0 }
+
+State: ( police.going_b_to_c thief.c reachObj.initial_location ) Ppolice=-23 Pthief=3 
+While you are in (1<Cpolice && 0<Creach && Cpolice<=10 && Cpolice-Cthief<-1) || (Cpolice<=1 && Cpolice==Cthief && Cpolice<Creach) || (1<Cpolice && Cpolice<=10 && Cpolice<=Cthief && Cpolice<Creach && Cthief-Cpolice<=1) || (0<Creach && Cpolice<=10 && Cthief<Cpolice), wait.
+When you are in (10<Cpolice && 0<Creach && Cpolice<=11), take transition police.going_b_to_c->police.c { Cpolice > 10, tau, Ppolice := 3, Cpolice := 0 }
+When you are in (1<Cpolice && 0<Creach && Cpolice<=10 && Cpolice<=Cthief && Cthief-Cpolice<=1 && Creach<=Cpolice) || (0<Creach && Cpolice<=1 && Cpolice==Cthief && Creach<=Cpolice), take transition reachObj.initial_location->reachObj._unlocked { Creach > 0, tau, 1 }
+
+State: ( police.going_a_to_d thief.going_b_to_c reachObj.initial_location ) Ppolice=-14 Pthief=-23 
+While you are in (0<Creach && Cpolice<=10 && Cthief<=Cpolice) || (Cpolice<=10 && Cpolice<Cthief && Cpolice<Creach && Cthief-Cpolice<10), wait.
+When you are in (10<Cpolice && 0<Creach && Cpolice<=11 && Cthief<=20), take transition police.going_a_to_d->police.d { Cpolice > 10, tau, Ppolice := 4, Cpolice := 0 }
+When you are in (0<Creach && Cpolice<=10 && Cpolice<Cthief && Cthief-Cpolice<9 && Creach<=Cpolice), take transition reachObj.initial_location->reachObj._unlocked { Creach > 0, tau, 1 }
+
+State: ( police.going_d_to_a thief.going_a_to_b reachObj._unlocked ) Ppolice=-41 Pthief=-12 
+While you are in (Cpolice<=9 && Cpolice-Cthief<-10 && Cthief-Cpolice<=11) || (9<Cpolice && Cpolice-Cthief<-10 && Cthief<=21), wait.
+
+State: ( police.going_d_to_a thief.going_c_to_d reachObj._unlocked ) Ppolice=-41 Pthief=-34 
+While you are in (Cpolice<=10 && Cthief-Cpolice<-1), wait.
+When you are in (10<Cpolice && Cpolice<=11 && Cthief<9), take transition police.going_d_to_a->police.a { Cpolice > 10, tau, Ppolice := 1, Cpolice := 0 }
+
+State: ( police.going_d_to_c thief.c reachObj.initial_location ) Ppolice=-43 Pthief=3 
+While you are in (Cpolice<=1 && Cpolice<Cthief && Cpolice<Creach && Cthief-Cpolice<=1) || (0<Creach && Cpolice<=10 && Cthief<Cpolice) || (0<Creach && Cpolice<=1 && Cpolice-Cthief<-1), wait.
+When you are in (1<Cpolice && 0<Creach && Cpolice<=11 && Cpolice<=Cthief) || (0<Creach && Cpolice<=1 && Cpolice==Cthief), take transition reachObj.initial_location->reachObj._unlocked { Creach > 0, tau, 1 }
+When you are in (10<Cpolice && 0<Creach && Cpolice<=11 && Cthief<Cpolice), take transition police.going_d_to_c->police.c { Cpolice > 10, tau, Ppolice := 3, Cpolice := 0 }
+
+State: ( police.going_d_to_a thief.b reachObj.initial_location ) Ppolice=-41 Pthief=2 
+While you are in (1<Cpolice && Cpolice<=10 && Cpolice<=Cthief && Cpolice<Creach) || (Cpolice<=10 && Cthief<10 && Cthief<=Cpolice && Cthief<Creach) || (0<Creach && Cpolice<=10 && Cpolice-Cthief<=9 && Cthief<=Cpolice && Creach<=Cthief), wait.
+When you are in (10<Cpolice && 0<Creach && Cpolice<=11), take transition police.going_d_to_a->police.a { Cpolice > 10, tau, Ppolice := 1, Cpolice := 0 }
+When you are in (0<Creach && Cpolice<=10 && Cthief-Cpolice<-9 && Creach<=Cthief), take transition reachObj.initial_location->reachObj._unlocked { Creach > 0, tau, 1 }
+
+State: ( police.a thief.going_c_to_b reachObj._unlocked ) Ppolice=1 Pthief=-32 
+While you are in (Cpolice<=1 && Cthief<10) || (10<=Cthief && Cthief<=21), wait.
+When you are in (1<Cpolice && Cthief<10), take transition police.a->police.going_a_to_b { Cpolice > 1, police_a2b!, Ppolice := -12, Cpolice := 0 }
+
+State: ( police.going_a_to_b thief.going_b_to_a reachObj._unlocked ) Ppolice=-12 Pthief=-21 
+While you are in (Cpolice==0 && Cthief<20), wait.
+When you are in (0<Cpolice && Cpolice<=11 && Cthief<=21), take transition police.going_a_to_b->police.going_a_to_b { Cpolice > 0 && Pthief == -21, catch!, 1 }
+reachObj._unlocked->reachObj.win { 1, catch?, 1 }
+
+State: ( police.going_b_to_a thief.going_a_to_b reachObj._unlocked ) Ppolice=-21 Pthief=-12 
+While you are in (Cpolice==0 && Cthief<20), wait.
+When you are in (0<Cpolice && Cpolice<=11 && Cpolice<=Cthief && Cthief<=21), take transition police.going_b_to_a->police.going_b_to_a { Cpolice > 0 && Pthief == -12, catch!, 1 }
+reachObj._unlocked->reachObj.win { 1, catch?, 1 }
+
+State: ( police.d thief.d reachObj.initial_location ) Ppolice=4 Pthief=4 
+When you are in (0<Creach && Cthief<=1 && Cthief<Cpolice), take transition reachObj.initial_location->reachObj._unlocked { Creach > 0, tau, 1 }
+
+State: ( police.going_c_to_d thief.going_d_to_c reachObj.initial_location ) Ppolice=-34 Pthief=-43 
+While you are in (Cpolice<=10 && Cpolice<=Cthief && Cpolice<Creach && Cthief-Cpolice<9) || (Cpolice<=10 && Cthief<Cpolice && Cthief<Creach), wait.
+When you are in (10<Cpolice && 0<Creach && Cpolice<=11 && Cthief<=19), take transition police.going_c_to_d->police.d { Cpolice > 10, tau, Ppolice := 4, Cpolice := 0 }
+When you are in (0<Creach && Cpolice<11 && Cpolice-Cthief<=-9 && Cthief<=20 && Cthief-Cpolice<20) || (0<Creach && Cpolice<=10 && Cpolice<=Cthief && Cthief-Cpolice<=9 && Creach<=Cpolice) || (19<Cthief && 0<Creach && Cpolice<=11 && Cthief-Cpolice<=9), take transition reachObj.initial_location->reachObj._unlocked { Creach > 0, tau, 1 }
+
+State: ( police.b thief.going_d_to_a reachObj.initial_location ) Ppolice=2 Pthief=-41 
+While you are in (Cpolice<=1 && Cthief<=Cpolice && Cthief<Creach) || (Cpolice<=1 && Cpolice<Cthief && Cpolice<Creach && Cthief-Cpolice<8) || (9<=Cthief && Cthief<=10 && Cthief<=Cpolice && Cthief<Creach) || (9<=Cthief && 0<Creach && Cthief<=10 && Cthief-Cpolice<-1 && Creach<=Cthief), wait.
+When you are in (1<Cpolice && 0<Creach && Cthief<9) || (1<Cpolice && 10<Cthief && 0<Creach && Cthief<=11), take transition police.b->police.going_b_to_a { Cpolice > 1, police_b2a!, Ppolice := -21, Cpolice := 0 }
+
+State: ( police.d thief.going_a_to_d reachObj._unlocked ) Ppolice=4 Pthief=-14 
+While you are in (Cthief<=21 && Cthief<=Cpolice) || (Cpolice<=1 && Cpolice-Cthief<-10 && Cthief<=20) || (0<Cpolice && 20<=Cthief && Cpolice-Cthief<-10 && Cthief<=21), wait.
+When you are in (1<Cpolice && Cpolice<Cthief && Cthief<20), take transition police.d->police.going_d_to_a { Cpolice > 1, police_d2a!, Ppolice := -41, Cpolice := 0 }
+
+State: ( police.going_a_to_d thief.going_b_to_c reachObj._unlocked ) Ppolice=-14 Pthief=-23 
+While you are in (Cpolice<=10 && Cthief-Cpolice<9), wait.
+When you are in (10<Cpolice && Cpolice<=11 && Cthief<=19), take transition police.going_a_to_d->police.d { Cpolice > 10, tau, Ppolice := 4, Cpolice := 0 }
+
+State: ( police.d thief.going_b_to_c reachObj._unlocked ) Ppolice=4 Pthief=-23 
+While you are in (1<Cpolice && Cpolice-Cthief<-11 && Cthief<=21) || (Cthief<=21 && Cthief-Cpolice<=19), wait.
+
+State: ( police.going_b_to_c thief.going_b_to_c reachObj.initial_location ) Ppolice=-23 Pthief=-23 
+While you are in (0<Creach && Cpolice<=10 && Cthief-Cpolice<-2) || (0<Creach && Cpolice<=10 && Cpolice-Cthief<=2 && Cthief-Cpolice<-1 && Creach<=Cpolice) || (0<Creach && Cpolice-Cthief<-10 && Cthief<=21) || (Cpolice<=10 && Cpolice-Cthief<=2 && Cpolice<Creach && Cthief-Cpolice<10) || (0<Creach && Cpolice<=10 && Cpolice-Cthief<-1 && Cthief-Cpolice<10 && Creach<=Cpolice), wait.
+When you are in (10<Cpolice && 0<Creach && Cpolice<=11 && Cthief<=20), take transition police.going_b_to_c->police.c { Cpolice > 10, tau, Ppolice := 3, Cpolice := 0 }
+When you are in (0<Creach && Cpolice<=10 && Cpolice<=Cthief && Cthief-Cpolice<=1 && Creach<=Cpolice), take transition reachObj.initial_location->reachObj._unlocked { Creach > 0, tau, 1 }
+
+State: ( police.a thief.a reachObj._unlocked ) Ppolice=1 Pthief=1 
+While you are in (Cpolice<=1 && Cpolice<=Cthief), wait.
+When you are in (1<Cpolice), take transition police.a->police.a { Cpolice > 1 && Pthief == 1, catch!, Cpolice := 0 }
+reachObj._unlocked->reachObj.win { 1, catch?, 1 }
+
+State: ( police.going_c_to_b thief.going_b_to_c reachObj.initial_location ) Ppolice=-32 Pthief=-23 
+While you are in (Cpolice<=10 && Cpolice<=Cthief && Cpolice<Creach && Cthief-Cpolice<9) || (Cpolice<=10 && Cthief<Cpolice && Cthief<Creach), wait.
+When you are in (10<Cpolice && 0<Creach && Cpolice<=11 && Cthief<=19), take transition police.going_c_to_b->police.b { Cpolice > 10, tau, Ppolice := 2, Cpolice := 0 }
+When you are in (0<Creach && Cpolice<11 && Cpolice-Cthief<=-9 && Cthief<=20 && Cthief-Cpolice<20) || (0<Creach && Cpolice<=10 && Cpolice<=Cthief && Cthief-Cpolice<=9 && Creach<=Cpolice) || (19<Cthief && 0<Creach && Cpolice<=11 && Cthief-Cpolice<=9), take transition reachObj.initial_location->reachObj._unlocked { Creach > 0, tau, 1 }
+
+State: ( police.d thief.c reachObj._unlocked ) Ppolice=4 Pthief=3 
+When you are in (1<Cpolice && Cthief==0), take transition police.d->police.going_d_to_c { Cpolice > 1, police_d2c!, Ppolice := -43, Cpolice := 0 }
+
+State: ( police.going_d_to_a thief.going_b_to_a reachObj._unlocked ) Ppolice=-41 Pthief=-21 
+While you are in (Cpolice<=10 && Cpolice<=Cthief && Cthief-Cpolice<9), wait.
+When you are in (10<Cpolice && 10<Cthief && Cpolice<=11 && Cthief<19), take transition police.going_d_to_a->police.a { Cpolice > 10, tau, Ppolice := 1, Cpolice := 0 }
+
+State: ( police.going_c_to_b thief.going_d_to_c reachObj.initial_location ) Ppolice=-32 Pthief=-43 
+While you are in (Cpolice<=10 && Cpolice<=Cthief && Cpolice<Creach && Cthief-Cpolice<9) || (Cpolice<=10 && Cthief<Cpolice && Cthief<Creach), wait.
+When you are in (10<Cpolice && 0<Creach && Cpolice<=11 && Cthief<=19), take transition police.going_c_to_b->police.b { Cpolice > 10, tau, Ppolice := 2, Cpolice := 0 }
+When you are in (0<Creach && Cpolice<=10 && Cpolice<=Cthief && Cthief-Cpolice<9 && Creach<=Cpolice), take transition reachObj.initial_location->reachObj._unlocked { Creach > 0, tau, 1 }
+
+State: ( police.a thief.going_d_to_c reachObj.initial_location ) Ppolice=1 Pthief=-43 
+While you are in (0<Creach && Cpolice<=1 && Cthief-Cpolice<9), wait.
+When you are in (1<Cpolice && 0<Creach && Cthief<10), take transition police.a->police.going_a_to_d { Cpolice > 1, police_a2d!, Ppolice := -14, Cpolice := 0 }
+
+State: ( police.going_b_to_a thief.b reachObj.initial_location ) Ppolice=-21 Pthief=2 
+While you are in (1<Cpolice && 1<Cthief && Cpolice<=10 && Cpolice-Cthief<1 && Cpolice<Creach) || (0<Creach && Cpolice<=10 && Cpolice-Cthief<1 && Cthief<=Cpolice && Creach<=Cpolice) || (0<Creach && Cpolice<=10 && Cthief<=9 && Cthief<=Cpolice), wait.
+When you are in (10<Cpolice && 0<Creach && Cpolice<=11), take transition police.going_b_to_a->police.a { Cpolice > 10, tau, Ppolice := 1, Cpolice := 0 }
+
+State: ( police.going_d_to_a thief.going_a_to_b reachObj.initial_location ) Ppolice=-41 Pthief=-12 
+While you are in (Cpolice-Cthief<-10 && Cthief<=21 && Cthief<Creach), wait.
+When you are in (0<Creach && Cpolice<=9 && Cpolice-Cthief<-10 && Cthief-Cpolice<=11 && Creach<=Cthief) || (9<Cpolice && 0<Creach && Cpolice-Cthief<-10 && Cthief<=21 && Creach<=Cthief), take transition reachObj.initial_location->reachObj._unlocked { Creach > 0, tau, 1 }
+
+State: ( police.c thief.going_b_to_c reachObj._unlocked ) Ppolice=3 Pthief=-23 
+While you are in (Cpolice<=1 && Cthief<=Cpolice) || (Cpolice<=1 && Cpolice-Cthief<-10 && Cthief-Cpolice<19), wait.
+When you are in (1<Cpolice && Cthief<20), take transition police.c->police.going_c_to_b { Cpolice > 1, police_c2b!, Ppolice := -32, Cpolice := 0 }
+
+State: ( police.going_a_to_d thief.going_a_to_d reachObj._unlocked ) Ppolice=-14 Pthief=-14 
+While you are in (Cpolice<=10 && Cpolice<=Cthief && Cthief-Cpolice<10), wait.
+When you are in (10<Cpolice && 10<Cthief && Cpolice<=11 && Cthief<=20), take transition police.going_a_to_d->police.d { Cpolice > 10, tau, Ppolice := 4, Cpolice := 0 }
+
+State: ( police.b thief.c reachObj._unlocked ) Ppolice=2 Pthief=3 
+When you are in (1<Cpolice && Cthief==0), take transition police.b->police.going_b_to_c { Cpolice > 1, police_b2c!, Ppolice := -23, Cpolice := 0 }
+
+State: ( police.c thief.b reachObj.initial_location ) Ppolice=3 Pthief=2 
+When you are in (1<Cpolice && 0<Creach && Cthief<=1), take transition police.c->police.going_c_to_b { Cpolice > 1, police_c2b!, Ppolice := -32, Cpolice := 0 }
+
+State: ( police.going_c_to_d thief.going_d_to_a reachObj.initial_location ) Ppolice=-34 Pthief=-41 
+While you are in (Cpolice<=10 && Cthief-Cpolice<-2 && Cthief<Creach), wait.
+When you are in (10<Cpolice && 0<Creach && Cpolice<=11 && Cthief<8), take transition police.going_c_to_d->police.d { Cpolice > 10, tau, Ppolice := 4, Cpolice := 0 }
+
+State: ( police.going_a_to_d thief.going_d_to_a reachObj._unlocked ) Ppolice=-14 Pthief=-41 
+While you are in (Cpolice==0 && Cthief<20), wait.
+When you are in (0<Cpolice && Cpolice<=11 && Cthief<=21), take transition police.going_a_to_d->police.going_a_to_d { Cpolice > 0 && Pthief == -41, catch!, 1 }
+reachObj._unlocked->reachObj.win { 1, catch?, 1 }
+
+State: ( police.going_d_to_a thief.going_a_to_d reachObj.initial_location ) Ppolice=-41 Pthief=-14 
+When you are in (0<Creach && Cpolice<=11 && Cpolice<=Cthief && Cthief<=20 && Cthief-Cpolice<20), take transition reachObj.initial_location->reachObj._unlocked { Creach > 0, tau, 1 }
+
+State: ( police.c thief.going_c_to_d reachObj._unlocked ) Ppolice=3 Pthief=-34 
+While you are in (Cpolice<=1 && Cthief-Cpolice<9), wait.
+When you are in (1<Cpolice && Cthief<10), take transition police.c->police.going_c_to_d { Cpolice > 1, police_c2d!, Ppolice := -34, Cpolice := 0 }
+
+State: ( police.a thief.b reachObj._unlocked ) Ppolice=1 Pthief=2 
+While you are in (Cpolice<=1), wait.
+When you are in (1<Cpolice), take transition police.a->police.going_a_to_b { Cpolice > 1, police_a2b!, Ppolice := -12, Cpolice := 0 }
+
+State: ( police.going_b_to_a thief.going_b_to_a reachObj._unlocked ) Ppolice=-21 Pthief=-21 
+While you are in (Cpolice<=10 && Cpolice<=Cthief && Cthief-Cpolice<9), wait.
+When you are in (10<Cpolice && 10<Cthief && Cpolice<=11 && Cthief<19), take transition police.going_b_to_a->police.a { Cpolice > 10, tau, Ppolice := 1, Cpolice := 0 }
+
+State: ( police.going_a_to_d thief.going_c_to_b reachObj._unlocked ) Ppolice=-14 Pthief=-32 
+While you are in (Cpolice<=10 && Cthief<Cpolice), wait.
+When you are in (10<Cpolice && Cpolice<=11 && Cthief<10), take transition police.going_a_to_d->police.d { Cpolice > 10, tau, Ppolice := 4, Cpolice := 0 }
+
+State: ( police.going_b_to_a thief.going_a_to_b reachObj.initial_location ) Ppolice=-21 Pthief=-12 
+While you are in (Cpolice-Cthief<-10 && Cthief<=21 && Cthief<Creach), wait.
+When you are in (0<Creach && Cpolice-Cthief<-11 && Cthief<=20 && Cthief-Cpolice<20 && Creach<=Cthief) || (9<Cpolice && 0<Creach && Cpolice-Cthief<-11 && Cthief<=21 && Creach<=Cthief) || (Cpolice<=11 && Cpolice<=Cthief && Cthief-Cpolice<=10 && Cthief<Creach) || (0<Creach && Cpolice<=11 && Cpolice<=Cthief && Cthief<=21 && Cthief-Cpolice<=11 && Creach<=Cthief), take transition reachObj.initial_location->reachObj._unlocked { Creach > 0, tau, 1 }
+
+State: ( police.c thief.c reachObj.initial_location ) Ppolice=3 Pthief=3 
+While you are in (Cpolice<=Cthief && Cpolice<Creach && Cthief<=1) || (Cpolice<=1 && Cthief<Cpolice && Cthief<Creach), wait.
+When you are in (1<Cthief && 0<Creach), take transition reachObj.initial_location->reachObj._unlocked { Creach > 0, tau, 1 }
+When you are in (1<Cpolice && 0<Creach && Cthief<=1), take transition police.c->police.c { Cpolice > 1 && Pthief == 3, catch!, Cpolice := 0 }
+
+State: ( police.going_d_to_c thief.going_b_to_c reachObj.initial_location ) Ppolice=-43 Pthief=-23 
+While you are in (0<Creach && Cpolice<=10 && Cthief-Cpolice<-2) || (0<Creach && Cpolice<=10 && Cpolice-Cthief<=2 && Cthief-Cpolice<-1 && Creach<=Cpolice) || (0<Creach && Cpolice-Cthief<-10 && Cthief<=21) || (Cpolice<=10 && Cpolice-Cthief<=2 && Cpolice<Creach && Cthief-Cpolice<10) || (0<Creach && Cpolice<=10 && Cpolice-Cthief<-1 && Cthief-Cpolice<10 && Creach<=Cpolice), wait.
+When you are in (10<Cpolice && 0<Creach && Cpolice<=11 && Cthief<=20), take transition police.going_d_to_c->police.c { Cpolice > 10, tau, Ppolice := 3, Cpolice := 0 }
+When you are in (0<Creach && Cpolice<=10 && Cpolice<=Cthief && Cthief-Cpolice<=1 && Creach<=Cpolice), take transition reachObj.initial_location->reachObj._unlocked { Creach > 0, tau, 1 }
+
+State: ( police.a thief.going_a_to_d reachObj.initial_location ) Ppolice=1 Pthief=-14 
+While you are in (0<Creach && Cpolice<=1 && Cthief<=Cpolice), wait.
+When you are in (1<Cpolice && 0<Creach && Cthief<10), take transition police.a->police.going_a_to_d { Cpolice > 1, police_a2d!, Ppolice := -14, Cpolice := 0 }
+
+State: ( police.going_a_to_d thief.going_a_to_d reachObj.initial_location ) Ppolice=-14 Pthief=-14 
+While you are in (0<Creach && Cpolice<=10 && Cthief<=Cpolice) || (Cpolice<=10 && Cpolice<Cthief && Cpolice<Creach && Cthief-Cpolice<10), wait.
+When you are in (10<Cpolice && 0<Creach && Cpolice<=11 && Cthief<=20), take transition police.going_a_to_d->police.d { Cpolice > 10, tau, Ppolice := 4, Cpolice := 0 }
+
+State: ( police.b thief.going_b_to_c reachObj._unlocked ) Ppolice=2 Pthief=-23 
+While you are in (1<Cpolice && Cpolice-Cthief<-11 && Cthief<=21) || (Cthief<=21 && Cthief-Cpolice<=19), wait.
+
+State: ( police.a thief.going_d_to_a reachObj.initial_location ) Ppolice=1 Pthief=-41 
+While you are in (20<=Cthief && 0<Creach && Cpolice<Cthief && Cthief<=21 && Cthief-Cpolice<=11) || (0<Creach && Cpolice<=1 && Cpolice<Cthief && Cthief-Cpolice<19), wait.
+When you are in (0<Creach && Cthief<=21 && Cthief<=Cpolice), take transition reachObj.initial_location->reachObj._unlocked { Creach > 0, tau, 1 }
+When you are in (1<Cpolice && 0<Creach && Cpolice<Cthief && Cthief<20), take transition police.a->police.going_a_to_d { Cpolice > 1, police_a2d!, Ppolice := -14, Cpolice := 0 }
+
+State: ( police.going_b_to_a thief.a reachObj.initial_location ) Ppolice=-21 Pthief=1 
+While you are in (0<Creach && Cpolice<=10 && Cthief-Cpolice<-9), wait.
+When you are in (10<Cpolice && 0<Creach && Cpolice<=11), take transition police.going_b_to_a->police.a { Cpolice > 10, tau, Ppolice := 1, Cpolice := 0 }
+
+State: ( police.going_b_to_c thief.going_c_to_d reachObj.initial_location ) Ppolice=-23 Pthief=-34 
+While you are in (Cpolice<=10 && Cthief-Cpolice<-1 && Cthief<Creach), wait.
+When you are in (10<Cpolice && Cpolice<=11 && Cthief<9 && Cthief<Creach), take transition police.going_b_to_c->police.c { Cpolice > 10, tau, Ppolice := 3, Cpolice := 0 }
+When you are in (0<Creach && Cpolice<=11 && Cthief<9 && Cthief-Cpolice<-1 && Creach<=Cthief), take transition reachObj.initial_location->reachObj._unlocked { Creach > 0, tau, 1 }
+
+State: ( police.going_a_to_b thief.going_c_to_b reachObj._unlocked ) Ppolice=-12 Pthief=-32 
+While you are in (Cpolice<=10 && Cthief<=21), wait.
+When you are in (10<Cpolice && Cpolice<=11 && Cthief<=21), take transition police.going_a_to_b->police.b { Cpolice > 10, tau, Ppolice := 2, Cpolice := 0 }
+
+State: ( police.c thief.going_d_to_c reachObj._unlocked ) Ppolice=3 Pthief=-43 
+While you are in (Cpolice<=1 && Cthief<=Cpolice), wait.
+When you are in (1<Cpolice && Cthief<9), take transition police.c->police.going_c_to_b { Cpolice > 1, police_c2b!, Ppolice := -32, Cpolice := 0 }
+When you are in (1<Cpolice && 9<=Cthief && Cthief<20), take transition police.c->police.going_c_to_d { Cpolice > 1, police_c2d!, Ppolice := -34, Cpolice := 0 }
+
+State: ( police.going_a_to_d thief.going_d_to_c reachObj._unlocked ) Ppolice=-14 Pthief=-43 
+While you are in (Cpolice<=10 && Cthief-Cpolice<9), wait.
+When you are in (10<Cpolice && Cpolice<=11 && Cthief<=19), take transition police.going_a_to_d->police.d { Cpolice > 10, tau, Ppolice := 4, Cpolice := 0 }
+
+State: ( police.going_d_to_c thief.going_c_to_b reachObj.initial_location ) Ppolice=-43 Pthief=-32 
+While you are in (Cpolice<=10 && Cthief<=Cpolice && Cthief<Creach), wait.
+When you are in (10<Cpolice && Cpolice<=11 && Cthief<=11 && Cthief<Creach), take transition police.going_d_to_c->police.c { Cpolice > 10, tau, Ppolice := 3, Cpolice := 0 }
+When you are in (0<Creach && Cpolice<=11 && Cthief<9 && Cthief-Cpolice<-1 && Creach<=Cthief), take transition reachObj.initial_location->reachObj._unlocked { Creach > 0, tau, 1 }
+
+State: ( police.b thief.going_c_to_b reachObj._unlocked ) Ppolice=2 Pthief=-32 
+While you are in (Cthief<=21 && Cthief-Cpolice<=11) || (Cpolice<=1 && Cpolice-Cthief<-11 && Cthief<=20) || (20<=Cthief && Cpolice-Cthief<-11 && Cthief<=21), wait.
+When you are in (1<Cpolice && Cpolice-Cthief<-11 && Cthief<20), take transition police.b->police.going_b_to_c { Cpolice > 1, police_b2c!, Ppolice := -23, Cpolice := 0 }
+
+State: ( police.going_a_to_d thief.c reachObj.initial_location ) Ppolice=-14 Pthief=3 
+While you are in (0<Creach && Cpolice<=10 && Cpolice-Cthief<-1), wait.
+When you are in (10<Cpolice && 1<Cthief && 0<Creach && Cpolice<=11), take transition police.going_a_to_d->police.d { Cpolice > 10, tau, Ppolice := 4, Cpolice := 0 }
+
+State: ( police.going_c_to_b thief.going_d_to_a reachObj.initial_location ) Ppolice=-32 Pthief=-41 
+While you are in (Cpolice<=10 && Cthief-Cpolice<-2 && Cthief<Creach), wait.
+When you are in (10<Cpolice && 0<Creach && Cpolice<=11 && Cthief<8), take transition police.going_c_to_b->police.b { Cpolice > 10, tau, Ppolice := 2, Cpolice := 0 }
+
+State: ( police.going_a_to_d thief.going_b_to_a reachObj.initial_location ) Ppolice=-14 Pthief=-21 
+While you are in (0<Creach && Cpolice<=10 && Cthief-Cpolice<-2), wait.
+When you are in (10<Cpolice && 0<Creach && Cpolice<=11 && Cthief<8), take transition police.going_a_to_d->police.d { Cpolice > 10, tau, Ppolice := 4, Cpolice := 0 }
+
+State: ( police.going_a_to_d thief.going_b_to_a reachObj._unlocked ) Ppolice=-14 Pthief=-21 
+While you are in (Cpolice<=10 && Cthief-Cpolice<-2), wait.
+When you are in (10<Cpolice && Cpolice<=11 && Cthief<8), take transition police.going_a_to_d->police.d { Cpolice > 10, tau, Ppolice := 4, Cpolice := 0 }
+
+State: ( police.going_a_to_b thief.going_a_to_b reachObj.initial_location ) Ppolice=-12 Pthief=-12 
+While you are in (Cpolice-Cthief<-10 && Cpolice<Creach && Cthief<=21) || (0<Creach && Cpolice<=10 && Cthief<=Cpolice) || (Cpolice<=10 && Cpolice<Cthief && Cpolice<Creach && Cthief-Cpolice<=10), wait.
+When you are in (0<Creach && Cpolice-Cthief<-10 && Cthief<=21 && Creach<=Cpolice), take transition reachObj.initial_location->reachObj._unlocked { Creach > 0, tau, 1 }
+When you are in (10<Cpolice && 0<Creach && Cpolice<=11 && Cthief-Cpolice<=10), take transition police.going_a_to_b->police.b { Cpolice > 10, tau, Ppolice := 2, Cpolice := 0 }
+
+State: ( police.going_d_to_a thief.going_b_to_c reachObj.initial_location ) Ppolice=-41 Pthief=-23 
+While you are in (0<Creach && Cpolice<=10 && Cthief-Cpolice<-1), wait.
+When you are in (10<Cpolice && 0<Creach && Cpolice<=11 && Cthief<9), take transition police.going_d_to_a->police.a { Cpolice > 10, tau, Ppolice := 1, Cpolice := 0 }
+
+State: ( police.going_b_to_c thief.c reachObj._unlocked ) Ppolice=-23 Pthief=3 
+While you are in (Cpolice<=1 && Cpolice==Cthief) || (1<Cpolice && Cpolice<=10 && Cpolice<=Cthief), wait.
+When you are in (10<Cpolice && 1<Cthief && Cpolice<=11), take transition police.going_b_to_c->police.c { Cpolice > 10, tau, Ppolice := 3, Cpolice := 0 }
+
+State: ( police.going_a_to_b thief.going_c_to_b reachObj.initial_location ) Ppolice=-12 Pthief=-32 
+When you are in (0<Creach && Cpolice<=11 && Cthief<=20 && Cthief-Cpolice<10) || (0<Creach && Cpolice<=10 && Cpolice-Cthief<=-10 && Cthief<=21), take transition reachObj.initial_location->reachObj._unlocked { Creach > 0, tau, 1 }
+When you are in (10<Cpolice && 20<Cthief && 0<Creach && Cpolice<=11 && Cthief<=21), take transition police.going_a_to_b->police.b { Cpolice > 10, tau, Ppolice := 2, Cpolice := 0 }
+
+State: ( police.d thief.going_a_to_b reachObj.initial_location ) Ppolice=4 Pthief=-12 
+While you are in (Cthief<=21 && Cthief<=Cpolice && Cthief<Creach) || (Cpolice<Cthief && Cpolice<Creach && Cthief<=21 && Cthief-Cpolice<=11) || (0<Creach && Cpolice<=1 && Cpolice-Cthief<-10 && Cthief-Cpolice<=11 && Creach<=Cpolice) || (0<Creach && Cpolice<=1 && Cpolice-Cthief<-11 && Cthief-Cpolice<=19) || (1<Cpolice && Cpolice-Cthief<-11 && Cpolice<Creach && Cthief<=21) || (1<Cpolice && 0<Creach && Cpolice-Cthief<-10 && Cthief<=21 && Creach<=Cpolice), wait.
+
+State: ( police.going_c_to_b thief.going_b_to_c reachObj._unlocked ) Ppolice=-32 Pthief=-23 
+While you are in (Cpolice==0 && Cthief<20), wait.
+When you are in (0<Cpolice && Cpolice<=11 && Cpolice<=Cthief && Cthief<=21), take transition police.going_c_to_b->police.going_c_to_b { Cpolice > 0 && Pthief == -23, catch!, 1 }
+reachObj._unlocked->reachObj.win { 1, catch?, 1 }
+When you are in (10<Cthief && Cpolice<=11 && Cthief<Cpolice), take transition police.going_c_to_b->police.b { Cpolice > 10, tau, Ppolice := 2, Cpolice := 0 }
+
+State: ( police.going_c_to_b thief.going_c_to_b reachObj.initial_location ) Ppolice=-32 Pthief=-32 
+While you are in (Cpolice<=10 && Cthief-Cpolice<10 && Cthief<Creach) || (0<Cthief && 0<Creach && Cpolice<=10 && Cpolice<=Cthief && Cthief<=20 && Cthief-Cpolice<=11) || (9<Cpolice && 0<Creach && Cpolice<=10 && Cpolice-Cthief<=-10 && Cthief<=21), wait.
+When you are in (10<Cpolice && 0<Creach && Cpolice<=11 && Cthief<=21), take transition police.going_c_to_b->police.b { Cpolice > 10, tau, Ppolice := 2, Cpolice := 0 }
+
+State: ( police.going_d_to_a thief.b reachObj._unlocked ) Ppolice=-41 Pthief=2 
+While you are in (Cpolice<=10 && Cthief-Cpolice<-9), wait.
+When you are in (10<Cpolice && Cpolice<=11), take transition police.going_d_to_a->police.a { Cpolice > 10, tau, Ppolice := 1, Cpolice := 0 }
+
+State: ( police.b thief.b reachObj.initial_location ) Ppolice=2 Pthief=2 
+When you are in (0<Creach), take transition reachObj.initial_location->reachObj._unlocked { Creach > 0, tau, 1 }
+
+State: ( police.going_b_to_a thief.going_b_to_a reachObj.initial_location ) Ppolice=-21 Pthief=-21 
+While you are in (0<Creach && Cpolice<=10 && Cpolice-Cthief<-1 && Cthief-Cpolice<9 && Creach<=Cpolice) || (Cpolice<=10 && Cpolice<Creach && Cthief-Cpolice<9) || (0<Creach && Cpolice<=10 && Cthief-Cpolice<-1 && Creach<=Cpolice) || (0<Creach && Cpolice<=9 && Cpolice-Cthief<-10 && Cthief-Cpolice<=11) || (9<Cpolice && 0<Creach && Cpolice-Cthief<-10 && Cthief<=21), wait.
+When you are in (10<Cpolice && 0<Creach && Cpolice<=11 && Cthief<19), take transition police.going_b_to_a->police.a { Cpolice > 10, tau, Ppolice := 1, Cpolice := 0 }
+When you are in (0<Creach && Cpolice<=10 && Cpolice<=Cthief && Cthief-Cpolice<=1 && Creach<=Cpolice), take transition reachObj.initial_location->reachObj._unlocked { Creach > 0, tau, 1 }
+
+State: ( police.going_b_to_c thief.going_d_to_c reachObj.initial_location ) Ppolice=-23 Pthief=-43 
+While you are in (0<Creach && Cpolice<=10 && Cthief-Cpolice<-2) || (0<Creach && Cpolice<=10 && Cpolice-Cthief<=2 && Cthief-Cpolice<-1 && Creach<=Cpolice) || (0<Creach && Cpolice-Cthief<-10 && Cthief<=21) || (Cpolice<=10 && Cpolice-Cthief<=2 && Cpolice<Creach && Cthief-Cpolice<10) || (0<Creach && Cpolice<=10 && Cpolice-Cthief<-1 && Cthief-Cpolice<10 && Creach<=Cpolice), wait.
+When you are in (10<Cpolice && 0<Creach && Cpolice<=11 && Cthief<=20), take transition police.going_b_to_c->police.c { Cpolice > 10, tau, Ppolice := 3, Cpolice := 0 }
+
+State: ( police.d thief.b reachObj.initial_location ) Ppolice=4 Pthief=2 
+When you are in (1<Cpolice && 0<Creach && Cthief==0), take transition police.d->police.going_d_to_a { Cpolice > 1, police_d2a!, Ppolice := -41, Cpolice := 0 }
+
+State: ( police.d thief.going_b_to_c reachObj.initial_location ) Ppolice=4 Pthief=-23 
+While you are in (Cthief<=21 && Cthief<=Cpolice && Cthief<Creach) || (0<Creach && Cthief<=21 && Cthief-Cpolice<-1 && Creach<=Cthief) || (1<Cpolice && 0<Creach && Cpolice-Cthief<-10 && Cthief<=21 && Creach<=Cpolice) || (0<Creach && Cpolice<=1 && Cpolice-Cthief<-11 && Cthief-Cpolice<=19) || (0<Creach && Cpolice<=1 && Cpolice-Cthief<-10 && Cthief-Cpolice<=11 && Creach<=Cpolice) || (Cpolice<Cthief && Cpolice<Creach && Cthief<=21 && Cthief-Cpolice<=20) || (0<Cpolice && 0<Creach && Cpolice<=1 && Cpolice-Cthief<-19 && Cthief<=21), wait.
+When you are in (1<Cpolice && 1<Cthief && 0<Creach && Cpolice-Cthief<=1 && Cthief<9 && Creach<=Cpolice && Creach<=Cthief) || (1<Cpolice && 10<Cthief && 0<Creach && Cpolice-Cthief<=1 && Cthief<=21 && Cthief-Cpolice<=10 && Creach<=Cpolice && Creach<=Cthief) || (1<Cpolice && 9<=Cthief && 0<Creach && Cpolice-Cthief<=1 && Cthief<10 && Creach<=Cpolice && Creach<=Cthief), take transition police.d->police.going_d_to_c { Cpolice > 1, police_d2c!, Ppolice := -43, Cpolice := 0 }
+
+State: ( police.going_a_to_d thief.going_c_to_b reachObj.initial_location ) Ppolice=-14 Pthief=-32 
+While you are in (0<Creach && Cpolice<=10 && Cthief-Cpolice<9), wait.
+When you are in (10<Cpolice && 0<Creach && Cpolice<=11 && Cthief<=19), take transition police.going_a_to_d->police.d { Cpolice > 10, tau, Ppolice := 4, Cpolice := 0 }
+
+State: ( police.going_d_to_a thief.going_c_to_b reachObj.initial_location ) Ppolice=-41 Pthief=-32 
+While you are in (Cpolice<=10 && Cthief-Cpolice<=9 && Cthief<Creach) || (0<Cthief && 0<Creach && Cpolice<=10 && Cpolice<=Cthief && Cthief<=21), wait.
+When you are in (10<Cpolice && 10<Cthief && 0<Creach && Cpolice<=11 && Cthief<=21 && Creach<=Cthief) || (10<Cpolice && Cpolice<=11 && Cthief<=21 && Cthief<Creach), take transition police.going_d_to_a->police.a { Cpolice > 10, tau, Ppolice := 1, Cpolice := 0 }
+When you are in (0<Creach && Cpolice<=11 && Cthief<9 && Cthief-Cpolice<-1 && Creach<=Cthief), take transition reachObj.initial_location->reachObj._unlocked { Creach > 0, tau, 1 }
+
+State: ( police.b thief.going_c_to_b reachObj.initial_location ) Ppolice=2 Pthief=-32 
+When you are in (0<Creach && Cthief<=21), take transition reachObj.initial_location->reachObj._unlocked { Creach > 0, tau, 1 }
+
+State: ( police.c thief.c reachObj._unlocked ) Ppolice=3 Pthief=3 
+While you are in (1<Cthief && Cpolice<=1), wait.
+When you are in (1<Cpolice && 1<Cthief), take transition police.c->police.c { Cpolice > 1 && Pthief == 3, catch!, Cpolice := 0 }
+reachObj._unlocked->reachObj.win { 1, catch?, 1 }
+
+State: ( police.going_b_to_a thief.going_c_to_b reachObj._unlocked ) Ppolice=-21 Pthief=-32 
+While you are in (9<Cpolice && Cpolice<=10 && Cpolice-Cthief<=-10 && Cthief<=21) || (Cpolice<=10 && Cthief-Cpolice<=11), wait.
+When you are in (10<Cpolice && Cpolice<=11 && Cthief<=21), take transition police.going_b_to_a->police.a { Cpolice > 10, tau, Ppolice := 1, Cpolice := 0 }
+
+State: ( police.going_b_to_c thief.going_c_to_b reachObj.initial_location ) Ppolice=-23 Pthief=-32 
+When you are in (0<Creach && Cpolice<=11 && Cthief<=20 && Cthief-Cpolice<20), take transition reachObj.initial_location->reachObj._unlocked { Creach > 0, tau, 1 }
+
+State: ( police.a thief.going_a_to_b reachObj._unlocked ) Ppolice=1 Pthief=-12 
+While you are in (Cthief<=21 && Cthief<=Cpolice), wait.
+
+State: ( police.going_d_to_c thief.c reachObj._unlocked ) Ppolice=-43 Pthief=3 
+While you are in (Cpolice<=1 && Cpolice==Cthief) || (1<Cpolice && Cpolice<=10 && Cpolice<=Cthief), wait.
+When you are in (10<Cpolice && 1<Cthief && Cpolice<=11), take transition police.going_d_to_c->police.c { Cpolice > 10, tau, Ppolice := 3, Cpolice := 0 }
+
+State: ( police.going_a_to_b thief.going_a_to_b reachObj._unlocked ) Ppolice=-12 Pthief=-12 
+While you are in (Cpolice-Cthief<-10 && Cthief<=21) || (Cpolice<=10 && Cpolice<=Cthief && Cthief-Cpolice<=10), wait.
+When you are in (10<Cpolice && 10<Cthief && Cpolice<=11 && Cthief-Cpolice<=10), take transition police.going_a_to_b->police.b { Cpolice > 10, tau, Ppolice := 2, Cpolice := 0 }
+
+State: ( police.a thief.c reachObj.initial_location ) Ppolice=1 Pthief=3 
+While you are in (Cpolice<=1 && Cpolice==Cthief && Cthief==Creach && Creach==Cpolice), wait.
+When you are in (1<Cpolice && 1<Cthief && 0<Creach), take transition police.a->police.going_a_to_d { Cpolice > 1, police_a2d!, Ppolice := -14, Cpolice := 0 }
+
+State: ( police.going_c_to_b thief.going_d_to_c reachObj._unlocked ) Ppolice=-32 Pthief=-43 
+While you are in (Cpolice<=10 && Cpolice<=Cthief && Cthief-Cpolice<9), wait.
+When you are in (10<Cpolice && 10<Cthief && Cpolice<=11 && Cthief<=19), take transition police.going_c_to_b->police.b { Cpolice > 10, tau, Ppolice := 2, Cpolice := 0 }
+
+State: ( police.b thief.going_a_to_b reachObj.initial_location ) Ppolice=2 Pthief=-12 
+While you are in (Cthief<=21 && Cthief-Cpolice<-1 && Cthief<Creach) || (Cpolice<Cthief && Cpolice<Creach && Cthief<=21) || (0<Creach && Cpolice-Cthief<-10 && Cthief<=21 && Creach<=Cpolice), wait.
+When you are in (Cpolice-Cthief<=1 && Cthief<=21 && Cthief<=Cpolice && Cthief<Creach) || (0<Creach && Cthief<=21 && Cthief<=Cpolice && Creach<=Cthief), take transition reachObj.initial_location->reachObj._unlocked { Creach > 0, tau, 1 }
+
+State: ( police.d thief.going_d_to_c reachObj.initial_location ) Ppolice=4 Pthief=-43 
+While you are in (Cthief<=21 && Cthief<=Cpolice && Cthief<Creach) || (0<Creach && Cthief<=21 && Cthief-Cpolice<-1 && Creach<=Cthief) || (1<Cpolice && 0<Creach && Cpolice-Cthief<-10 && Cthief<=21 && Creach<=Cpolice) || (0<Creach && Cpolice<=1 && Cpolice-Cthief<-11 && Cthief-Cpolice<=19) || (0<Creach && Cpolice<=1 && Cpolice-Cthief<-10 && Cthief-Cpolice<=11 && Creach<=Cpolice) || (Cpolice<Cthief && Cpolice<Creach && Cthief<=21 && Cthief-Cpolice<=20) || (0<Cpolice && 0<Creach && Cpolice<=1 && Cpolice-Cthief<-19 && Cthief<=21), wait.
+When you are in (1<Cpolice && 1<Cthief && 0<Creach && Cpolice-Cthief<=1 && Cthief<9 && Creach<=Cpolice && Creach<=Cthief) || (1<Cpolice && 10<Cthief && 0<Creach && Cpolice-Cthief<=1 && Cthief<=21 && Cthief-Cpolice<=10 && Creach<=Cpolice && Creach<=Cthief) || (1<Cpolice && 9<=Cthief && 0<Creach && Cpolice-Cthief<=1 && Cthief<10 && Creach<=Cpolice && Creach<=Cthief), take transition police.d->police.going_d_to_c { Cpolice > 1, police_d2c!, Ppolice := -43, Cpolice := 0 }
+
+State: ( police.b thief.going_b_to_a reachObj.initial_location ) Ppolice=2 Pthief=-21 
+While you are in (Cpolice<=1 && Cthief<=Cpolice && Cthief<Creach) || (9<=Cthief && Cthief<=10 && Cthief<=Cpolice && Cthief<Creach) || (9<=Cthief && 0<Creach && Cthief<=10 && Cthief-Cpolice<-1 && Creach<=Cthief) || (1<Cpolice && 9<=Cthief && Cpolice<Cthief && Cpolice<Creach && Cthief<=10) || (Cpolice<=1 && Cpolice<Cthief && Cpolice<Creach && Cthief-Cpolice<10), wait.
+When you are in (1<Cpolice && 0<Creach && Cthief<9) || (1<Cpolice && 10<Cthief && 0<Creach && Cthief<=11), take transition police.b->police.going_b_to_a { Cpolice > 1, police_b2a!, Ppolice := -21, Cpolice := 0 }
+When you are in (0<Creach && Cpolice<=1 && Cthief-Cpolice<8 && Creach<=Cpolice && Creach<=Cthief), take transition reachObj.initial_location->reachObj._unlocked { Creach > 0, tau, 1 }
+
+State: ( police.going_c_to_d thief.going_c_to_b reachObj.initial_location ) Ppolice=-34 Pthief=-32 
+While you are in (Cpolice<=10 && Cthief-Cpolice<8 && Cthief<Creach) || (0<Cthief && 0<Creach && Cpolice<=10 && Cpolice<=Cthief && Cthief-Cpolice<9), wait.
+When you are in (10<Cpolice && 0<Creach && Cpolice<=11 && Cthief<=19), take transition police.going_c_to_d->police.d { Cpolice > 10, tau, Ppolice := 4, Cpolice := 0 }
+
+State: ( police.c thief.going_b_to_c reachObj.initial_location ) Ppolice=3 Pthief=-23 
+While you are in (0<Creach && Cpolice<=1 && Cthief<=20) || (0<Cpolice && 20<=Cthief && 0<Creach && Cthief<=21), wait.
+When you are in (1<Cpolice && 0<Creach && Cthief<9), take transition police.c->police.going_c_to_d { Cpolice > 1, police_c2d!, Ppolice := -34, Cpolice := 0 }
+When you are in (1<Cpolice && 9<=Cthief && 0<Creach && Cthief<20), take transition police.c->police.going_c_to_b { Cpolice > 1, police_c2b!, Ppolice := -32, Cpolice := 0 }
+
+State: ( police.going_c_to_b thief.going_c_to_b reachObj._unlocked ) Ppolice=-32 Pthief=-32 
+While you are in (Cpolice<=10 && Cthief-Cpolice<10), wait.
+When you are in (10<Cpolice && Cpolice<=11 && Cthief<=21), take transition police.going_c_to_b->police.b { Cpolice > 10, tau, Ppolice := 2, Cpolice := 0 }
+
+State: ( police.b thief.going_b_to_c reachObj.initial_location ) Ppolice=2 Pthief=-23 
+While you are in (Cthief<=21 && Cthief<=Cpolice && Cthief<Creach) || (Cpolice<Cthief && Cpolice<Creach && Cthief<=21 && Cthief-Cpolice<=11) || (0<Creach && Cthief<=21 && Cthief-Cpolice<-1 && Creach<=Cthief) || (1<Cpolice && 0<Creach && Cpolice-Cthief<-10 && Cthief<=21 && Creach<=Cpolice) || (1<Cpolice && Cpolice-Cthief<-11 && Cpolice<Creach && Cthief<=21) || (0<Creach && Cpolice<=1 && Cpolice-Cthief<-11 && Cthief-Cpolice<=19) || (0<Creach && Cpolice<=1 && Cpolice-Cthief<-10 && Cthief-Cpolice<=11 && Creach<=Cpolice), wait.
+When you are in (1<Cpolice && 1<Cthief && 0<Creach && Cpolice-Cthief<=1 && Cthief<9 && Creach<=Cpolice && Creach<=Cthief) || (1<Cpolice && 10<Cthief && 0<Creach && Cpolice-Cthief<=1 && Cthief<=21 && Cthief-Cpolice<=10 && Creach<=Cpolice && Creach<=Cthief) || (1<Cpolice && 9<=Cthief && 0<Creach && Cpolice-Cthief<=1 && Cthief<10 && Creach<=Cpolice && Creach<=Cthief), take transition police.b->police.going_b_to_c { Cpolice > 1, police_b2c!, Ppolice := -23, Cpolice := 0 }
+
+State: ( police.b thief.going_d_to_c reachObj.initial_location ) Ppolice=2 Pthief=-43 
+While you are in (Cthief<=21 && Cthief<=Cpolice && Cthief<Creach) || (Cpolice<Cthief && Cpolice<Creach && Cthief<=21 && Cthief-Cpolice<=11) || (0<Creach && Cthief<=21 && Cthief-Cpolice<-1 && Creach<=Cthief) || (1<Cpolice && 0<Creach && Cpolice-Cthief<-10 && Cthief<=21 && Creach<=Cpolice) || (1<Cpolice && Cpolice-Cthief<-11 && Cpolice<Creach && Cthief<=21) || (0<Creach && Cpolice<=1 && Cpolice-Cthief<-11 && Cthief-Cpolice<=19) || (0<Creach && Cpolice<=1 && Cpolice-Cthief<-10 && Cthief-Cpolice<=11 && Creach<=Cpolice), wait.
+When you are in (1<Cpolice && 1<Cthief && 0<Creach && Cpolice-Cthief<=1 && Cthief<9 && Creach<=Cpolice && Creach<=Cthief) || (1<Cpolice && 10<Cthief && 0<Creach && Cpolice-Cthief<=1 && Cthief<=21 && Cthief-Cpolice<=10 && Creach<=Cpolice && Creach<=Cthief) || (1<Cpolice && 9<=Cthief && 0<Creach && Cpolice-Cthief<=1 && Cthief<10 && Creach<=Cpolice && Creach<=Cthief), take transition police.b->police.going_b_to_c { Cpolice > 1, police_b2c!, Ppolice := -23, Cpolice := 0 }
+
+State: ( police.a thief.going_c_to_d reachObj._unlocked ) Ppolice=1 Pthief=-34 
+While you are in (Cpolice<=1 && Cthief-Cpolice<9), wait.
+When you are in (1<Cpolice && Cthief<10), take transition police.a->police.going_a_to_d { Cpolice > 1, police_a2d!, Ppolice := -14, Cpolice := 0 }
+
+State: ( police.going_d_to_a thief.going_d_to_c reachObj.initial_location ) Ppolice=-41 Pthief=-43 
+While you are in (0<Creach && Cpolice<=10 && Cthief-Cpolice<-1), wait.
+When you are in (10<Cpolice && 0<Creach && Cpolice<=11 && Cthief<9), take transition police.going_d_to_a->police.a { Cpolice > 10, tau, Ppolice := 1, Cpolice := 0 }
+
+State: ( police.going_d_to_a thief.going_c_to_b reachObj._unlocked ) Ppolice=-41 Pthief=-32 
+While you are in (9<Cpolice && Cpolice<=10 && Cpolice-Cthief<=-10 && Cthief<=21) || (Cpolice<=10 && Cthief-Cpolice<=11), wait.
+When you are in (10<Cpolice && Cpolice<=11 && Cthief<=21), take transition police.going_d_to_a->police.a { Cpolice > 10, tau, Ppolice := 1, Cpolice := 0 }
+
+State: ( police.d thief.going_a_to_b reachObj._unlocked ) Ppolice=4 Pthief=-12 
+While you are in (Cthief<=10 && Cthief<=Cpolice), wait.
+When you are in (1<Cpolice && 10<Cthief && Cthief<=11), take transition police.d->police.going_d_to_a { Cpolice > 1, police_d2a!, Ppolice := -41, Cpolice := 0 }
+
+State: ( police.going_c_to_d thief.going_d_to_c reachObj._unlocked ) Ppolice=-34 Pthief=-43 
+While you are in (Cpolice==0 && Cthief<20), wait.
+When you are in (0<Cpolice && Cpolice<=11 && Cpolice<=Cthief && Cthief<=21), take transition police.going_c_to_d->police.going_c_to_d { Cpolice > 0 && Pthief == -43, catch!, 1 }
+reachObj._unlocked->reachObj.win { 1, catch?, 1 }
+When you are in (10<Cthief && Cpolice<=11 && Cthief<Cpolice), take transition police.going_c_to_d->police.d { Cpolice > 10, tau, Ppolice := 4, Cpolice := 0 }
+
+State: ( police.going_c_to_d thief.going_c_to_d reachObj._unlocked ) Ppolice=-34 Pthief=-34 
+While you are in (Cpolice<=10 && Cthief-Cpolice<10), wait.
+When you are in (10<Cpolice && Cpolice<=11 && Cthief<=20), take transition police.going_c_to_d->police.d { Cpolice > 10, tau, Ppolice := 4, Cpolice := 0 }
+
+State: ( police.b thief.b reachObj._unlocked ) Ppolice=2 Pthief=2 
+While you are in (Cpolice<=1), wait.
+When you are in (1<Cpolice), take transition police.b->police.b { Cpolice > 1 && Pthief == 2, catch!, Cpolice := 0 }
+reachObj._unlocked->reachObj.win { 1, catch?, 1 }
+
+State: ( police.b thief.going_b_to_a reachObj._unlocked ) Ppolice=2 Pthief=-21 
+While you are in (Cpolice<=1 && Cthief-Cpolice<8), wait.
+When you are in (1<Cpolice && Cthief<9), take transition police.b->police.going_b_to_a { Cpolice > 1, police_b2a!, Ppolice := -21, Cpolice := 0 }
+
+State: ( police.going_c_to_d thief.going_b_to_a reachObj.initial_location ) Ppolice=-34 Pthief=-21 
+While you are in (Cpolice<=10 && Cthief-Cpolice<-2 && Cthief<Creach), wait.
+When you are in (10<Cpolice && 0<Creach && Cpolice<=11 && Cthief<8), take transition police.going_c_to_d->police.d { Cpolice > 10, tau, Ppolice := 4, Cpolice := 0 }
+
+State: ( police.going_c_to_d thief.going_b_to_c reachObj.initial_location ) Ppolice=-34 Pthief=-23 
+While you are in (Cpolice<=10 && Cthief<Cpolice && Cthief<Creach) || (Cpolice<=10 && Cpolice<=Cthief && Cpolice<Creach && Cthief-Cpolice<10), wait.
+When you are in (10<Cpolice && 0<Creach && Cpolice<=11 && Cthief<=20), take transition police.going_c_to_d->police.d { Cpolice > 10, tau, Ppolice := 4, Cpolice := 0 }
+When you are in (0<Creach && Cpolice<=10 && Cpolice<=Cthief && Cthief-Cpolice<9 && Creach<=Cpolice), take transition reachObj.initial_location->reachObj._unlocked { Creach > 0, tau, 1 }
+
+State: ( police.going_d_to_a thief.going_b_to_a reachObj.initial_location ) Ppolice=-41 Pthief=-21 
+While you are in (0<Creach && Cpolice<=10 && Cpolice-Cthief<-1 && Cthief-Cpolice<9 && Creach<=Cpolice) || (Cpolice<=10 && Cpolice<Creach && Cthief-Cpolice<9) || (0<Creach && Cpolice<=10 && Cthief-Cpolice<-1 && Creach<=Cpolice), wait.
+When you are in (10<Cpolice && 0<Creach && Cpolice<=11 && Cthief<19), take transition police.going_d_to_a->police.a { Cpolice > 10, tau, Ppolice := 1, Cpolice := 0 }
+When you are in (0<Creach && Cpolice<=10 && Cpolice<=Cthief && Cthief-Cpolice<=1 && Creach<=Cpolice), take transition reachObj.initial_location->reachObj._unlocked { Creach > 0, tau, 1 }
+
+State: ( police.going_c_to_d thief.c reachObj.initial_location ) Ppolice=-34 Pthief=3 
+While you are in (0<Creach && Cpolice<=10 && Cpolice-Cthief<-1), wait.
+When you are in (10<Cpolice && 1<Cthief && 0<Creach && Cpolice<=11), take transition police.going_c_to_d->police.d { Cpolice > 10, tau, Ppolice := 4, Cpolice := 0 }
+
+State: ( police.going_a_to_b thief.going_d_to_c reachObj._unlocked ) Ppolice=-12 Pthief=-43 
+While you are in (Cpolice<=10 && Cthief-Cpolice<9), wait.
+When you are in (10<Cpolice && Cpolice<=11 && Cthief<=19), take transition police.going_a_to_b->police.b { Cpolice > 10, tau, Ppolice := 2, Cpolice := 0 }
+
+State: ( police.going_c_to_b thief.b reachObj._unlocked ) Ppolice=-32 Pthief=2 
+When you are in (10<Cpolice && 1<Cthief && Cpolice<=11), take transition police.going_c_to_b->police.b { Cpolice > 10, tau, Ppolice := 2, Cpolice := 0 }
+
+State: ( police.d thief.going_c_to_d reachObj.initial_location ) Ppolice=4 Pthief=-34 
+When you are in (0<Creach && Cthief<=21 && Cthief-Cpolice<=20) || (0<Cpolice && 0<Creach && Cpolice-Cthief<=-19 && Cthief<=21), take transition reachObj.initial_location->reachObj._unlocked { Creach > 0, tau, 1 }
+
+State: ( police.going_a_to_b thief.b reachObj._unlocked ) Ppolice=-12 Pthief=2 
+While you are in (Cpolice<=10), wait.
+When you are in (10<Cpolice && Cpolice<=11), take transition police.going_a_to_b->police.b { Cpolice > 10, tau, Ppolice := 2, Cpolice := 0 }
+
+State: ( police.going_a_to_d thief.going_d_to_c reachObj.initial_location ) Ppolice=-14 Pthief=-43 
+While you are in (0<Creach && Cpolice<=10 && Cthief<=Cpolice) || (Cpolice<=10 && Cpolice<Cthief && Cpolice<Creach && Cthief-Cpolice<10), wait.
+When you are in (10<Cpolice && 0<Creach && Cpolice<=11 && Cthief<=20), take transition police.going_a_to_d->police.d { Cpolice > 10, tau, Ppolice := 4, Cpolice := 0 }
+When you are in (0<Creach && Cpolice<=10 && Cpolice<Cthief && Cthief-Cpolice<9 && Creach<=Cpolice), take transition reachObj.initial_location->reachObj._unlocked { Creach > 0, tau, 1 }
+
+State: ( police.d thief.going_d_to_a reachObj.initial_location ) Ppolice=4 Pthief=-41 
+While you are in (Cpolice<=1 && Cthief<=Cpolice && Cthief<Creach) || (Cpolice<=1 && Cpolice<Cthief && Cpolice<Creach && Cthief-Cpolice<8), wait.
+When you are in (1<Cpolice && 0<Creach && Cthief<9), take transition police.d->police.going_d_to_a { Cpolice > 1, police_d2a!, Ppolice := -41, Cpolice := 0 }
+
+State: ( police.going_b_to_a thief.going_c_to_b reachObj.initial_location ) Ppolice=-21 Pthief=-32 
+While you are in (Cpolice<=10 && Cthief-Cpolice<=9 && Cthief<Creach) || (0<Cthief && 0<Creach && Cpolice<=10 && Cpolice<=Cthief && Cthief<=21), wait.
+When you are in (10<Cpolice && 10<Cthief && 0<Creach && Cpolice<=11 && Cthief<=21 && Creach<=Cthief) || (10<Cpolice && Cpolice<=11 && Cthief<=21 && Cthief<Creach), take transition police.going_b_to_a->police.a { Cpolice > 10, tau, Ppolice := 1, Cpolice := 0 }
+When you are in (0<Creach && Cpolice<=11 && Cthief<9 && Cthief-Cpolice<-1 && Creach<=Cthief), take transition reachObj.initial_location->reachObj._unlocked { Creach > 0, tau, 1 }
+
+State: ( police.going_c_to_b thief.b reachObj.initial_location ) Ppolice=-32 Pthief=2 
+While you are in (Cpolice<=10 && Cthief-Cpolice<-9 && Cthief<Creach) || (0<Creach && Cpolice==0 && Cthief<=1) || (0<Cpolice && 0<Creach && Cpolice<=10 && Cpolice<=Cthief), wait.
+When you are in (10<Cpolice && 0<Creach && Cpolice<=11), take transition police.going_c_to_b->police.b { Cpolice > 10, tau, Ppolice := 2, Cpolice := 0 }
+
+State: ( police.b thief.going_d_to_c reachObj._unlocked ) Ppolice=2 Pthief=-43 
+While you are in (1<Cpolice && Cpolice-Cthief<-11 && Cthief<=21) || (Cthief<=21 && Cthief-Cpolice<=19), wait.
+
+State: ( police.going_a_to_d thief.going_d_to_a reachObj.initial_location ) Ppolice=-14 Pthief=-41 
+When you are in (0<Creach && Cpolice<=11 && Cthief<=20 && Cthief-Cpolice<20), take transition reachObj.initial_location->reachObj._unlocked { Creach > 0, tau, 1 }
+
+State: ( police.going_c_to_b thief.going_b_to_a reachObj.initial_location ) Ppolice=-32 Pthief=-21 
+While you are in (Cpolice<=10 && Cthief<Cpolice && Cthief<Creach), wait.
+When you are in (10<Cpolice && 0<Creach && Cpolice<=11 && Cthief<10), take transition police.going_c_to_b->police.b { Cpolice > 10, tau, Ppolice := 2, Cpolice := 0 }
+
+State: ( police.going_a_to_d thief.going_c_to_d reachObj._unlocked ) Ppolice=-14 Pthief=-34 
+While you are in (Cpolice<=10 && Cthief-Cpolice<10), wait.
+When you are in (10<Cpolice && Cpolice<=11 && Cthief<=20), take transition police.going_a_to_d->police.d { Cpolice > 10, tau, Ppolice := 4, Cpolice := 0 }
+
+State: ( police.a thief.going_a_to_d reachObj._unlocked ) Ppolice=1 Pthief=-14 
+While you are in (Cpolice<=1 && Cthief<=Cpolice), wait.
+When you are in (1<Cpolice && Cthief<10), take transition police.a->police.going_a_to_d { Cpolice > 1, police_a2d!, Ppolice := -14, Cpolice := 0 }
+
+State: ( police.a thief.going_c_to_d reachObj.initial_location ) Ppolice=1 Pthief=-34 
+While you are in (Cpolice<=1 && Cpolice<Cthief && Cthief-Cpolice<9 && Cthief<Creach), wait.
+When you are in (0<Creach && Cthief<10 && Cthief<=Cpolice) || (0<Creach && Cpolice<=1 && Cpolice<Cthief && Cthief-Cpolice<9 && Creach<=Cthief), take transition reachObj.initial_location->reachObj._unlocked { Creach > 0, tau, 1 }
+When you are in (1<Cpolice && 0<Creach && Cpolice<Cthief && Cthief<10), take transition police.a->police.going_a_to_d { Cpolice > 1, police_a2d!, Ppolice := -14, Cpolice := 0 }
+
+State: ( police.c thief.going_c_to_b reachObj._unlocked ) Ppolice=3 Pthief=-32 
+While you are in (Cpolice<=1 && Cthief-Cpolice<9), wait.
+When you are in (1<Cpolice && Cthief<10), take transition police.c->police.going_c_to_b { Cpolice > 1, police_c2b!, Ppolice := -32, Cpolice := 0 }
+
+State: ( police.a thief.going_b_to_a reachObj.initial_location ) Ppolice=1 Pthief=-21 
+While you are in (20<=Cthief && 0<Creach && Cpolice<Cthief && Cthief<=21 && Cthief-Cpolice<=11) || (0<Creach && Cpolice<=1 && Cpolice<Cthief && Cthief-Cpolice<19), wait.
+When you are in (0<Creach && Cthief<=21 && Cthief<=Cpolice), take transition reachObj.initial_location->reachObj._unlocked { Creach > 0, tau, 1 }
+When you are in (1<Cpolice && 0<Creach && Cpolice<Cthief && Cthief<20), take transition police.a->police.going_a_to_b { Cpolice > 1, police_a2b!, Ppolice := -12, Cpolice := 0 }
+
+State: ( police.d thief.d reachObj._unlocked ) Ppolice=4 Pthief=4 
+While you are in (Cpolice<=1 && Cthief<Cpolice), wait.
+When you are in (1<Cpolice), take transition police.d->police.d { Cpolice > 1 && Pthief == 4, catch!, Cpolice := 0 }
+reachObj._unlocked->reachObj.win { 1, catch?, 1 }
+
+State: ( police.going_c_to_d thief.going_c_to_b reachObj._unlocked ) Ppolice=-34 Pthief=-32 
+While you are in (Cpolice<=10 && Cthief<Cpolice), wait.
+When you are in (10<Cpolice && Cpolice<=11 && Cthief<10), take transition police.going_c_to_d->police.d { Cpolice > 10, tau, Ppolice := 4, Cpolice := 0 }
+
+State: ( police.going_b_to_c thief.going_c_to_b reachObj._unlocked ) Ppolice=-23 Pthief=-32 
+While you are in (Cpolice==0 && Cthief<20), wait.
+When you are in (0<Cpolice && Cpolice<=11 && Cthief<=21), take transition police.going_b_to_c->police.going_b_to_c { Cpolice > 0 && Pthief == -32, catch!, 1 }
+reachObj._unlocked->reachObj.win { 1, catch?, 1 }
