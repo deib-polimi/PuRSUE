@@ -1,0 +1,68 @@
+grammar se.cth.Pursue with org.eclipse.xtext.common.Terminals
+
+generate pursue "http://www.cth.se/Pursue"
+
+Model:
+
+	(locations+= Pdi)*
+	(connections+= connection)*
+	(events += Event)*
+	(regole += Regola)*
+	(stati += Stato)*
+	(dipendenze +=StateDep)*
+	(agents += Agent)*
+	(	have_obj?='objective:'objective = Objective)?
+	(	have_reach_obj?='reach_objective:'reachobjective =ReachObjective)?
+	
+
+;
+	
+	
+Pdi :
+	'poi' name = STRING   ;
+
+connection:
+	'connect' pdi1 = [Pdi] 'and' pdi2 = [Pdi] 'distance' distance=INT
+;
+
+	
+Event:
+	'event' name = STRING collaborative?='collaborative'? (location_specific?='location' location = [Pdi])? (has_duration?='duration' duration= INT)? 
+;
+
+
+Regola:
+	 'rule'name=STRING':' ( first_ev =[Event] |(is_seq1?='(' first_seq=Sequence ')')) (then?='before' | or?='or')   (second_ev=[Event]|(is_seq2?='('second_seq=Sequence')'))
+;
+
+
+
+Sequence:
+	(first_ev=[Event]|is_seq1?='('first_seq=Sequence ')') (then?='before' | or?='or') (second_ev=[Event]|is_seq2?='('second_seq=Sequence')') 
+;
+
+Stato:
+	'state'name=STRING':''initially' (tr?='true'| fl?= 'false')',' 'true_if' (true_events+=[Event](',' true_events+=[Event])*) 'false_if' (false_events+=[Event](',' false_events+=[Event])*)
+;
+
+StateDep:
+	'stateDependency:' evento=[Event] 'only_if' (stat=[Stato] tr?='is_true'|stat =[Stato] fl?='is_false' )
+;
+ 
+	
+Agent:
+	'agent' name = STRING controllable?='controllable'? (mobile?='mobile' speed=INT)? ('location' initial_location = [Pdi]) ("can_do" actions+= [Event](',' actions+=[Event])*)? ("reacts_to" reactions+=[Event](',' reactions+=[Event])*)?
+;
+
+
+
+Objective: 
+ (is_if?='if' cause = [Event] 'then' reaction= [Event] 'within' time = INT|is_avoid?='avoid' lose = [Event])
+	
+;
+
+
+ReachObjective:
+'do' goal = [Event] 'after' life_span = INT
+	
+;

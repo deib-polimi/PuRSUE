@@ -1,0 +1,369 @@
+	<nta>
+	<declaration>
+	//events
+	//movements
+	broadcast chan robot_uno2due, robot_due2uno ;
+	
+	//actions
+	broadcast chan beHappy, beHappyDONE , youKnowIt, youKnowItDONE , clapYourHands, clapYourHandsDONE ;
+	
+	//assuzione che initial state per ogni rule è sempre a index zero quandi si crea, dovrebbe essere coso
+	//nota concettuale importante: mentre per le posizioni uso come sono ordinate nella definizione, erl e regole uso come le ordino io nel crearle
+	int Prule1=0, Prule2=0;
+	
+	//Agents
+	//nota: rule and agents can't have the same name
+	clock Crobot, Chuman;
+	
+	int Probot=0, Phuman=0;
+	
+	//Objective
+	
+	clock Cobj;
+	</declaration>
+	 
+	 
+	 
+	 
+	automata_declaration
+	
+
+
+	rules
+
+			
+
+					
+		<template>
+		<name>rule1</name>
+		//states declarions
+		<location id="rule1_initial_location">
+		</location>
+		<location id="rule10f_doing_youKnowIt">
+		</location>
+		<location id="rule10">
+		</location>
+		
+		<location id="rule10s_doing_clapYourHands">
+		</location>
+		<init ref = "rule1_initial_location"/>	
+		//transitions
+		
+		
+		
+		<transition>
+		<source ref="rule1_initial_location"/>
+		<target ref="rule10f_doing_youKnowIt"/>
+		<label kind="synchronisation">youKnowIt?</label>
+		<label kind="assignment">Prule1 = 1</label>
+		</transition>	
+		<transition>
+		<source ref="rule10f_doing_youKnowIt"/>
+		<target ref="rule10"/>
+		<label kind="synchronisation">youKnowItDONE?</label>
+		<label kind="assignment">Prule1 = 2</label>
+		</transition>		
+		
+		
+		
+		<transition>
+		<source ref="rule10"/>
+		<target ref="rule10s_doing_clapYourHands"/>
+		<label kind="synchronisation">clapYourHands?</label>
+		<label kind="assignment">Prule1 = 3</label>
+		</transition>	
+		<transition>
+		<source ref="rule10s_doing_clapYourHands"/>
+		<target ref="rule1_initial_location"/>
+		<label kind="synchronisation">clapYourHandsDONE?</label>
+		<label kind="assignment">Prule1 = 0</label>
+		</transition>	
+		</template>
+		true
+			
+
+					
+		<template>
+		<name>rule2</name>
+		//states declarions
+		<location id="rule2_initial_location">
+		</location>
+		<location id="rule20f_doing_beHappy">
+		</location>
+		<location id="rule20">
+		</location>
+		
+		<location id="rule20s_doing_youKnowIt">
+		</location>
+		<init ref = "rule2_initial_location"/>	
+		//transitions
+		
+		
+		
+		<transition>
+		<source ref="rule2_initial_location"/>
+		<target ref="rule20f_doing_beHappy"/>
+		<label kind="synchronisation">beHappy?</label>
+		<label kind="assignment">Prule2 = 1</label>
+		</transition>	
+		<transition>
+		<source ref="rule20f_doing_beHappy"/>
+		<target ref="rule20"/>
+		<label kind="synchronisation">beHappyDONE?</label>
+		<label kind="assignment">Prule2 = 2</label>
+		</transition>		
+		
+		
+		
+		<transition>
+		<source ref="rule20"/>
+		<target ref="rule20s_doing_youKnowIt"/>
+		<label kind="synchronisation">youKnowIt?</label>
+		<label kind="assignment">Prule2 = 3</label>
+		</transition>	
+		<transition>
+		<source ref="rule20s_doing_youKnowIt"/>
+		<target ref="rule2_initial_location"/>
+		<label kind="synchronisation">youKnowItDONE?</label>
+		<label kind="assignment">Prule2 = 0</label>
+		</transition>	
+		</template>
+	agents
+	<template>
+	<name>robot</name>
+	 
+	//no local declarations used
+	 
+	//LOCATIONS
+	//nota: sto dando stesso ID a location su agneti diversi, spero non lo mandi a male
+	//se lo user non definisce connesssioni tra tutte le location lui non smatta
+<location id="uno"> 
+<name>uno</name>
+</location>
+<location id="due"> 
+<name>due</name>
+</location>
+		
+//transitional locations
+<location id="going_uno_to_due">
+<name>going_uno_to_due</name>
+<label kind="invariant">Crobot&lt;=11</label>
+</location>
+<location id="going_due_to_uno"> 
+<name>going_due_to_uno</name>			
+<label kind="invariant">Crobot&lt;=11</label>
+</location>
+ 
+		
+	//location for durable actions (just one if it's locations specic and/or the agent isn't mobile )
+<location id = "doing_clapYourHands_in_due">
+<name>doing_clapYourHands_in_due</name>
+<label kind="invariant">Crobot&lt;=6</label>
+</location>
+		
+<location id = "doing_youKnowIt_in_uno">
+<name>doing_youKnowIt_in_uno</name>
+<label kind="invariant">Crobot&lt;=4</label>
+</location>
+		
+					
+		
+		
+		
+	//initial location id is passed
+	<init ref = "uno"/>	
+	
+	
+	
+	
+	//transitions
+	//ingorata la parte di (action= """), vediamo poi se da problemi
+	//movement transitions
+<transition>
+<source ref="uno"/>
+<target ref="going_uno_to_due"/>
+<label kind="synchronisation">robot_uno2due!</label>
+<label kind="guard">Crobot &gt; 1</label>
+<label kind="assignment">Probot = -1,  Crobot= 0</label>
+</transition>
+ 
+<transition>
+<source ref="going_uno_to_due"/>
+<target ref="due"/>
+<label kind="guard">Crobot &gt; 10</label>
+<label kind="assignment">Probot = 1,  Crobot= 0</label>
+</transition>
+ 
+<transition>
+<source ref="due"/>
+<target ref="going_due_to_uno"/>
+<label kind="synchronisation">robot_due2uno!</label>
+<label kind="guard">Crobot &gt; 1</label>
+<label kind="assignment"> Probot = -1,  Crobot= 0</label>
+</transition>
+ 
+<transition>
+<source ref="going_due_to_uno"/>
+<target ref="uno"/>
+<label kind="guard">Crobot&gt;10</label>
+<label kind="assignment">Probot = 0,  Crobot= 0</label>
+</transition>
+		
+	//action transitions
+	//BUG : if an action si collaborative but nobody can react to it, the action will be always allowed
+	
+<transition>
+<source ref="due"/>
+<target ref="doing_clapYourHands_in_due"/>
+<label kind="synchronisation">clapYourHands!</label>
+<label kind="assignment"> Crobot =0 </label>
+<label kind="guard">Crobot &gt; 1 &amp;&amp;    ( Prule1==2 ) </label>
+</transition>
+ 
+<transition>
+<source ref="doing_clapYourHands_in_due"/>
+<target ref="due"/>
+<label kind="synchronisation">clapYourHandsDONE!</label>
+<label kind="guard"> Crobot &gt; 5 &amp;&amp;   ( Prule1==3 ) </label>
+</transition>			
+ 
+
+<transition>
+<source ref="uno"/>
+<target ref="doing_youKnowIt_in_uno"/>
+<label kind="synchronisation">youKnowIt!</label>
+<label kind="assignment"> Crobot =0 </label>
+<label kind="guard">Crobot &gt; 1 &amp;&amp;    ( Prule1==0 )  &amp;&amp;  ( Prule2==2 ) </label>
+</transition>
+ 
+<transition>
+<source ref="doing_youKnowIt_in_uno"/>
+<target ref="uno"/>
+<label kind="synchronisation">youKnowItDONE!</label>
+<label kind="guard"> Crobot &gt; 3 &amp;&amp;   ( Prule1==1 )  &amp;&amp;  ( Prule2==3 ) </label>
+</transition>			
+ 
+
+					
+		
+		
+		
+	</template>		
+	 
+		
+	<template>
+	<name>human</name>
+	 
+	//no local declarations used
+	 
+	//LOCATIONS
+	//nota: sto dando stesso ID a location su agneti diversi, spero non lo mandi a male
+	//se lo user non definisce connesssioni tra tutte le location lui non smatta
+<location id = "uno">
+<name>uno</name>
+</location>
+ 
+		
+	//location for durable actions (just one if it's locations specic and/or the agent isn't mobile )
+<location id = "doing_beHappy_in_uno">
+<name>doing_beHappy_in_uno</name>
+<label kind="invariant">Chuman&lt;=6</label>
+</location>
+		
+					
+		
+		
+		
+	//initial location id is passed
+	<init ref = "uno"/>	
+	
+	
+	
+	
+	//transitions
+	//ingorata la parte di (action= """), vediamo poi se da problemi
+	//movement transitions
+		
+	//action transitions
+	//BUG : if an action si collaborative but nobody can react to it, the action will be always allowed
+	
+<transition controllable="false" >
+<source ref="uno"/>
+<target ref="doing_beHappy_in_uno"/>
+<label kind="synchronisation">beHappy!</label>
+<label kind="assignment">Chuman =0</label>
+<label kind="guard">Chuman &gt; 1 &amp;&amp;    ( Prule2==0 ) </label>
+</transition>
+ 
+<transition controllable="false" >
+<source ref="doing_beHappy_in_uno"/>
+<target ref="uno"/>
+<label kind="synchronisation">beHappyDONE!</label>
+<label kind="guard"> Chuman &gt; 5 &amp;&amp;   ( Prule2==1 ) </label>
+</transition>			
+ 
+
+
+					
+		
+		
+		
+	</template>		
+	 
+		
+
+
+
+	
+objectives
+
+<template>
+<name>obj</name>
+
+//locations declaration
+
+<location id = "idle">
+<name>idle</name>
+</location>
+
+<location id = "lose">
+<name>lose</name>
+</location>		
+
+<location id = "at_risk">
+<name>at_risk</name>
+<label kind="invariant"> Cobj &lt;= 35</label>
+</location>	
+<init ref = "idle"/>	
+	
+//transition declaration
+ 
+<transition>
+<source ref="idle"/>
+<target ref="at_risk"/>
+<label kind="synchronisation">beHappyDONE?</label>
+<label kind = "assignment">Cobj = 0</label>
+</transition>
+
+<transition>
+<source ref="at_risk"/>
+<target ref="idle"/>
+<label kind="synchronisation">clapYourHandsDONE?</label>
+</transition>				
+<transition>
+<source ref="at_risk"/>
+<target ref="lose"/>
+</transition>				
+</template>
+
+	//in questo momento bugga se non ci sono regole
+	<system>
+	system robot, human, OBJ, rule1, rule2;
+	
+	
+	
+	</system>
+
+	
+	</nta>
+	

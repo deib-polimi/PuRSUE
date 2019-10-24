@@ -1,0 +1,202 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>pursue</groupId>
+	<artifactId>DSL2UP</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<packaging>jar</packaging>
+	<properties>
+		<java.version>1.8</java.version>
+	</properties>
+
+
+	<build>
+
+		<sourceDirectory>src</sourceDirectory>
+		<resources>
+			<resource>
+				<directory>input_language</directory>
+				<includes>
+					<include>default_input.pur</include>
+				</includes>
+				<!-- relative to target/classes i.e. ${project.build.outputDirectory} -->
+				<targetPath>../input_language</targetPath>
+			</resource>
+			
+			<resource>
+				<directory></directory>
+				<includes>
+					<include></include>
+				</includes>
+				<!-- relative to target/classes i.e. ${project.build.outputDirectory} -->
+				<targetPath>../UPPAAL</targetPath>
+			</resource>			
+			
+			
+
+			<resource>
+				<directory>src-gen/se/cth</directory>
+				<includes>
+					<include>Pursue.xtextbin</include>
+				</includes>
+				<!-- relative to target/classes i.e. ${project.build.outputDirectory} -->
+				<targetPath>se/cth</targetPath>
+			</resource>
+			<resource>
+				<directory>src-gen/se/cth/parser/antlr/internal</directory>
+				<includes>
+					<include>InternalPursue.g</include>
+					<include>InternalPursue.tokens</include>
+				</includes>
+				<!-- relative to target/classes i.e. ${project.build.outputDirectory} -->
+				<targetPath>se/cth/parser/antlr/internal</targetPath>
+			</resource>
+			<resource>
+				<directory>src-dos/se/cth</directory>
+				<includes>
+					<include>Pursue.xtext</include>
+					<include>GeneratePursue.mwe2</include>
+				</includes>
+				<!-- relative to target/classes i.e. ${project.build.outputDirectory} -->
+				<targetPath>se/cth</targetPath>
+			</resource>
+
+
+			
+		</resources>
+
+		<plugins>
+
+		 	
+
+
+
+
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>build-helper-maven-plugin</artifactId>
+				<executions>
+					<execution>
+						<phase>generate-sources</phase>
+						<goals>
+							<goal>add-source</goal>
+						</goals>
+						<configuration>
+							<sources>
+								<source>src-gen</source>
+								<source>xtend-gen</source>
+								<source>src-dos</source>
+							</sources>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<source>1.8</source>
+					<target>1.8</target>
+					
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-assembly-plugin</artifactId>
+				<version>3.1.0</version>
+				<configuration>
+					<!-- get all project dependencies -->
+					<descriptorRefs>
+						<descriptorRef>jar-with-dependencies</descriptorRef>
+					</descriptorRefs>
+					<!-- MainClass in mainfest make a executable jar -->
+					<archive>
+						<manifest>
+							<addClasspath>true</addClasspath>
+							<mainClass>se.cth.pursue.Main</mainClass>
+						</manifest>
+					</archive>
+
+				</configuration>
+				<executions>
+					<execution>
+						<id>make-assembly</id>
+						<!-- bind to the packaging phase -->
+						<phase>package</phase>
+						<goals>
+							<goal>single</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			
+			
+			
+		</plugins>
+	</build>
+
+
+
+	<dependencies>
+
+
+
+
+
+		<!-- https://mvnrepository.com/artifact/org.eclipse.xtext/org.eclipse.xtext -->
+		<dependency>
+			<groupId>org.eclipse.xtext</groupId>
+			<artifactId>org.eclipse.xtext</artifactId>
+			<version>2.7.3</version>
+		</dependency>
+
+
+
+
+		<!-- https://mvnrepository.com/artifact/org.eclipse.xtext/org.eclipse.xtext.generator 
+			(serve per la storia delal versione vecchia) -->
+		<dependency>
+			<groupId>org.eclipse.xtext</groupId>
+			<artifactId>org.eclipse.xtext.generator</artifactId>
+			<version>2.9.2</version>
+
+		</dependency>
+
+
+
+		<!-- https://mvnrepository.com/artifact/org.eclipse.emf/org.eclipse.emf.ecore -->
+		<dependency>
+			<groupId>org.eclipse.emf</groupId>
+			<artifactId>org.eclipse.emf.ecore</artifactId>
+			<version>2.15.0</version>
+		</dependency>
+
+
+
+
+
+		<!-- https://mvnrepository.com/artifact/org.eclipse.emf/org.eclipse.emf.mwe2.language -->
+		<dependency>
+			<groupId>org.eclipse.emf</groupId>
+			<artifactId>org.eclipse.emf.mwe2.language</artifactId>
+			<version>2.8.3</version>
+		</dependency>
+
+
+
+
+
+
+
+
+	</dependencies>
+
+
+
+
+
+
+
+</project>

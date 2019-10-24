@@ -1,0 +1,39 @@
+
+Install instructions:
+
+-Install the "communication manager" component REST2ROS package from github
+
+- Move the three PuRSUE nodes to in the robot's SRC folder
+
+- Run the command "catkin make" 
+
+- Set the target location for observer and cntroller components in the "PuRSUE_reader" node source code
+
+-Set the communcation scripts in the "PurSUE_controller" node according to the robot low-level modules functioning
+
+- Set the target IP address in the pc-side main source code to send the components to the desired robot
+
+DESIGN TIME
+
+- Run the "pursue_designtime.sh" script on the robot
+
+- Position the design-time components in the approriate folder on the PC
+
+- Run the pc-main script
+
+LOW-LEVEL interaction 
+
+-Set in the "Exeggutor.py" script the coordinates of POIs according to the robot low-level modules and navigation method
+
+-Set the response of actuators according to the strings published on the "PuRSUE7actions" topic
+
+
+RUNTIME
+
+- run the "pursue_runtime.sh" script on the robot
+
+- for experimanl purposes, run the "PuRSUE_UI.py" script to read and simulate communication with and from external components 
+
+
+
+
