@@ -1,8 +1,0 @@
-#!/usr/bin/env python
-
-from runtime_controller import main
-
-
-print "Starting the controller"
-if __name__ == '__main__':
-	main()

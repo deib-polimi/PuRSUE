@@ -1,6 +1,0 @@
-<launch>
-	<node pkg="pursue_reader" type="reader_node" name="reader_node" output="screen">
-	
-
-	</node>
-</launch>

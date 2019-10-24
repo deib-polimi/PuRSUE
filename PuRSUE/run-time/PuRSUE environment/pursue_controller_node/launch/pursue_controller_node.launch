@@ -1,6 +1,0 @@
-<launch>
-	<node pkg="pursue_controller_node" type="pursue_controller_node" name="pursue_controller_node" output="screen">
-	
-
-	</node>
-</launch>

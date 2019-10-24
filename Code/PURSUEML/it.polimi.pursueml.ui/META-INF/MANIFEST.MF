@@ -1,0 +1,28 @@
+Manifest-Version: 1.0
+Automatic-Module-Name: it.polimi.pursueml.ui
+Bundle-ManifestVersion: 2
+Bundle-Name: it.polimi.pursueml.ui
+Bundle-Vendor: My Company
+Bundle-Version: 1.0.0.qualifier
+Bundle-SymbolicName: it.polimi.pursueml.ui; singleton:=true
+Bundle-ActivationPolicy: lazy
+Require-Bundle: it.polimi.pursueml,
+ it.polimi.pursueml.ide,
+ org.eclipse.xtext.ui,
+ org.eclipse.xtext.ui.shared,
+ org.eclipse.xtext.ui.codetemplates.ui,
+ org.eclipse.ui.editors;bundle-version="3.5.0",
+ org.eclipse.ui.ide;bundle-version="3.5.0",
+ org.eclipse.ui,
+ org.eclipse.compare,
+ org.eclipse.xtext.builder,
+ org.eclipse.xtext.xbase.lib;bundle-version="2.14.0",
+ org.eclipse.xtend.lib;bundle-version="2.14.0";resolution:=optional
+Import-Package: org.apache.log4j
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Export-Package: 
+ it.polimi.ui,
+ it.polimi.ui.contentassist,
+ it.polimi.ui.quickfix,
+ it.polimi.pursueml.ui.internal
+Bundle-Activator: it.polimi.pursueml.ui.internal.PursuemlActivator

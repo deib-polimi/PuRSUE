@@ -1,6 +1,0 @@
-<launch>
-	<node pkg="pursue_observer_node" type="pursue_observer_node" name="pursue_observer_node" output="screen">
-	
-
-	</node>
-</launch>
