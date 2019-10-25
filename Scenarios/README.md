@@ -1,4 +1,3 @@
-
 # Scenarios
-Every subfolder contains one of the Scenarios.
-For each scenario we report the initial specification in PURSUE-ML and the intermediate TGA in the UPPAAL format and UPPALL  TCTL property and the computed plan
+We have evaluated three robotic applications, Catch the Thief (CT), Work Cell (WC) and EcoBot (EB).
+For further descriptions refer to the different folders. 
