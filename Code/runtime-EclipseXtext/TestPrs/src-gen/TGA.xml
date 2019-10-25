@@ -1,0 +1,481 @@
+	<nta>
+	<declaration>
+	//events
+	//movements 
+	broadcast chan robot_office2base, robot_base2office, robot_office2room, robot_room2office, robot_base2room, robot_room2base ;
+	//actions
+	broadcast chan trash_on_ground, trash_on_groundDONE , pickup_trash, pickup_trashDONE , trash_in_bin, trash_in_binDONE , dock;
+	
+	//assuzione che initial state per ogni rule è sempre a index zero quandi si crea, dovrebbe essere coso
+	//nota concettuale importante: mentre per le posizioni uso come sono ordinate nella definizione, erl e regole uso come le ordino io nel crearle
+	int Prule1=0;
+	//Agents
+	//nota: rule and agents can't have the same name
+	clock Chuman, Crobot, Cbin;
+	//tutte le volta che si prendono gli indici delle location, si shiftano di uno, così no c'è la location zero, e quindi non c'è nemmeno lo stato -0 che manda tutto in merda
+	int Phuman=1, Probot=2, Pbin=3;
+	//Objective
+	
+	clock Cobj;
+	</declaration>
+	 
+	 
+	 
+	 
+	automata_declaration
+	
+	rules
+			
+
+					
+		<template>
+		<name>rule1</name>
+		//states declarions
+		<location id="rule1_initial_location">
+		</location>
+		<location id="rule10f_doing_pickup_trash">
+		</location>
+		<location id="rule10">
+		</location>
+		
+		<location id="rule10s_doing_trash_in_bin">
+		</location>
+		<init ref = "rule1_initial_location"/>	
+		//transitions
+		
+		
+		
+		<transition>
+		<source ref="rule1_initial_location"/>
+		<target ref="rule10f_doing_pickup_trash"/>
+		<label kind="synchronisation">pickup_trash?</label>
+		<label kind="assignment">Prule1 = 1</label>
+		</transition>	
+		<transition>
+		<source ref="rule10f_doing_pickup_trash"/>
+		<target ref="rule10"/>
+		<label kind="synchronisation">pickup_trashDONE?</label>
+		<label kind="assignment">Prule1 = 2</label>
+		</transition>		
+		
+		
+		
+		<transition>
+		<source ref="rule10"/>
+		<target ref="rule10s_doing_trash_in_bin"/>
+		<label kind="synchronisation">trash_in_bin?</label>
+		<label kind="assignment">Prule1 = 3</label>
+		</transition>	
+		<transition>
+		<source ref="rule10s_doing_trash_in_bin"/>
+		<target ref="rule1_initial_location"/>
+		<label kind="synchronisation">trash_in_binDONE?</label>
+		<label kind="assignment">Prule1 = 0</label>
+		</transition>	
+		</template>
+agents
+	<template>
+	<name>human</name>
+	 
+	//no local declarations used
+	 
+	//LOCATIONS
+	//nota: sto dando stesso ID a location su agneti diversi, spero non lo mandi a male
+	//se lo user non definisce connesssioni tra tutte le location lui non smatta
+<location id = "office">
+<name>office</name>
+</location>
+ 
+		
+	//location for durable actions (just one if it's locations specic and/or the agent isn't mobile )
+<location id = "doing_trash_on_ground_in_office">
+<name>doing_trash_on_ground_in_office</name>
+<label kind="invariant">Chuman&lt;=31</label>
+</location>
+		
+					
+		
+		
+		
+	//initial location id is passed
+	<init ref = "office"/>	
+	
+	
+	
+	
+	//transitions
+	//movement transitions
+		
+	//action transitions
+	//BUG : if an action si collaborative but nobody can react to it, the action will be always allowed
+	
+<transition controllable="false" >
+<source ref="office"/>
+<target ref="doing_trash_on_ground_in_office"/>
+<label kind="synchronisation">trash_on_ground!</label>
+<label kind="assignment"> Chuman =0,Phuman=-11 </label>
+<label kind="guard">Chuman &gt; 1  </label>
+</transition>
+ 
+<transition controllable="false" >
+<source ref="doing_trash_on_ground_in_office"/>
+<target ref="office"/>
+<label kind="synchronisation">trash_on_groundDONE!</label>
+<label kind="assignment"> Chuman =0, Phuman=1 </label>
+<label kind="guard"> Chuman &gt; 30 </label>
+</transition>			
+ 
+
+					
+		
+		
+		
+	</template>		
+	 
+		
+	<template>
+	<name>robot</name>
+	 
+	//no local declarations used
+	 
+	//LOCATIONS
+	//nota: sto dando stesso ID a location su agneti diversi, spero non lo mandi a male
+	//se lo user non definisce connesssioni tra tutte le location lui non smatta
+<location id="office"> 
+<name>office</name>
+</location>
+<location id="base"> 
+<name>base</name>
+</location>
+<location id="room"> 
+<name>room</name>
+</location>
+		
+//transitional locations
+<location id="going_office_to_base">
+<name>going_office_to_base</name>
+<label kind="invariant">Crobot&lt;=11</label>
+</location>
+<location id="going_base_to_office"> 
+<name>going_base_to_office</name>			
+<label kind="invariant">Crobot&lt;=11</label>
+</location>
+ 
+<location id="going_office_to_room">
+<name>going_office_to_room</name>
+<label kind="invariant">Crobot&lt;=21</label>
+</location>
+<location id="going_room_to_office"> 
+<name>going_room_to_office</name>			
+<label kind="invariant">Crobot&lt;=21</label>
+</location>
+ 
+<location id="going_base_to_room">
+<name>going_base_to_room</name>
+<label kind="invariant">Crobot&lt;=16</label>
+</location>
+<location id="going_room_to_base"> 
+<name>going_room_to_base</name>			
+<label kind="invariant">Crobot&lt;=16</label>
+</location>
+ 
+		
+	//location for durable actions (just one if it's locations specic and/or the agent isn't mobile )
+<location id = "doing_pickup_trash_in_office">
+<name>doing_pickup_trash_in_office</name>
+<label kind="invariant">Crobot&lt;=11</label>
+</location>
+		
+<location id = "doing_trash_in_bin_in_office">
+<name>doing_trash_in_bin_in_office</name>
+<label kind="invariant">Crobot &lt;= 6</label>
+</location>
+<location id = "doing_trash_in_bin_in_base">
+<name>doing_trash_in_bin_in_base</name>
+<label kind="invariant">Crobot &lt;= 6</label>
+</location>
+<location id = "doing_trash_in_bin_in_room">
+<name>doing_trash_in_bin_in_room</name>
+<label kind="invariant">Crobot &lt;= 6</label>
+</location>
+		
+					
+		
+		
+		
+	//initial location id is passed
+	<init ref = "base"/>	
+	
+	
+	
+	
+	//transitions
+	//movement transitions
+<transition>
+<source ref="office"/>
+<target ref="going_office_to_base"/>
+<label kind="synchronisation">robot_office2base!</label>
+<label kind="guard">Crobot &gt; 1</label>
+<label kind="assignment">Probot = -12,  Crobot= 0</label>
+</transition>
+ 
+<transition>
+<source ref="going_office_to_base"/>
+<target ref="base"/>
+<label kind="guard">Crobot &gt; 10</label>
+<label kind="assignment">Probot = 2,  Crobot= 0</label>
+</transition>
+ 
+<transition>
+<source ref="base"/>
+<target ref="going_base_to_office"/>
+<label kind="synchronisation">robot_base2office!</label>
+<label kind="guard">Crobot &gt; 1</label>
+<label kind="assignment"> Probot = -21,  Crobot= 0</label>
+</transition>
+ 
+<transition>
+<source ref="going_base_to_office"/>
+<target ref="office"/>
+<label kind="guard">Crobot&gt;10</label>
+<label kind="assignment">Probot = 1,  Crobot= 0</label>
+</transition>
+<transition>
+<source ref="office"/>
+<target ref="going_office_to_room"/>
+<label kind="synchronisation">robot_office2room!</label>
+<label kind="guard">Crobot &gt; 1</label>
+<label kind="assignment">Probot = -13,  Crobot= 0</label>
+</transition>
+ 
+<transition>
+<source ref="going_office_to_room"/>
+<target ref="room"/>
+<label kind="guard">Crobot &gt; 20</label>
+<label kind="assignment">Probot = 3,  Crobot= 0</label>
+</transition>
+ 
+<transition>
+<source ref="room"/>
+<target ref="going_room_to_office"/>
+<label kind="synchronisation">robot_room2office!</label>
+<label kind="guard">Crobot &gt; 1</label>
+<label kind="assignment"> Probot = -31,  Crobot= 0</label>
+</transition>
+ 
+<transition>
+<source ref="going_room_to_office"/>
+<target ref="office"/>
+<label kind="guard">Crobot&gt;20</label>
+<label kind="assignment">Probot = 1,  Crobot= 0</label>
+</transition>
+<transition>
+<source ref="base"/>
+<target ref="going_base_to_room"/>
+<label kind="synchronisation">robot_base2room!</label>
+<label kind="guard">Crobot &gt; 1</label>
+<label kind="assignment">Probot = -23,  Crobot= 0</label>
+</transition>
+ 
+<transition>
+<source ref="going_base_to_room"/>
+<target ref="room"/>
+<label kind="guard">Crobot &gt; 15</label>
+<label kind="assignment">Probot = 3,  Crobot= 0</label>
+</transition>
+ 
+<transition>
+<source ref="room"/>
+<target ref="going_room_to_base"/>
+<label kind="synchronisation">robot_room2base!</label>
+<label kind="guard">Crobot &gt; 1</label>
+<label kind="assignment"> Probot = -32,  Crobot= 0</label>
+</transition>
+ 
+<transition>
+<source ref="going_room_to_base"/>
+<target ref="base"/>
+<label kind="guard">Crobot&gt;15</label>
+<label kind="assignment">Probot = 2,  Crobot= 0</label>
+</transition>
+		
+	//action transitions
+	//BUG : if an action si collaborative but nobody can react to it, the action will be always allowed
+	
+<transition>
+<source ref="office"/>
+<target ref="doing_pickup_trash_in_office"/>
+<label kind="synchronisation">pickup_trash!</label>
+<label kind="assignment"> Crobot =0,Probot=-11 </label>
+<label kind="guard">Crobot &gt; 1 &amp;&amp;    ( Prule1==0 ) </label>
+</transition>
+ 
+<transition>
+<source ref="doing_pickup_trash_in_office"/>
+<target ref="office"/>
+<label kind="synchronisation">pickup_trashDONE!</label>
+<label kind="assignment"> Crobot =0, Probot=1 </label>
+<label kind="guard"> Crobot &gt; 10 &amp;&amp;   ( Prule1==1 ) </label>
+</transition>			
+ 
+
+<transition>
+<source ref="base"/>
+<target ref="base"/>
+<label kind="synchronisation">dock!</label>
+<label kind="assignment"> Crobot =0 </label>
+<label kind="guard">Crobot &gt; 1 </label>
+</transition>
+ 
+
+
+<transition>
+<source ref="office"/>
+<target ref="doing_trash_in_bin_in_office"/>
+<label kind="synchronisation">trash_in_bin!</label>
+<label kind="assignment">Crobot =0,Probot=-11 </label>
+<label kind="guard">Crobot &gt; 1 &amp;&amp; (Pbin==1)  &amp;&amp;   ( Prule1==2 ) </label>
+</transition>
+ 
+<transition>
+<source ref="doing_trash_in_bin_in_office"/>
+<target ref="office"/>
+<label kind="synchronisation">trash_in_binDONE!</label>
+<label kind="assignment"> Crobot =0, Probot=1 </label>
+<label kind="guard"> Crobot &gt; 5 &amp;&amp;   ( Prule1==3 ) </label>
+</transition>			
+ 
+
+<transition>
+<source ref="base"/>
+<target ref="doing_trash_in_bin_in_base"/>
+<label kind="synchronisation">trash_in_bin!</label>
+<label kind="assignment">Crobot =0,Probot=-22 </label>
+<label kind="guard">Crobot &gt; 1 &amp;&amp; (Pbin==2)  &amp;&amp;   ( Prule1==2 ) </label>
+</transition>
+ 
+<transition>
+<source ref="doing_trash_in_bin_in_base"/>
+<target ref="base"/>
+<label kind="synchronisation">trash_in_binDONE!</label>
+<label kind="assignment"> Crobot =0, Probot=2 </label>
+<label kind="guard"> Crobot &gt; 5 &amp;&amp;   ( Prule1==3 ) </label>
+</transition>			
+ 
+
+<transition>
+<source ref="room"/>
+<target ref="doing_trash_in_bin_in_room"/>
+<label kind="synchronisation">trash_in_bin!</label>
+<label kind="assignment">Crobot =0,Probot=-33 </label>
+<label kind="guard">Crobot &gt; 1 &amp;&amp; (Pbin==3)  &amp;&amp;   ( Prule1==2 ) </label>
+</transition>
+ 
+<transition>
+<source ref="doing_trash_in_bin_in_room"/>
+<target ref="room"/>
+<label kind="synchronisation">trash_in_binDONE!</label>
+<label kind="assignment"> Crobot =0, Probot=3 </label>
+<label kind="guard"> Crobot &gt; 5 &amp;&amp;   ( Prule1==3 ) </label>
+</transition>			
+ 
+
+					
+		
+		
+		
+	</template>		
+	 
+		
+	<template>
+	<name>bin</name>
+	 
+	//no local declarations used
+	 
+	//LOCATIONS
+	//nota: sto dando stesso ID a location su agneti diversi, spero non lo mandi a male
+	//se lo user non definisce connesssioni tra tutte le location lui non smatta
+<location id = "room">
+<name>room</name>
+</location>
+ 
+		
+	//location for durable actions (just one if it's locations specic and/or the agent isn't mobile )
+					
+		
+		
+		
+	//initial location id is passed
+	<init ref = "room"/>	
+	
+	
+	
+	
+	//transitions
+	//movement transitions
+		
+	//action transitions
+	//BUG : if an action si collaborative but nobody can react to it, the action will be always allowed
+	
+					
+		
+		
+		
+	</template>		
+	 
+		
+
+
+
+	
+objectives
+
+<template>
+<name>obj</name>
+
+//locations declaration
+
+<location id = "idle">
+<name>idle</name>
+</location>
+
+<location id = "lose">
+<name>lose</name>
+</location>		
+
+<location id = "atRisk">
+<name>atRisk</name>
+<label kind="invariant"> Cobj &lt;= 60</label>
+</location>	
+<init ref = "idle"/>	
+	
+//transition declaration
+ 
+<transition>
+<source ref="idle"/>
+<target ref="atRisk"/>
+<label kind="synchronisation">trash_on_groundDONE?</label>
+<label kind = "assignment">Cobj = 0</label>
+</transition>
+
+<transition>
+<source ref="atRisk"/>
+<target ref="idle"/>
+<label kind="synchronisation">pickup_trashDONE?</label>
+</transition>				
+<transition>
+<source ref="atRisk"/>
+<target ref="lose"/>
+</transition>				
+</template>
+
+	//in questo momento bugga se non ci sono regole
+	<system>
+	system  human, robot, bin, obj , rule1;
+	
+	
+	
+	</system>
+
+	
+	</nta>
