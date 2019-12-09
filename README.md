@@ -11,3 +11,11 @@ The repository is organised in different folders as follows:
 
 ## Installation
 - The instructions to install PuRSUEML can be found in <a href="https://github.com/deib-polimi/PuRSUE/tree/master/Code/PURSUEML">https://github.com/deib-polimi/PuRSUE/tree/master/Code/PURSUEML</a>
+
+
+## Deployment and Runtime environment
+Branch deploy-alpha contains
+- <i>Uppaal2Controller</i>, that translates the Uppaal-TIGA output into a Python executable controller;
+- <i>Uppaal2Observer</i>, that translates the TGA model into an observer component, and
+- <i>Uppaal2Deployment</i>, that realizes the deployment of the controller and the observer in the environment, and makes use of the output of the previous two components.
+- <i>TurteBot-environment</i> includes all the executables used to test the EcoBot scenario in a real environment.
