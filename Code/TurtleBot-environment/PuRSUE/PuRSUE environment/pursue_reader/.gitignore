@@ -1,0 +1,12 @@
+*.*~
+target/*
+*/target/*
+/target/
+.classpath
+.settings/*
+.metadata/*
+.project
+./gradle 
+.gradle/* 
+.pydevproject
+*.pyc

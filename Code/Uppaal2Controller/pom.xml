@@ -1,0 +1,120 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>se.chalmers.pursue</groupId>
+  <artifactId>UP2CO</artifactId>
+  <version>1.0-SNAPSHOT</version>
+  <packaging>jar</packaging>
+  <name>UP2CO</name>
+    <properties>
+        <java.version>1.8</java.version>
+    </properties>
+
+
+
+
+
+  <build>
+    <sourceDirectory>src</sourceDirectory>
+    <resources>
+        <resource>
+                <directory>source-file</directory>
+                <includes>
+                    <include>inputFile.txt</include>
+                </includes>
+                <!-- relative to target/classes i.e. ${project.build.outputDirectory} -->
+                <targetPath>..</targetPath>
+            </resource>
+        <resource>
+                <directory>auxiliary-functions</directory>
+                <includes>
+                    <include>pursue_library.py</include>
+                </includes>
+                <!-- relative to target/classes i.e. ${project.build.outputDirectory} -->
+                <targetPath>..</targetPath>
+            </resource>
+
+    </resources>
+
+        <plugins>
+            
+
+            <plugin>
+                <groupId>org.antlr</groupId>
+                <artifactId>antlr4-maven-plugin</artifactId>
+                <version>4.7.1</version>
+                <configuration>
+                    <sourceDirectory>${basedir}/src/main/java/se/cth/pursue</sourceDirectory>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>antlr</id>
+                        <goals>
+                            <goal>antlr4</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+
+            <plugin>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>1.8</source>
+                    <target>1.8</target>
+                    
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <version>3.1.0</version>
+                <configuration>
+                    <!-- get all project dependencies -->
+                    <descriptorRefs>
+                        <descriptorRef>jar-with-dependencies</descriptorRef>
+                    </descriptorRefs>
+                    <!-- MainClass in mainfest make a executable jar -->
+                    <archive>
+                        <manifest>
+                            <addClasspath>true</addClasspath>
+                            <mainClass>se.cth.pursue.Main</mainClass>
+                        </manifest>
+                    </archive>
+
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>make-assembly</id>
+                        <!-- bind to the packaging phase -->
+                        <phase>package</phase>
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+  </build>
+  <dependencies>
+    <dependency>
+        <groupId>org.antlr</groupId>
+        <artifactId>antlr4-maven-plugin</artifactId>
+        <version>4.3</version>
+        <type>maven-plugin</type>
+    </dependency>
+
+    <!-- https://mvnrepository.com/artifact/org.antlr/antlr4-runtime -->
+<dependency>
+    <groupId>org.antlr</groupId>
+    <artifactId>antlr4-runtime</artifactId>
+    <version>4.7.1</version>
+</dependency>
+
+
+  </dependencies>
+</project>
